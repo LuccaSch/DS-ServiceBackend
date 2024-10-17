@@ -1,0 +1,45 @@
+# Ignorar todos los archivos excepto src y pom.xml
+/*
+!/src/
+!/pom.xml
+
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+.mvn/
+log/
+logs/
+*.log
+
+# Archivos y configuraciones de NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+*.orig
+
+# Archivos y configuraciones de Visual Studio Code
+.vscode/
+*.code-workspace
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de compilación y clases
+*.class
+*.jar
+*.war
+*.ear
+
+# Archivos de configuración de Eclipse (si algún miembro usa Eclipse)
+.project
+.classpath
+.settings/
+
+# Archivos de configuración de IntelliJ IDEA (si algún miembro usa IntelliJ)
+.idea/
+*.iml
+*.iws
