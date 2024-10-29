@@ -2,6 +2,7 @@ package com.ds.tp.models.usuario;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
@@ -9,6 +10,16 @@ import jakarta.persistence.Table;
 public class Bedel extends Usuario{
 
     //atributos
+    @Id
+    private Long id;
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     @Column
     private int turno;
     @Column
