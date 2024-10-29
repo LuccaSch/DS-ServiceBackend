@@ -1,4 +1,4 @@
-package com.ds.tp.controllers;
+package com.ds.tp.Controllers;
 
 import java.util.List;
 
