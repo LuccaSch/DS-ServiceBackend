@@ -22,7 +22,17 @@ buscador windows -> Editar variables de entorno del sistema -> Variables de ento
 
 pueden verificar si se instalo abriendo terminal y haciendo mvn --version
 
+#### Cursos de springboot
+
+1. [Introduccion spring (Todocode)](https://www.youtube.com/watch?v=8X2acANBuLk&t=2785s&ab_channel=TodoCode)
+
+2. [Ejemplo practico completo](https://www.youtube.com/watch?v=M7lhQMzzHWU&t=923s&ab_channel=DIF%E2%84%A2)
+
 ## FRONTEND
 
---
+#### Cursos de front end web
+
+1. [Curso completo html+css (SoyDalto)](https://www.youtube.com/watch?v=ELSm-G201Ls&t=11648s&ab_channel=SoyDalto)
+
+2. [Curso completo js (SoyDalto)](https://www.youtube.com/watch?v=z95mZVUcJ-E&t=558s&ab_channel=SoyDalto)
 
