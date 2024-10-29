@@ -11,7 +11,7 @@ public abstract class Usuario {
     //atributos
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    protected int id;
+    protected Long id;
 
     @Column
     protected String usuario;
@@ -24,10 +24,10 @@ public abstract class Usuario {
 
     //getter/setter
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
