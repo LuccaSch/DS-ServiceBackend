@@ -2,18 +2,15 @@ package com.ds.tp.models.usuario;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "bedel")
+@Table(name = "usuario_bedel")
 public class Bedel extends Usuario{
 
     //atributos
     @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
     public Long getId() {
         return id;
@@ -23,10 +20,9 @@ public class Bedel extends Usuario{
         this.id = id;
     }
 
-    @Column(name = "turno", nullable = false)
+    @Column
     private int turno;
-
-    @Column(name = "estado", nullable = false)
+    @Column
     private boolean estado;
 
 
