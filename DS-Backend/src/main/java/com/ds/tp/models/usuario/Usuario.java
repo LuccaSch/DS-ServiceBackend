@@ -59,7 +59,4 @@ public abstract class Usuario {
     public void setContraseniaa(String contraseña) {
         this.contrasenia = contraseña;
     }
-
-
-
 }
