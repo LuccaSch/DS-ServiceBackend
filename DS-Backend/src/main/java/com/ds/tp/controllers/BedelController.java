@@ -7,20 +7,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ds.tp.models.usuario.Bedel;
 import com.ds.tp.services.BedelService;
 
 @RestController
-//@RequestMapping(path = )
+@RequestMapping("/bedel")
 
 public class BedelController {
-    
+    @Autowired
     private final BedelService bedelService;
 
-
-    @Autowired
     public BedelController(BedelService bedelService){
         this.bedelService = bedelService;
     }
@@ -30,10 +29,9 @@ public class BedelController {
         return bedelService.getBedels();
     }
 
-    @PostMapping
+    @PostMapping("/registrar")
     public ResponseEntity<Object> registrarBedel(@RequestBody Bedel unBedel){
-        return this.bedelService.newBedel(unBedel);
+        return this.bedelService.postBedel(unBedel);
     }
-
 
 }

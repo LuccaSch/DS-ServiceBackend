@@ -19,13 +19,37 @@ public class AulaInformatica extends Aula{
     String tipoPizaarron;
     boolean aireAcondicionado;
     */
+    
     //atributos
 
     @Column(name="cant_pc")
     private int cantPc;
 
     @Column
-    private boolean canion;  
+    private boolean canion; 
+
+    //constructores
+
+    //constructor: por defecto
+    public AulaInformatica(){}
+
+    //constructor: todos los campos
+    public AulaInformatica(int maximoAlumnos, boolean estado, String piso, String tipoPizaarron, boolean aireAcondicionado,int cantPc,boolean canion){
+        this.maximoAlumnos = maximoAlumnos;
+        this.estado = estado;
+        this.piso = piso;
+        this.tipoPizaarron = tipoPizaarron;
+        this.aireAcondicionado = aireAcondicionado;
+        this.cantPc=cantPc;
+        this.canion=canion;
+    }
+
+    //constructor: Solo los campos que no pueden ser null
+    public AulaInformatica(int maximoAlumnos, boolean estado){
+        this.maximoAlumnos = maximoAlumnos;
+        this.estado = estado;
+    }
+
 
     //getter/setter
     public int getCantPc() {

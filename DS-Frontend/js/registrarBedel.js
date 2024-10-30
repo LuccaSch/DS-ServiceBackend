@@ -39,7 +39,7 @@ let registrarBedel = async () => {
     // es nesesario agregar la verificacion de la contraseña aca o solo se verifica si son iguales y se hace la verificacion en service¿?
 
     try {
-        const peticion = await fetch("http://localhost:8080/api/registrar", {
+        const peticion = await fetch("http://localhost:4400/bedel/registrar", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -48,10 +48,16 @@ let registrarBedel = async () => {
             body: JSON.stringify(bedel)
         });
 
-        if (!peticion.ok) {
-            const errorData = await peticion.json(); // debemos obtener un json de retorno¿?
+        if (peticion.status === 400) {
+            const errorData = await peticion.json();
+            console.error("Error: " + errorData.message); 
+            mensajeError.textContent = errorData.message; 
+            return; 
+        } else if (!peticion.ok) {
+            const errorData = await peticion.json(); 
             console.error("Error: El bedel ya está registrado", errorData);
             mensajeError.textContent = "El bedel ya está registrado en el sistema";
+            return;
         } else {
             const respuesta = await peticion.json();
             console.log("Bedel registrado:", respuesta);
@@ -60,8 +66,6 @@ let registrarBedel = async () => {
         
     } catch (error) {
         console.error("Error en la petición:", error);
-
-        //esto es para verificar el error mas facil sin hacer f12 pero hay que sacarlo cuando se salga a produc
         mensajeError.textContent = "Error en la petición: " + error.message;
     }
 };

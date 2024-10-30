@@ -65,12 +65,11 @@ CREATE TABLE periodo (
     CONSTRAINT chk_fechas_compatibles CHECK (fecha_inicio <= fecha_fin)
 );
 
--- por ultimo --
 CREATE TABLE reserva (
     id_reserva BIGINT NOT NULL UNIQUE,
-    id_bedel INTEGER NOT NULL,
-    id_docente INTEGER NOT NULL,
-    id_asignatura INTEGER NOT NULL,
+    id_bedel BIGINT NOT NULL,
+    id_docente BIGINT NOT NULL,
+    id_asignatura BIGINT NOT NULL,
     nombre_docente VARCHAR(40),
     nombre_asignatura VARCHAR(40),
     cant_alumnos INTEGER NOT NULL,
@@ -80,10 +79,12 @@ CREATE TABLE reserva (
     CONSTRAINT chk_cant_alumnos_positivos CHECK (cant_alumnos > 0)
 );
 
+-- por ultimo --
+
 CREATE TABLE reserva_periodica (
     id_periodica BIGINT NOT NULL UNIQUE,
-    id_reserva INTEGER NOT NULL UNIQUE,
-    id_periodo INTEGER NOT NULL,
+    id_reserva BIGINT NOT NULL UNIQUE,
+    id_periodo BIGINT NOT NULL,
     CONSTRAINT pk_reserva_periodica PRIMARY KEY(id_periodica),
     CONSTRAINT fk_reserva_periodica FOREIGN KEY(id_reserva) REFERENCES reserva(id_reserva) ON DELETE CASCADE,
     CONSTRAINT fk_periodo_reserva FOREIGN KEY(id_periodo) REFERENCES periodo(id_periodo)
@@ -91,8 +92,8 @@ CREATE TABLE reserva_periodica (
 
 CREATE TABLE dia_reserva_periodica (
     id_dia_periodica BIGINT NOT NULL UNIQUE,
-    id_aula INTEGER NOT NULL,
-    id_periodica INTEGER NOT NULL,
+    id_aula BIGINT NOT NULL,
+    id_periodica BIGINT NOT NULL,
     dia TEXT,
     hora_inicio TIME NOT NULL,
     duracion INTEGER NOT NULL,
@@ -102,17 +103,28 @@ CREATE TABLE dia_reserva_periodica (
     CONSTRAINT chk_duracion_positiva CHECK (duracion > 0)
 );
 
+CREATE TABLE dia_reserva(
+	id_dia_reserva BIGINT PRIMARY KEY,
+	id_reserva BIGINT NOT NULL,
+	id_aula BIGINT NOT NULL,
+	fecha_reserva DATE NOT NULL,
+	hora_inicio TIME NOT NULL,
+	duracion INT NOT NULL,
+	CONSTRAINT fk_reserva FOREIGN KEY (id_reserva) REFERENCES reserva(id_reserva) ON DELETE CASCADE,
+	CONSTRAINT fk_aula FOREIGN KEY (id_aula) REFERENCES aula(id_aula) ON DELETE SET NULL
+);
+
 CREATE TABLE reserva_esporadica (
     id_esporadica BIGINT NOT NULL UNIQUE,
-    id_reserva INTEGER NOT NULL UNIQUE,
+    id_reserva BIGINT NOT NULL UNIQUE,
     CONSTRAINT pk_reserva_esporadica PRIMARY KEY(id_esporadica),
     CONSTRAINT fk_reserva_esporadica FOREIGN KEY(id_reserva) REFERENCES reserva(id_reserva) ON DELETE CASCADE
 );
 
 CREATE TABLE dia_reserva_esporadica (
     id_dia_esporadica BIGINT NOT NULL UNIQUE,
-    id_esporadica INTEGER NOT NULL,
-    id_aula INTEGER NOT NULL,
+    id_esporadica BIGINT NOT NULL,
+    id_aula BIGINT NOT NULL,
     fecha DATE NOT NULL,
     hora_inicio TIME NOT NULL,
     duracion INTEGER NOT NULL,
@@ -121,4 +133,3 @@ CREATE TABLE dia_reserva_esporadica (
     CONSTRAINT fk_dia_esporadica_aula FOREIGN KEY(id_aula) REFERENCES aula(id_aula) ON DELETE SET NULL,
     CONSTRAINT chk_duracion_positiva CHECK (duracion > 0)
 );
-

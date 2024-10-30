@@ -12,7 +12,7 @@ public class AulaMultimedia extends Aula{
     /*
     atributos heredados:
 
-    int id;
+    Long id;
     int maximoAlumnos;
     boolean estado;
     String piso;
@@ -33,6 +33,30 @@ public class AulaMultimedia extends Aula{
 
     @Column
     private boolean ventiladores;
+
+    //constructores
+
+    //constructor: por defecto
+    public AulaMultimedia(){}
+
+    //constructor: todos los campos
+    public AulaMultimedia(int maximoAlumnos, boolean estado, String piso, String tipoPizaarron, boolean aireAcondicionado,boolean televisor,boolean canion,boolean computadora, boolean ventiladores){
+        this.maximoAlumnos = maximoAlumnos;
+        this.estado = estado;
+        this.piso = piso;
+        this.tipoPizaarron = tipoPizaarron;
+        this.aireAcondicionado = aireAcondicionado;
+        this.televisor=televisor;
+        this.canion=canion;
+        this.computadora=computadora;
+        this.ventiladores=ventiladores;
+    }
+
+    //constructor: Solo los campos que no pueden ser null
+    public AulaMultimedia(int maximoAlumnos, boolean estado){
+        this.maximoAlumnos = maximoAlumnos;
+        this.estado = estado;
+    }
 
     public boolean isTelevisor() {
         return televisor;

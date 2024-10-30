@@ -13,7 +13,9 @@ import jakarta.persistence.Table;
 @Table(name = "aula")
 @Inheritance(strategy = InheritanceType.JOINED)
 public abstract class Aula {
+
     // Atributos
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int idAula;
@@ -32,8 +34,9 @@ public abstract class Aula {
 
     @Column(name = "aire_acondicionado")
     protected boolean aireAcondicionado;
-
+    
     // Getters y Setters
+
     public int getIdAula() {
         return idAula;
     }

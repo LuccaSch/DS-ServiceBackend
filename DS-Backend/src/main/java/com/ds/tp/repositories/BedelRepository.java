@@ -9,5 +9,5 @@ import com.ds.tp.models.usuario.Bedel;
 @Repository
 public interface BedelRepository extends JpaRepository<Bedel,Long> {
     
-    Optional<Bedel> findByid(Long id);
+    Optional<Bedel> findByUsuario(String usuario);
 }

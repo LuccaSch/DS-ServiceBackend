@@ -8,12 +8,45 @@ import jakarta.persistence.Table;
 @Table(name = "usuario_bedel")
 public class Bedel extends Usuario{
 
+    /* 
+    atributos heredados:
+    
+    Long id;
+    String usuario;
+    String nombre;
+    String apellido;
+    String contrasenia;
+
+    */
+
     //atributos
     @Column
     private int turno;
     @Column
     private boolean estado;
 
+    //constructor
+
+    //constructor: por defecto
+    public Bedel(){}
+
+    //constructor: todos los campos
+    public Bedel(String usuario, String nombre, String apellido, String contrasenia,int turno,boolean estado){
+        this.usuario=usuario;
+        this.nombre=nombre;
+        this.contrasenia=contrasenia;
+        this.apellido=apellido;
+        this.turno=turno;
+        this.estado=estado;
+    }
+
+    //constructor: Solo los campos que no pueden ser null
+    public Bedel(String usuario,String contrasenia,int turno,boolean estado){
+        this.usuario=usuario;
+        this.contrasenia=contrasenia;
+        this.turno=turno;
+        this.estado=estado;
+    }
 
     //getter/setter
     public int getTurno() {

@@ -2,9 +2,6 @@ package com.ds.tp.models.aula;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,7 +11,7 @@ public class AulaSinRecursos extends Aula{
     /*
     atributos heredados:
 
-    int id;
+    Long id;
     int maximoAlumnos;
     boolean estado;
     String piso;
@@ -23,24 +20,35 @@ public class AulaSinRecursos extends Aula{
     */
 
     //atributos
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private int idSr;
-
     @Column
     protected boolean ventiladores;
     
     @Column
     protected String descripcion;
 
-    //getter/setter
-    public int getIdSr() {
-        return idSr;
-    }
-    public void setId_sr(int id_sr) {
-        this.idSr = id_sr;
+    //constructor
+
+    //constructor: por defecto
+    public AulaSinRecursos(){}
+
+    //constructor: todos los campos
+    public AulaSinRecursos(int maximoAlumnos, boolean estado, String piso, String tipoPizaarron, boolean aireAcondicionado,boolean ventiladores,String descripcion){
+        this.maximoAlumnos = maximoAlumnos;
+        this.estado = estado;
+        this.piso = piso;
+        this.tipoPizaarron = tipoPizaarron;
+        this.aireAcondicionado = aireAcondicionado;
+        this.ventiladores=ventiladores;
+        this.descripcion=descripcion;    
     }
 
+    //constructor: Solo los campos que no pueden ser null
+    public AulaSinRecursos(int maximoAlumnos, boolean estado){
+        this.maximoAlumnos = maximoAlumnos;
+        this.estado = estado;
+    }
+
+    //getter/setter
     public boolean isVentiladores() {
         return ventiladores;
     }
