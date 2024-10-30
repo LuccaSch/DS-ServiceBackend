@@ -12,7 +12,7 @@
 	<artifactId>tp</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>tp</name>
-	<description>Proyecto de programación para diseño de sistemas</description>
+	<description>Proyecto de programación en spring para diseño de sistemas</description>
 	<url/>
 	<licenses>
 		<license/>

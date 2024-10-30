@@ -22,7 +22,7 @@ public class AulaInformatica extends Aula{
     
     //atributos
 
-    @Column(name="cant_pc")
+    @Column(name="cant_pc", nullable=false)
     private int cantPc;
 
     @Column
