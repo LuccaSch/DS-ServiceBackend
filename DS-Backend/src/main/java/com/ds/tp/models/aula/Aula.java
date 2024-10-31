@@ -20,10 +20,10 @@ public abstract class Aula {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected int idAula;
 
-    @Column(name = "maximo_alumnos")
+    @Column(name = "maximo_alumnos",nullable=false)
     protected int maximoAlumnos;
 
-    @Column
+    @Column(nullable=false)
     protected boolean estado;
 
     @Column

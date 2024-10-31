@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ds.tp.models.dto.BedelDTO;
 import com.ds.tp.models.usuario.Bedel;
 import com.ds.tp.repositories.BedelRepository;
 
@@ -24,11 +25,20 @@ public class BedelService {
         return this.bedelRepository.findAll();
     }
 
-    public ResponseEntity<Object> postBedel(Bedel unBedel) {
+    public ResponseEntity<Object> postBedel(BedelDTO unBedelDTO) {
+        HashMap<String, Object> respuesta = new HashMap<>();
+
+        //verificar datos bedel
+        if(verificarDatos(unBedelDTO)){
+            respuesta.put("mensaje", "Datos invalidos");
+            respuesta.put("estado", false);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
+        }
+
+        Bedel unBedel = crearBedel(unBedelDTO);
+
         // Verificar si el usuario ya existe
         Optional<Bedel> resultadoBedel = bedelRepository.findByUsuario(unBedel.getUsuario());
-
-        HashMap<String, Object> respuesta = new HashMap<>();
 
         if (resultadoBedel.isPresent()) {
             respuesta.put("mensaje", "El bedel ya está registrado: " + unBedel.getUsuario());
@@ -42,5 +52,14 @@ public class BedelService {
         respuesta.put("estado", true);
         System.out.println("El bedel " + unBedel.getUsuario() + " se creó correctamente");
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
+    }
+
+    public boolean verificarDatos(BedelDTO unBedel){
+        //definir las verificaciones y se debe crear la verificacion mokapeada por programa externo
+        return false;
+    }
+
+    public Bedel crearBedel(BedelDTO unBedelDTO){
+        return new Bedel(unBedelDTO.getUsuario(), unBedelDTO.getNombre(), unBedelDTO.getApellido(), unBedelDTO.getContrasenia(),unBedelDTO.getTurno(),true);
     }
 }

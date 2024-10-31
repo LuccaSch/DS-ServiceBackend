@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ds.tp.models.dto.BedelDTO;
 import com.ds.tp.models.usuario.Bedel;
 import com.ds.tp.services.BedelService;
 
@@ -30,8 +31,8 @@ public class BedelController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity<Object> registrarBedel(@RequestBody Bedel unBedel){
-        return this.bedelService.postBedel(unBedel);
+    public ResponseEntity<Object> registrarBedel(@RequestBody BedelDTO unBedelDTO){
+        return this.bedelService.postBedel(unBedelDTO);
     }
 
 }

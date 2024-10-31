@@ -1,5 +1,7 @@
 package com.ds.tp.models.usuario;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -20,6 +22,7 @@ public abstract class Usuario {
     @Column
     protected String apellido;
     @Column
+    @JsonProperty("contrasenia")
     protected String contrasenia;
 
     //getter/setter
@@ -53,10 +56,10 @@ public abstract class Usuario {
         this.apellido = apellido;
     }
 
-    public String getContraseniaa() {
+    public String getContrasenia() {
         return contrasenia;
     }
-    public void setContraseniaa(String contraseña) {
+    public void setContrasenia(String contraseña) {
         this.contrasenia = contraseña;
     }
 }
