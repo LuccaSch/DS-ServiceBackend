@@ -1,17 +1,19 @@
 let registrarBedel = async () => {
+    limpiarMensajeError();
+
     let bedel = {
         nombre: document.getElementById("nombre").value,
         apellido: document.getElementById("apellido").value,
         usuario: document.getElementById("usuario").value.trim(),
-        pass: document.getElementById("pass").value,
-        cpass: document.getElementById("conf_pass").value,
+        contrasenia: document.getElementById("contrasenia").value,
+        confContrasenia: document.getElementById("confContrasenia").value,
         email: document.getElementById("email").value,
         turno: parseInt(document.getElementById("turno").value.replace(/\D/g, ''))
     };
 
     // Validaciones de campos, muestra un error en el campo mensaje error dentro del html, deberiamos agregar un log interno¿?
 
-    if (!bedel.nombre || !bedel.apellido || !bedel.usuario || !bedel.pass || !bedel.cpass || !bedel.email || !bedel.turno) {
+    if (!bedel.nombre || !bedel.apellido || !bedel.usuario || !bedel.contrasenia || !bedel.confContrasenia || !bedel.email || !bedel.turno) {
         mensajeError.textContent = "Error: todos los campos son obligatorios.";
         return;
     }
@@ -39,6 +41,8 @@ let registrarBedel = async () => {
     // es nesesario agregar la verificacion de la contraseña aca o solo se verifica si son iguales y se hace la verificacion en service¿?
 
     try {
+        console.log(JSON.stringify(bedel))
+        limpiarMensajeError();
         const peticion = await fetch("http://localhost:4400/bedel/registrar", {
             method: 'POST',
             headers: {
@@ -47,6 +51,7 @@ let registrarBedel = async () => {
             },
             body: JSON.stringify(bedel)
         });
+
 
         if (peticion.status === 400) {
             const errorData = await peticion.json();
@@ -70,8 +75,12 @@ const resetearFormulario = () => {
     document.getElementById("nombre").value = '';
     document.getElementById("apellido").value = '';
     document.getElementById("usuario").value = '';
-    document.getElementById("pass").value = '';
-    document.getElementById("conf_pass").value = '';
+    document.getElementById("contrasenia").value = '';
+    document.getElementById("confContrasenia").value = '';
     document.getElementById("email").value = '';
     document.getElementById("turno").selectedIndex = 0;
 };
+
+const limpiarMensajeError = () => {
+    mensajeError.textContent = "";
+}

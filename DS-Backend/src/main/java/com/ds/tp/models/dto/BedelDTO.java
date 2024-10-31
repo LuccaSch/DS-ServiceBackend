@@ -13,11 +13,11 @@ public class BedelDTO {
     @JsonProperty("usuario")
     private String usuario;
 
-    @JsonProperty("pass")
+    @JsonProperty("contrasenia")
     private String contrasenia;
 
-    @JsonProperty("cpass")
-    private String cpass;
+    @JsonProperty("confContrasenia")
+    private String confContrasenia;
 
     @JsonProperty("email")
     private String email;
@@ -59,14 +59,6 @@ public class BedelDTO {
         this.contrasenia = contrasenia;
     }
 
-    public String getCpass() {
-        return cpass;
-    }
-
-    public void setCpass(String cpass) {
-        this.cpass = cpass;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -81,5 +73,13 @@ public class BedelDTO {
 
     public void setTurno(int turno) {
         this.turno = turno;
+    }
+
+    public String getConfContrasenia() {
+        return confContrasenia;
+    }
+
+    public void setConfContrasenia(String confContrasenia) {
+        this.confContrasenia = confContrasenia;
     }
 }
