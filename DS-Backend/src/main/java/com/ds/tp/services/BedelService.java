@@ -28,14 +28,21 @@ public class BedelService {
     public ResponseEntity<Object> postBedel(BedelDTO unBedelDTO) {
         HashMap<String, Object> respuesta = new HashMap<>();
 
-        /* 
-        //verificar datos bedel
-        if(verificarDatos(unBedelDTO)){
-            respuesta.put("mensaje", "Datos invalidos");
+        Optional<String> resultadoValidacion = verificarDatos(unBedelDTO);
+
+        //segunda verificacion de datos del bedel
+        if(resultadoValidacion.isPresent()){
+            respuesta.put("mensaje", resultadoValidacion.get());
+            respuesta.put("estado", false);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
+        }
+        
+        //verificar mediante el programa externo el formato de contraseña
+        if(validarFormatoContrasenia(unBedelDTO.getContrasenia())){
+            respuesta.put("mensaje", "Formato de contraseña invalido");
             respuesta.put("estado", false);
             return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
         }
-        */
         
         Bedel unBedel = crearBedel(unBedelDTO);
 
@@ -56,8 +63,9 @@ public class BedelService {
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
-    public boolean verificarDatos(BedelDTO unBedel){
+    public Optional<String> verificarDatos(BedelDTO unBedel){
         //definir las verificaciones y se debe crear la verificacion mokapeada por programa externo
+        Optional<String> resultadoVerificado = Optional.empty();
         if(unBedel.getUsuario().isEmpty() 
         || unBedel.getNombre().isEmpty() 
         || unBedel.getApellido().isEmpty() 
@@ -65,17 +73,15 @@ public class BedelService {
         || unBedel.getConfContrasenia().isEmpty() 
         || unBedel.getTurno()==0){
             System.out.print("Error existe un campo noNulleable nulo queriendo registrar" + unBedel.getUsuario());
-            return false;
+            resultadoVerificado= Optional.of("CONFLIC: Se quiere registrar un campo noNulleable como nulo");
         }
         else if(!unBedel.getContrasenia().equals(unBedel.getConfContrasenia())){
         System.out.print("Intento de registrar un bedel con contraseñas distintas, usuario: " +unBedel.getUsuario());
-        return false;
+        System.out.print("Error existe un campo noNulleable nulo queriendo registrar" + unBedel.getUsuario());
+            resultadoVerificado= Optional.of("CONFLIC: Se quiere registrar un bedel con contraseñas y confirmacion de contraseña no identicas");
        }
-       else if(this.validarFormatoContrasenia(unBedel.getContrasenia())){
-        System.out.print("Formato de contrasenia erroneo, usuario: " +unBedel.getUsuario());
-        return false;
-       }
-       return true;
+
+       return resultadoVerificado;
     }
 
     public Bedel crearBedel(BedelDTO unBedelDTO){

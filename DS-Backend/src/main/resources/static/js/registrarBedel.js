@@ -52,17 +52,28 @@ let registrarBedel = async () => {
             body: JSON.stringify(bedel)
         });
 
-
-        if (peticion.status === 400) {
+        // 409 Manejar el conflicto
+        if (peticion.status === 409) { 
             const errorData = await peticion.json();
-            console.error("Error: " + errorData.message); 
-            mensajeError.textContent = errorData.message; 
+            console.error("Conflicto: " + errorData.mensaje);
+            mensajeError.textContent = errorData.mensaje; 
             return; 
-        }
-        else {
+        // error de solicitud incorrecta
+        } else if (peticion.status === 400) { 
+            const errorData = await peticion.json();
+            console.error("Error: " + errorData.mensaje); 
+            mensajeError.textContent = errorData.mensaje; 
+            return; 
+        // Manejar éxito
+        } else if (peticion.status === 200 || peticion.status === 201) { 
             const respuesta = await peticion.json();
             console.log("Bedel registrado:", respuesta);
             resetearFormulario();
+            // Crear mensaje de
+            mensajeError.textContent="SE CREO EL BEDEL PAPU <--- crear una respuesta en un text box aparte"
+        } else {
+            console.error("Error inesperado:", peticion.status);
+            mensajeError.textContent = "Error inesperado: " + peticion.status;
         }
         
     } catch (error) {
