@@ -21,7 +21,7 @@ SQL:
 
 CREATE DATABASE DSDatabase;
 
-4.  creamos un usuario admin_ds y contraseña **** que por lo menos tenga beneficion para hacer CRUD y siendo dueño con la tabla ya creada.
+5.  creamos un usuario admin_ds y contraseña **** que por lo menos tenga beneficion para hacer CRUD y siendo dueño con la tabla ya creada.
 
 SQL:
 
@@ -29,13 +29,13 @@ CREATE USER admin_ds WITH PASSWORD 'root';
 ALTER DATABASE DSDatabase OWNER TO admin_ds;
 GRANT ALL PRIVILEGES ON DATABASE DSDatabase TO admin_ds;
 
-5. **(No hacer por el momento)** Dentro de la carpeta DS-Database esta definida la base de datos con las sentencias SQL para crearla por el momento **NO CARGAR LA BASE** y dejar que la cree sola Spring hasta que definamos como va a ser el mapeo final .
+6. **(No hacer por el momento)** Dentro de la carpeta DS-Database esta definida la base de datos con las sentencias SQL para crearla por el momento **NO CARGAR LA BASE** y dejar que la cree sola Spring hasta que definamos como va a ser el mapeo final .
 
 ## BACKEND
 
 ### Dependencias
 
-2. Instalar maven para correr la aplicacion con SpringBoot, yo estoy usando **Apache Maven 3.9.9**
+1. Instalar maven para correr la aplicacion con SpringBoot, yo estoy usando **Apache Maven 3.9.9**
 
 [Instalar Maven](https://maven.apache.org/download.cgi)
 
@@ -45,7 +45,7 @@ buscador windows -> Editar variables de entorno del sistema -> Variables de ento
 
 pueden verificar si se instalo abriendo terminal y haciendo mvn --version
 
-3. Si vamos a actuar desde visual debemos instalar las extenciones java Extencion pack + Spring Initializr + Spring dev tool + Debugger for java + maven for java + resto for java +(Opcional) Live server [para probar los front sin levantar todo el server] desde la seccion de Extenciones de visual
+2. Si vamos a actuar desde visual debemos instalar las extenciones java Extencion pack + Spring Initializr + Spring dev tool + Debugger for java + maven for java + resto for java +(Opcional) Live server [para probar los front sin levantar todo el server] desde la seccion de Extenciones de visual
 
 #### ADICIONAL: Cursos de springboot
 
