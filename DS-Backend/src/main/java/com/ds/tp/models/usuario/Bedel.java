@@ -68,4 +68,15 @@ public class Bedel extends Usuario{
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
+
+    //otros metodos
+
+    @Override
+    public String toString(){
+        return "BEDEL {Id: " + id +
+                    ", Usuario: "+usuario+
+                    ", Nombre: " + nombre + 
+                    ", Apellido "+apellido+
+                    "}";
+    }
 }

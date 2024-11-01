@@ -32,6 +32,7 @@ public class BedelController {
 
     @PostMapping("/registrar")
     public ResponseEntity<Object> registrarBedel(@RequestBody BedelDTO unBedelDTO){
+        System.out.print("[INFO] Llego una solicitud de registro de bedel");
         return this.bedelService.postBedel(unBedelDTO);
     }
 

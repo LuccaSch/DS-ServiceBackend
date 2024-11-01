@@ -39,7 +39,7 @@ public class BedelService {
         
         //verificar mediante el programa externo el formato de contraseña
         if(validarFormatoContrasenia(unBedelDTO.getContrasenia())){
-            respuesta.put("mensaje", "Formato de contraseña invalido");
+            respuesta.put("mensaje", "ERROR: Formato de contraseña invalido");
             respuesta.put("estado", false);
             return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
         }
@@ -59,12 +59,11 @@ public class BedelService {
         bedelRepository.save(unBedel);
         respuesta.put("mensaje", "El bedel se registró correctamente");
         respuesta.put("estado", true);
-        System.out.println("El bedel " + unBedel.getUsuario() + " se creó correctamente");
+        System.out.println("[INFO] Se registro: "+ unBedel.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
     }
 
     public Optional<String> verificarDatos(BedelDTO unBedel){
-        //definir las verificaciones y se debe crear la verificacion mokapeada por programa externo
         Optional<String> resultadoVerificado = Optional.empty();
         if(unBedel.getUsuario().isEmpty() 
         || unBedel.getNombre().isEmpty() 
@@ -72,13 +71,10 @@ public class BedelService {
         || unBedel.getContrasenia().isEmpty()
         || unBedel.getConfContrasenia().isEmpty() 
         || unBedel.getTurno()==0){
-            System.out.print("Error existe un campo noNulleable nulo queriendo registrar" + unBedel.getUsuario());
-            resultadoVerificado= Optional.of("CONFLIC: Se quiere registrar un campo noNulleable como nulo");
+            resultadoVerificado= Optional.of("ERROR: Se quiere registrar un campo requerido vacio");
         }
         else if(!unBedel.getContrasenia().equals(unBedel.getConfContrasenia())){
-        System.out.print("Intento de registrar un bedel con contraseñas distintas, usuario: " +unBedel.getUsuario());
-        System.out.print("Error existe un campo noNulleable nulo queriendo registrar" + unBedel.getUsuario());
-            resultadoVerificado= Optional.of("CONFLIC: Se quiere registrar un bedel con contraseñas y confirmacion de contraseña no identicas");
+            resultadoVerificado= Optional.of("ERROR: Se quiere registrar un bedel con contraseñas y confirmacion de contraseña no identicas");
        }
 
        return resultadoVerificado;
@@ -89,7 +85,7 @@ public class BedelService {
     }
 
     public boolean validarFormatoContrasenia(String contrasenia){
-        //definir la verificacion de contrasenia que se debe instanciar contra el gestor externo
+        //definir la verificacion de contrasenia que se debe verificar con el gestor externo
         return false;
     }
 }

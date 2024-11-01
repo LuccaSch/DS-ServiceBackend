@@ -1,3 +1,5 @@
+const boton = document.getElementById('aceptarBtn');
+
 let registrarBedel = async () => {
     limpiarMensajeError();
 
@@ -18,7 +20,7 @@ let registrarBedel = async () => {
         return;
     }
 
-    if (bedel.pass !== bedel.cpass) {
+    if (bedel.contrasenia !== bedel.confContrasenia) {
         mensajeError.textContent = "Error: las contraseñas no coinciden.";
         return;
     }
@@ -41,7 +43,6 @@ let registrarBedel = async () => {
     // es nesesario agregar la verificacion de la contraseña aca o solo se verifica si son iguales y se hace la verificacion en service¿?
 
     try {
-        console.log(JSON.stringify(bedel))
         limpiarMensajeError();
         const peticion = await fetch("http://localhost:4400/bedel/registrar", {
             method: 'POST',
@@ -52,34 +53,31 @@ let registrarBedel = async () => {
             body: JSON.stringify(bedel)
         });
 
-        // 409 Manejar el conflicto
-        if (peticion.status === 409) { 
+        // Manejo de respuestas
+        if (peticion.status === 409) {
+            //409 CONFLICTO
             const errorData = await peticion.json();
-            console.error("Conflicto: " + errorData.mensaje);
-            mensajeError.textContent = errorData.mensaje; 
-            return; 
-        // error de solicitud incorrecta
-        } else if (peticion.status === 400) { 
+            boton.style.backgroundColor = 'red';
+            mostrarResultadoModal(errorData.mensaje);
+        } else if (peticion.status === 400) {
+            //400 BADCONFG
             const errorData = await peticion.json();
-            console.error("Error: " + errorData.mensaje); 
-            mensajeError.textContent = errorData.mensaje; 
-            return; 
-        // Manejar éxito
-        } else if (peticion.status === 200 || peticion.status === 201) { 
+            boton.style.backgroundColor = 'red'
+            mostrarResultadoModal(errorData.mensaje);
+        } else if (peticion.status === 200 || peticion.status === 201) {
+            //200 O 201 EXITO
             const respuesta = await peticion.json();
-            console.log("Bedel registrado:", respuesta);
+            boton.style.backgroundColor = 'green'
+            mostrarResultadoModal("Bedel registrado correctamente");
             resetearFormulario();
-            // Crear mensaje de
-            mensajeError.textContent="SE CREO EL BEDEL PAPU <--- crear una respuesta en un text box aparte"
         } else {
-            console.error("Error inesperado:", peticion.status);
-            mensajeError.textContent = "Error inesperado: " + peticion.status;
+            mostrarResultadoModal("Error inesperado: " + peticion.status);
         }
         
     } catch (error) {
-        console.error("Error en la petición:", error);
-        mensajeError.textContent = "Error en la petición: " + error.message;
+        console.log("Error en la petición: " + error.message);
     }
+    
 };
 
 const resetearFormulario = () => {
@@ -95,3 +93,18 @@ const resetearFormulario = () => {
 const limpiarMensajeError = () => {
     mensajeError.textContent = "";
 }
+
+// Función para mostrar el modal
+const mostrarResultadoModal = (mensaje) => {
+    document.getElementById("resultadoMensaje").textContent = mensaje;
+    document.getElementById("resultadoModal").style.display = "block";
+};
+
+// Cerrar el modal
+document.getElementById("cerrarModal").onclick = function() {
+    document.getElementById("resultadoModal").style.display = "none";
+};
+
+document.getElementById("aceptarBtn").onclick = function() {
+    document.getElementById("resultadoModal").style.display = "none";
+};
