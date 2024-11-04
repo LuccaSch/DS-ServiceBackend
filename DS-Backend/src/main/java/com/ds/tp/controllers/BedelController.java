@@ -14,6 +14,8 @@ import com.ds.tp.models.dto.BedelDTO;
 import com.ds.tp.models.usuario.Bedel;
 import com.ds.tp.services.BedelService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/bedel")
 
@@ -31,8 +33,12 @@ public class BedelController {
     }
 
     @PostMapping("/registrar")
-    public ResponseEntity<Object> registrarBedel(@RequestBody BedelDTO unBedelDTO){
-        System.out.print("[INFO] Llego una solicitud de registro de bedel");
+    public ResponseEntity<Object> registrarBedel(@RequestBody BedelDTO unBedelDTO, HttpServletRequest request) {
+        
+        //Sistema de logs, en este caso muestra la ip del cliente que solicita el registro, a futuro debemos almacenarlos en un txt
+        String clientIp = request.getRemoteAddr();
+        System.out.println("[INFO] Registro de bedel desde IP: " + clientIp);
+
         return this.bedelService.postBedel(unBedelDTO);
     }
 

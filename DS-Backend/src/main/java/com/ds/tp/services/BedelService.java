@@ -55,18 +55,18 @@ public class BedelService {
             respuesta.put("estado", false);
             return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
         }
-        
-        Bedel unBedel = crearBedel(unBedelDTO);
 
         // Verificar si el usuario ya existe
-        Optional<Bedel> resultadoBedel = bedelRepository.findByUsuario(unBedel.getUsuario());
+        Optional<Bedel> resultadoBedel = bedelRepository.findByUsuario(unBedelDTO.getUsuario());
 
         if (resultadoBedel.isPresent()) {
-            respuesta.put("mensaje", "El bedel ya está registrado: " + unBedel.getUsuario());
+            respuesta.put("mensaje", "El bedel ya está registrado: " + unBedelDTO.getUsuario());
             respuesta.put("estado", false);
-            System.out.println("Se intentó registrar un bedel ya creado: " + unBedel.getUsuario());
+            System.out.println("Se intentó registrar un bedel ya creado: " + unBedelDTO.getUsuario());
             return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
         }
+                
+        Bedel unBedel = crearBedel(unBedelDTO);
 
         //Se accede al repositorio de JPA para instanciar el bedel ya verificado
         try{
