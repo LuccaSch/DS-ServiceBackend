@@ -7,7 +7,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "aula_informatica")
-@PrimaryKeyJoinColumn(name = "aula_id")  
+@PrimaryKeyJoinColumn(name = "id")  
 public class AulaInformatica extends Aula{
     /*
     atributos heredados:
@@ -38,7 +38,7 @@ public class AulaInformatica extends Aula{
         this.maximoAlumnos = maximoAlumnos;
         this.estado = estado;
         this.piso = piso;
-        this.tipoPizaarron = tipoPizaarron;
+        this.tipoPizarron = tipoPizaarron;
         this.aireAcondicionado = aireAcondicionado;
         this.cantPc=cantPc;
         this.canion=canion;

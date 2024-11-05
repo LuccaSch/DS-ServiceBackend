@@ -28,6 +28,7 @@ SQL:
 CREATE USER admin_ds WITH PASSWORD 'root';
 ALTER DATABASE DSDatabase OWNER TO admin_ds;
 GRANT ALL PRIVILEGES ON DATABASE DSDatabase TO admin_ds;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON TABLES TO admin_ds;
 
 6. **(No hacer por el momento)** Dentro de la carpeta DS-Database esta definida la base de datos con las sentencias SQL para crearla por el momento **NO CARGAR LA BASE** y dejar que la cree sola Spring hasta que definamos como va a ser el mapeo final .
 
