@@ -1,7 +1,5 @@
 package com.ds.tp.models.usuario;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,14 +13,13 @@ public abstract class Usuario {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     protected Long id;
 
-    @Column(name="usuario_bed", nullable=false)
+    @Column(nullable=false)
     protected String usuario;
-    @Column
+    @Column(nullable=false)
     protected String nombre;
-    @Column
+    @Column(nullable=false)
     protected String apellido;
-    @Column
-    @JsonProperty("contrasenia")
+    @Column(nullable=false)
     protected String contrasenia;
 
     //getter/setter
