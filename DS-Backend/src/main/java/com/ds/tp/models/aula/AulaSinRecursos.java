@@ -2,12 +2,10 @@ package com.ds.tp.models.aula;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="aula_sin_recursos")
-@PrimaryKeyJoinColumn(name = "id") 
 public class AulaSinRecursos extends Aula{
 
     /*
@@ -38,7 +36,7 @@ public class AulaSinRecursos extends Aula{
         this.maximoAlumnos = maximoAlumnos;
         this.estado = estado;
         this.piso = piso;
-        this.tipoPizarron = tipoPizaarron;
+        this.tipoPizaarron = tipoPizaarron;
         this.aireAcondicionado = aireAcondicionado;
         this.ventiladores=ventiladores;
         this.descripcion=descripcion;    

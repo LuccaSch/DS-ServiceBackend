@@ -1,5 +1,6 @@
 package com.ds.tp.models.usuario;
 
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -21,9 +22,11 @@ public class Bedel extends Usuario{
 
     //atributos
 
+    @AttributeOverride(name = "id", column = @Column(name = "id_bedel"))//mapea el id del padre con el nombre correcto id_bedel
+
     @Column
     private int turno;
-    @Column(nullable=false)
+    @Column
     private boolean estado;
 
     //constructor
