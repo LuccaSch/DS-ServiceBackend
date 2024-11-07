@@ -15,18 +15,13 @@ import lombok.RequiredArgsConstructor;
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
-
-
-
-
     @Bean
     public SecurityFilterChain securityFilterChain (HttpSecurity http) throws Exception {
         return http
         .csrf(csrf -> csrf.disable())
         .authorizeHttpRequests(auth -> auth.requestMatchers("/public/**").permitAll()
         .requestMatchers("/log/**").authenticated())
-         .formLogin(Customizer.withDefaults())
-
+        .formLogin(Customizer.withDefaults())
         .build();
 
     }
