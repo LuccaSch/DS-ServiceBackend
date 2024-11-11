@@ -5,8 +5,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.ds.tp.models.securityconfig.BedelUserDetails;
 import com.ds.tp.models.usuario.Bedel;
-import com.ds.tp.models.usuario.BedelUserDetails;
 import com.ds.tp.repositories.BedelRepository;
 
 @Service
