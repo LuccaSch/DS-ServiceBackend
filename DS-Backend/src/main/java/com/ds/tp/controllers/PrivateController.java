@@ -1,30 +1,25 @@
 package com.ds.tp.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-
-
 @RestController
-@RequestMapping("/log")
+@RequestMapping("/v1")
 @RequiredArgsConstructor
-public class HomeController{
-
-
-    @GetMapping("/login")
+public class PrivateController {
+@GetMapping("/home")
     public String home() {
-        return "hola home";
+        return "Private Home";
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public String admin() {
-        return "hola admin";
+        return "Admin";
     }
-    
 
 }
