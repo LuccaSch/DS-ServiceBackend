@@ -42,12 +42,13 @@ input, select {
     justify-self: center;
 }
 
-.botones-menu {
+.boton-login {
     display: flex;                 /* Activamos el modelo Flexbox */
     flex-direction: column;        /* Coloca los botones en una columna (uno encima del otro) */
     align-items: center;           /* Centra los botones horizontalmente dentro del contenedor */
     gap: 20px;                     /* Espacio entre los botones */
     margin-top: 20px;              /* Espacio superior para el contenedor, si es necesario */
+    
 }
 
 button {
@@ -65,8 +66,9 @@ button:hover {
     border: 2px solid #6096c2;
 }
 
-.h1_titulo{
+.h1-titulo{
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }

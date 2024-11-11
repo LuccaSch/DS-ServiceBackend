@@ -22,8 +22,7 @@ input, select {
     justify-content: center;     /* Centra el contenido verticalmente */
     align-items: center;         /* Centra el contenido horizontalmente */
     grid-template-columns: auto auto auto; /* Tres columnas de igual tamaño */
-    width: 1000px; /* ancho */
-    height: 500px; /* alto */
+    width: 70%; /* ancho */
     padding-top: px;
     margin: 0 auto;
     position: relative;
@@ -33,13 +32,13 @@ input, select {
 .linea-vertical {
     width: 2px;
     height: 400px;
-    background-color: #000; 
+    background-color: #000000;
     justify-self: center;
 }
 
 
 .logo {
-    width: 150px;
+    width: 300px;
     justify-self: center;
 }
 
@@ -49,6 +48,7 @@ input, select {
     align-items: center;           /* Centra los botones horizontalmente dentro del contenedor */
     gap: 20px;                     /* Espacio entre los botones */
     margin-top: 20px;              /* Espacio superior para el contenedor, si es necesario */
+    
 }
 
 button {
@@ -58,10 +58,12 @@ button {
     background-color: #fff;
     cursor: pointer;
     transition: background-color 0.2s;
+    border-radius: 5px;	
 }
 
 button:hover {
-    background-color: #e0e0e0;
+    background-color: #9ac7ec;
+    border: 2px solid #6096c2;
 }
 
 .h1_titulo{
