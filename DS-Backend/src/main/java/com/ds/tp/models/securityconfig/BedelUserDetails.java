@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.ds.tp.models.usuario.Bedel;
 
+//NO ESTAMOS REDEFINIENDO EL USER DETAILS POR EL MOMENTO (ESTA CLASE NO ESTA EN USO)
 
 public class BedelUserDetails implements UserDetails {
 

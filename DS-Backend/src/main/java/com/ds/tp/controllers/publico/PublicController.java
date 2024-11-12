@@ -1,4 +1,4 @@
-package com.ds.tp.controllers;
+package com.ds.tp.controllers.publico;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

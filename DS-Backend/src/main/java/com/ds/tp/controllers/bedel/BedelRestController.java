@@ -1,4 +1,4 @@
-package com.ds.tp.controllers;
+package com.ds.tp.controllers.bedel;
 
 import java.util.List;
 
@@ -17,32 +17,23 @@ import com.ds.tp.services.BedelService;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/admin")
-
-public class BedelController {
+@RequestMapping("/admin/rest")
+//ENDPOINT para la api rest
+public class BedelRestController {
     @Autowired
     private final BedelService bedelService;
 
     //constructor
-    public BedelController(BedelService bedelService){
+    public BedelRestController(BedelService bedelService){
         this.bedelService = bedelService;
     }
 
-    //templates
-    
-    @GetMapping("/registrarBedel")
-    public String mostrarFormularioRegistro() {
-        return "registrarBedel";
-    }
-
-
-    //endpoints de nuestra api rest
-    @GetMapping
+    @GetMapping("/getBedel")
     public List<Bedel> getBedel(){
         return bedelService.getBedels();
     }
 
-    @PostMapping("/registrarBedel")
+    @PostMapping("/postBedel")
     public ResponseEntity<Object> registrarBedel(@RequestBody BedelDTO unBedelDTO, HttpServletRequest request) {
         
         //Sistema de logs, en este caso muestra la ip del cliente que solicita el registro, a futuro debemos almacenarlos en un txt
@@ -51,5 +42,4 @@ public class BedelController {
 
         return this.bedelService.postBedel(unBedelDTO);
     }
-
 }
