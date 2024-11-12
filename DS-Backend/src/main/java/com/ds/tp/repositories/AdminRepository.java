@@ -4,11 +4,11 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ds.tp.models.usuario.Bedel;
+import com.ds.tp.models.usuario.Administrador;
 
 @Repository
-public interface BedelRepository extends JpaRepository<Bedel,Long> {
-    
-   public Optional<Bedel> findByUsuario(String usuario);
+public interface AdminRepository extends JpaRepository<Administrador,Long>{
+
+   public Optional<Administrador> findByUsuario(String usuario);
 
 }

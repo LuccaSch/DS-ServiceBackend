@@ -1,11 +1,13 @@
-package com.ds.tp.models.usuario;
-
-import org.springframework.security.core.GrantedAuthority;
-
-import org.springframework.security.core.userdetails.UserDetails;
+package com.ds.tp.models.securityconfig;
 
 import java.util.Collection;
 
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.ds.tp.models.usuario.Bedel;
+
+//NO ESTAMOS REDEFINIENDO EL USER DETAILS POR EL MOMENTO (ESTA CLASE NO ESTA EN USO)
 
 public class BedelUserDetails implements UserDetails {
 
