@@ -10,9 +10,9 @@
 <body>
     <header class="header">
         <ul class="menu-ul">
-            <li><a href="Inicio.html">Inicio</a></li>
-            <li><a href="BuscarBedel.html">Buscar Bedel</a></li>
-            <li><a href="RegistrarBedel.html">Registrar Bedel</a></li>
+            <li><a href="/admin">Inicio</a></li>
+            <li><a href="/admin/buscarBedel">Buscar Bedel</a></li>
+            <li><a href="/admin/registrarBedel">Registrar Bedel</a></li>
         </ul>
     </header>
     <div class="h1_bedel">
@@ -60,7 +60,7 @@
     <div id="mensajeError" class="mensaje-error" style="color: red;"></div>
 
     <div class="botones-acep-cancel">
-        <button class="btn-cancelar" type="button" id="cancelar">Cancelar</button>
+        <button class="btn-cancelar" type="button" id="cancelar" onclick="location.href='/admin'">Cancelar</button>
         <button class="btn-aceptar" type="button" id="registrar" onclick="registrarBedel()">Registrar</button>
     </div>
 
