@@ -33,7 +33,7 @@ public class Config {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        // Usamos BCrypt para una encriptación robusta que m5
+        // Usamos BCrypt para una encriptación mas robusta que m5
         return new BCryptPasswordEncoder(); 
     }
 
