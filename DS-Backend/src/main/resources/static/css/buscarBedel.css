@@ -1,0 +1,106 @@
+body {
+    height: 100%; 
+    font-family: 'Noto Sans', sans-serif;
+    background-color: #ffffff; 
+}
+
+input, select {
+    background-color: #e7e3e3; 
+    width: 300px; 
+    height: 40px; 
+    border-radius: 5px;  
+    border-style: solid; 
+    border-width: 1px; 
+    border-color: #000000; 
+    margin-top: 10px;  
+    padding-left: 10px;
+    margin-bottom: 20px; 
+}
+
+.container {
+    display: flex;
+    justify-content: center;     /* Centra el contenido verticalmente */
+    align-items: center;         /* Centra el contenido horizontalmente */
+    grid-template-columns: auto;
+    width: 70%; /* ancho */
+    padding-top: px;
+    margin: 0 auto;
+    position: relative;
+    gap: 200px
+}
+
+.h1-titulo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+p label{
+    padding-right: 10px;
+}
+
+.boton-buscar{
+    height: 40px;
+    width: 408px; 
+	border-radius: 5px;  
+	padding-left: 5px;
+	padding-right: 5px; 	
+	margin-bottom: 20px; 
+	margin-top: 10px; 	
+	text-transform: uppercase;
+	background-color: #9ac7ec; 
+	border-color: #6096c2; 
+	border-style: solid; 
+    border-radius: 5px;	
+	width: 120px;   
+    cursor: pointer;
+}
+.boton-buscar:hover{
+    background-color: #6096c2;
+}
+
+/*encabezado*/
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: #000000 2px solid;
+}
+.menu-ul {
+    display: flex;
+    justify-content: flex-start;
+}
+ul li {
+    list-style: none;
+    border: solid 2px;
+    border-bottom: solid 4px;
+    color: #000000;
+}
+
+ul li:hover {
+    background-color: #9ac7ec;
+    border-color: #6096c2;
+}
+
+ul li a{
+    color:#000000;
+    margin: 40px;
+    padding: 10px;
+    text-decoration: none;
+}
+
+.usuario {
+    display: flex;
+    align-items: center;
+}
+.imagen-usuario {
+    width: 50px; /* Ajusta el tamaño según tu imagen */
+    height: 50px;
+    border-radius: 50%;
+}
+
+.nombre-usuario {
+    margin-left: 10px; /* Ajusta el espacio entre la imagen y el nombre */
+    margin-right: 10px;
+    color:#3f3d3d;
+}

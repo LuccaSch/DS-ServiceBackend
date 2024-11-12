@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/buscarBedel.css">
+    <title>Buscar Bedel</title>
+</head>
+<body>
+    <header class="header">
+        <ul class="menu-ul">
+            <li><a href="menuAdministrador.html">Inicio</a></li>
+            <li><a href="buscarBedel.html">Buscar Bedel</a></li>
+            <li><a href="registrarBedel.html">Registrar Bedel</a></li>
+        </ul>
+        <div class="usuario">
+            <img src="../resources/USUARIO.png" alt="USUARIO" class="imagen-usuario">
+            <div class="nombre-usuario">
+                <p>Nombre_de_Usuario</p>
+            </div>
+        </div>
+    </header>
+    <div class="h1-titulo">
+        <h1>BUSCAR BEDEL</h1>
+    </div>
+
+    <div class="container">
+        <p>
+            <label for="apellido" class="colocar_apellido">Apellido</label>
+            <input type="text" name="Ingrese el apellido" id="apellido">
+        </p>
+        <p>
+            <label for="turno*" class="colocar_turno">Turno:</label>
+            <select name="select" id="turno" >
+                <option value="" selected disabled>Selecciona un turno</option>
+                <option value="Turno1">Turno 1</option>
+                <option value="Turno2">Turno 2</option>
+            </select>
+            
+        </p>
+        <button  class="boton-buscar" type="button" id="buscar">Buscar</button>
+    </div>
+</body>
+</html>
