@@ -58,6 +58,7 @@ public class Config {
             )
         .formLogin(form -> form
                         .successHandler(successHandler)
+                        .loginPage("/login")
                         .permitAll()
                     )
         .logout(logout -> logout.permitAll())

@@ -12,7 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ds.tp.models.dto.BedelDTO;
+import com.ds.tp.models.usuario.Administrador;
 import com.ds.tp.models.usuario.Bedel;
+import com.ds.tp.repositories.AdminRepository;
 import com.ds.tp.repositories.BedelRepository;
 
 @Service
@@ -24,15 +26,19 @@ public class BedelService {
     @Autowired
     private final EmpresaService empresaService;
 
+    @Autowired
+    private final AdminRepository adminRepository;
+
     // El passwordEncoder es inyectado desde la configuración de seguridad, se puede redefinir en passwordEncoder() dentro de config
     @Autowired
     private final PasswordEncoder passwordEncoder; 
 
     // Constructor
-    public BedelService(BedelRepository bedelRepository, EmpresaService empresaService, PasswordEncoder passwordEncoder) {
+    public BedelService(BedelRepository bedelRepository, EmpresaService empresaService, PasswordEncoder passwordEncoder, AdminRepository adminRepository) {
         this.bedelRepository = bedelRepository;
         this.empresaService = empresaService;
         this.passwordEncoder = passwordEncoder;
+        this.adminRepository = adminRepository;
     }
 
     // Funciones del servicio BEDEL
@@ -59,16 +65,24 @@ public class BedelService {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
         }
 
-        // Verificar si el usuario ya existe
+        // Verificar si el usuario ya existe, tanto como bedel como admin.
+
         Optional<Bedel> resultadoBedel = bedelRepository.findByUsuario(unBedelDTO.getUsuario());
         
         if (resultadoBedel.isPresent()) {
             respuesta.put("mensaje", "El bedel ya está registrado: " + unBedelDTO.getUsuario());
             respuesta.put("estado", false);
-            System.out.println("Se intentó registrar un bedel ya creado: " + unBedelDTO.getUsuario());
             return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
         }
-                
+
+        Optional<Administrador> resultadoAdmin = adminRepository.findByUsuario(unBedelDTO.getUsuario());
+        
+        if (resultadoAdmin.isPresent()) {
+            respuesta.put("mensaje", "El bedel ya está registrado: " + unBedelDTO.getUsuario());
+            respuesta.put("estado", false);
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
+        }
+        
         // Crear el objeto Bedel con la contraseña encriptada
         Bedel unBedel = crearBedel(unBedelDTO);
 
