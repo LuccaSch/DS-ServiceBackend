@@ -30,6 +30,7 @@ public class Config {
 
     //private final PasswordEncoder passwordEncoder;
 
+    String[] publicResources = new String[]{"/","/css/index.css","/css/login.css","img/UTN_logo_public.png"};
     String[] bedelResources = new String[]{"/bedel/**"};
     String[] adminResources = new String[]{"/admin/**"};
 
@@ -51,7 +52,7 @@ public class Config {
         return http
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/","/css/index.css","/css/login.css","img/UTN_logo_public.png").permitAll()
+            .requestMatchers(publicResources).permitAll()
             .requestMatchers(bedelResources).hasAuthority("ROLE_BEDEL")
             .requestMatchers(adminResources).hasAuthority("ROLE_ADMIN")  
             .anyRequest().authenticated()

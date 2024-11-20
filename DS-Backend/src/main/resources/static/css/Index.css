@@ -43,11 +43,11 @@ input, select {
 }
 
 .boton-login {
-    display: flex;                 /* Activamos el modelo Flexbox */
-    flex-direction: column;        /* Coloca los botones en una columna (uno encima del otro) */
-    align-items: center;           /* Centra los botones horizontalmente dentro del contenedor */
-    gap: 20px;                     /* Espacio entre los botones */
-    margin-top: 20px;              /* Espacio superior para el contenedor, si es necesario */
+    display: flex;                 
+    flex-direction: column;        
+    align-items: center;           
+    gap: 20px;                     
+    margin-top: 20px;              
     
 }
 
