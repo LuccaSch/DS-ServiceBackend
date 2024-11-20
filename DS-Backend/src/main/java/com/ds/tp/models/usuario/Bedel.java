@@ -58,6 +58,10 @@ public class Bedel extends Usuario{
         this.turno = turno;
     }
 
+    public String getTurnoString(){
+        return String.valueOf(this.turno);
+    }
+
     public boolean isEstado() {
         return estado;
     }

@@ -27,15 +27,17 @@
 
     <div class="container">
         <p>
-            <label for="apellido" class="colocar_apellido">Apellido</label>
-            <input type="text" name="Ingrese el apellido" id="apellido">
+            <label for="LabelBuscar" class="buscar_bedel_filtro">Valor de busqueda</label>
+            <input type="text" name="Valor de busqueda" id="valor_busqueda">
         </p>
         <p>
-            <label for="turno*" class="colocar_turno">Turno:</label>
-            <select name="select" id="turno" >
-                <option value="" selected disabled>Selecciona un turno</option>
-                <option value="Turno1">Turno 1</option>
-                <option value="Turno2">Turno 2</option>
+            <label for="Filtro*" class="Filtro">Como buscar:</label>
+            <select name="select" id="filtro" >
+                <option value="0" selected >Seleccion de busqueda</option>
+                <option value="1">Usuario</option>
+                <option value="2">Nombre</option>
+                <option value="3">Apellido</option>
+                <option value="4">Turno</option>
             </select>
 
         </div>

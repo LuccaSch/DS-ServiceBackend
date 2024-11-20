@@ -3,6 +3,7 @@ package com.ds.tp.services;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ds.tp.models.dto.BedelDTO;
+import com.ds.tp.models.dto.FiltroBuscarBedelDTO;
 import com.ds.tp.models.usuario.Administrador;
 import com.ds.tp.models.usuario.Bedel;
 import com.ds.tp.repositories.AdminRepository;
@@ -20,7 +22,7 @@ import com.ds.tp.repositories.BedelRepository;
 
 @Service
 public class BedelService {
-    // Atributos inyectados por Spring
+    // Atributos inyectados por Spring (El passwordEncoder de seguridad, se puede redefinir en passwordEncoder() dentro de config)
     @Autowired
     private final BedelRepository bedelRepository;
 
@@ -30,7 +32,6 @@ public class BedelService {
     @Autowired
     private final AdminRepository adminRepository;
 
-    // El passwordEncoder es inyectado desde la configuración de seguridad, se puede redefinir en passwordEncoder() dentro de config
     @Autowired
     private final PasswordEncoder passwordEncoder; 
 
@@ -43,10 +44,7 @@ public class BedelService {
     }
 
     // Funciones del servicio BEDEL
-    public List<BedelDTO> getBedels() {
-        List<Bedel> bedelList = this.bedelRepository.findAll();
-        return this.crearListaBedelDto(bedelList);
-    }
+    //-------------------------------------------------POST BEDEL------------------------------------------------------
 
     public ResponseEntity<Object> postBedel(BedelDTO unBedelDTO) {
         HashMap<String, Object> respuesta = new HashMap<>();
@@ -131,6 +129,53 @@ public class BedelService {
 
     public boolean validarFormatoContrasenia(String contrasenia) {
         return empresaService.validarRequerimientoContrasenia(contrasenia);
+    }
+
+    //--------------------------------------------------GETBEDELS----------------------------------------------
+
+    public ResponseEntity<Object> getBedels(FiltroBuscarBedelDTO filtroDatos) {
+        try{
+            List<Bedel> bedelList = this.bedelRepository.findAll();
+
+            //Bloque para busqueda por similitud de campos
+
+            if (!filtroDatos.getFiltro().equals("0")) {
+
+                // Expresiones regulares para búsquedas por similitud
+                String valor = filtroDatos.getValorBusqueda();
+                Pattern pattern = Pattern.compile(valor, Pattern.CASE_INSENSITIVE);
+
+                switch (filtroDatos.getFiltro()) {
+                    case "1" -> bedelList = bedelList.stream()
+                                        .filter(bedel -> pattern.matcher(bedel.getUsuario()).find())
+                                        .collect(Collectors.toList());
+                    case "2" -> bedelList = bedelList.stream()
+                                        .filter(bedel -> pattern.matcher(bedel.getNombre()).find())
+                                        .collect(Collectors.toList());
+                    case "3" -> bedelList = bedelList.stream()
+                                        .filter(bedel -> pattern.matcher(bedel.getApellido()).find())
+                                        .collect(Collectors.toList());
+                    case "4" -> bedelList = bedelList.stream()
+                                        .filter(bedel -> bedel.getTurnoString().equals(valor))
+                                        .collect(Collectors.toList());                                     
+                }
+            }
+            
+            List<BedelDTO> bedelListDTO= this.crearListaBedelDto(bedelList);
+
+            return ResponseEntity.status(HttpStatus.OK).body(bedelListDTO);
+        }
+        catch (DataAccessException e) {
+            HashMap<String, Object> respuesta = new HashMap<>();
+            respuesta.put("mensaje", "Internal Server Error" + e.getMessage());
+            respuesta.put("estado", false);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(respuesta);
+        } catch (Exception e) {
+            HashMap<String, Object> respuesta = new HashMap<>();
+            respuesta.put("mensaje", "Internal Server Error" + e.getMessage());
+            respuesta.put("estado", false);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
+        }
     }
 
     public BedelDTO crearBedelDTO(Bedel unBedel){
