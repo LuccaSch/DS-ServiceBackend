@@ -11,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ds.tp.models.dto.BedelDTO;
-import com.ds.tp.models.usuario.Bedel;
 import com.ds.tp.services.BedelService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
-@RequestMapping("/admin/rest")
+@RequestMapping("/admin/api")
 //ENDPOINT para la api rest
 public class AdminRestController {
     @Autowired
@@ -29,16 +28,16 @@ public class AdminRestController {
     }
 
     @GetMapping("/getBedel")
-    public List<Bedel> getBedel(){
+    public List<BedelDTO> getBedel(){
         return bedelService.getBedels();
     }
 
     @PostMapping("/postBedel")
     public ResponseEntity<Object> registrarBedel(@RequestBody BedelDTO unBedelDTO, HttpServletRequest request) {
-        
         //Sistema de logs, en este caso muestra la ip del cliente que solicita el registro, a futuro debemos almacenarlos en un txt y usar log4j
-        String clientIp = request.getRemoteAddr();
-        System.out.println("[INFO] Registro de bedel desde IP: " + clientIp);
+        String clientIp = "[POST /postBedel] Solicitud de registro de bedel desde IP: "+request.getRemoteAddr();
+        
+        System.out.print(clientIp);
 
         return this.bedelService.postBedel(unBedelDTO);
     }

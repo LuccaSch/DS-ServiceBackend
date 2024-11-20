@@ -51,7 +51,7 @@ public class Config {
         return http
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth -> auth
-            .requestMatchers("/").permitAll()
+            .requestMatchers("/","/css/index.css","/css/login.css","img/UTN_logo_public.png").permitAll()
             .requestMatchers(bedelResources).hasAuthority("ROLE_BEDEL")
             .requestMatchers(adminResources).hasAuthority("ROLE_ADMIN")  
             .anyRequest().authenticated()

@@ -44,7 +44,7 @@ let registrarBedel = async () => {
 
     try {
         limpiarMensajeError();
-        const peticion = await fetch("http://localhost:4400/admin/rest/postBedel", {
+        const peticion = await fetch("http://localhost:4400/admin/api/postBedel", {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

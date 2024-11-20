@@ -25,6 +25,15 @@ public class BedelDTO {
     @JsonProperty("turno")
     private int turno;
 
+    //constructor
+
+    public BedelDTO(String usuario, String nombre,String apellido, int turno) {
+        this.apellido = apellido;
+        this.nombre = nombre;
+        this.turno = turno;
+        this.usuario = usuario;
+    }
+
     // Getters y Setters
 
     public String getNombre() {

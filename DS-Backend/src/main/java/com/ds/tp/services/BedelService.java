@@ -3,6 +3,7 @@ package com.ds.tp.services;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -42,8 +43,9 @@ public class BedelService {
     }
 
     // Funciones del servicio BEDEL
-    public List<Bedel> getBedels() {
-        return this.bedelRepository.findAll();
+    public List<BedelDTO> getBedels() {
+        List<Bedel> bedelList = this.bedelRepository.findAll();
+        return this.crearListaBedelDto(bedelList);
     }
 
     public ResponseEntity<Object> postBedel(BedelDTO unBedelDTO) {
@@ -70,7 +72,7 @@ public class BedelService {
         Optional<Bedel> resultadoBedel = bedelRepository.findByUsuario(unBedelDTO.getUsuario());
         
         if (resultadoBedel.isPresent()) {
-            respuesta.put("mensaje", "El bedel ya está registrado: " + unBedelDTO.getUsuario());
+            respuesta.put("mensaje", "Usuario ya está registrado: " + unBedelDTO.getUsuario());
             respuesta.put("estado", false);
             return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
         }
@@ -78,7 +80,7 @@ public class BedelService {
         Optional<Administrador> resultadoAdmin = adminRepository.findByUsuario(unBedelDTO.getUsuario());
         
         if (resultadoAdmin.isPresent()) {
-            respuesta.put("mensaje", "El bedel ya está registrado: " + unBedelDTO.getUsuario());
+            respuesta.put("mensaje", "Usuario ya está registrado: " + unBedelDTO.getUsuario());
             respuesta.put("estado", false);
             return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
         }
@@ -129,5 +131,15 @@ public class BedelService {
 
     public boolean validarFormatoContrasenia(String contrasenia) {
         return empresaService.validarRequerimientoContrasenia(contrasenia);
+    }
+
+    public BedelDTO crearBedelDTO(Bedel unBedel){
+        return new BedelDTO(unBedel.getUsuario(), unBedel.getNombre(),unBedel.getApellido(),unBedel.getTurno());
+    }
+
+    public List<BedelDTO> crearListaBedelDto(List<Bedel> listaBedels){
+        return listaBedels.stream()
+                        .map(b -> crearBedelDTO(b))
+                        .collect(Collectors.toList());
     }
 }

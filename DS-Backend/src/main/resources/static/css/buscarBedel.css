@@ -104,3 +104,17 @@ ul li a{
     margin-right: 10px;
     color:#3f3d3d;
 }
+
+#bedel-list {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.bedel-item {
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+}
