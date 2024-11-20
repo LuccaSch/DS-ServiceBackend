@@ -179,7 +179,7 @@ public class BedelService {
     }
 
     public BedelDTO crearBedelDTO(Bedel unBedel){
-        return new BedelDTO(unBedel.getUsuario(), unBedel.getNombre(),unBedel.getApellido(),unBedel.getTurno());
+        return new BedelDTO(unBedel.getUsuario(), unBedel.getNombre(),unBedel.getApellido(),unBedel.getTurno(),unBedel.isEstado());
     }
 
     public List<BedelDTO> crearListaBedelDto(List<Bedel> listaBedels){

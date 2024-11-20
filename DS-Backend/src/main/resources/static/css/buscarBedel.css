@@ -23,43 +23,38 @@ input, select {
     align-items: center;         /* Centra el contenido horizontalmente */
     grid-template-columns: auto;
     width: 70%; /* ancho */
-    padding-top: px;
     margin: 0 auto;
     position: relative;
-    gap: 200px
+    gap: 200px;
 }
 
-.h1-titulo{
+.h1-titulo {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
-p label{
+p label {
     padding-right: 10px;
 }
 
-.boton-buscar{
+.boton-buscar {
     height: 40px;
-    width: 408px; 
-	border-radius: 5px;  
-	padding-left: 5px;
-	padding-right: 5px; 	
-	margin-bottom: 20px; 
-	margin-top: 10px; 	
-	text-transform: uppercase;
-	background-color: #9ac7ec; 
-	border-color: #6096c2; 
-	border-style: solid; 
-    border-radius: 5px;	
-	width: 120px;   
+    width: 120px; 
+    border-radius: 5px;  
+    margin-bottom: 20px; 
+    margin-top: 10px; 	
+    text-transform: uppercase;
+    background-color: #9ac7ec; 
+    border-color: #6096c2; 
+    border-style: solid; 
     cursor: pointer;
 }
-.boton-buscar:hover{
+.boton-buscar:hover {
     background-color: #6096c2;
 }
 
-/*encabezado*/
+/* Encabezado */
 .header {
     display: flex;
     justify-content: space-between;
@@ -82,8 +77,8 @@ ul li:hover {
     border-color: #6096c2;
 }
 
-ul li a{
-    color:#000000;
+ul li a {
+    color: #000000;
     margin: 40px;
     padding: 10px;
     text-decoration: none;
@@ -94,28 +89,84 @@ ul li a{
     align-items: center;
 }
 .imagen-usuario {
-    width: 50px; /* Ajusta el tamaño según tu imagen */
+    width: 50px;
     height: 50px;
     border-radius: 50%;
 }
 
 .nombre-usuario {
-    margin-left: 10px; /* Ajusta el espacio entre la imagen y el nombre */
+    margin-left: 10px;
     margin-right: 10px;
-    color:#3f3d3d;
+    color: #3f3d3d;
 }
 
+/* Listado de bedeles */
 #bedel-list {
     margin: 20px;
     padding: 10px;
     border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f5f5f5;
 }
 
+/* Elemento de Bedel */
 .bedel-item {
-    padding: 5px;
+    display: flex;
+    justify-content: space-between; /* Asegura que los elementos se distribuyan entre los extremos */
+    align-items: center;
+    padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ddd;
-    background-color: #f9f9f9;
     border-radius: 5px;
+    background-color: #f9f9f9; /* Default */
 }
 
+/* Estado activo/deshabilitado */
+.bedel-item.active {
+    background-color: lightgreen;
+}
+
+.bedel-item.disabled {
+    background-color: lightyellow;
+}
+
+/* Información del Bedel */
+.bedel-item span {
+    flex-grow: 1; /* Ocupa el espacio disponible */
+    margin-left: 10px; /* Espacio entre los datos y los botones */
+    text-align: left; /* Asegura que el texto quede alineado correctamente */
+    color: #333;
+}
+
+/* Contenedor de botones */
+.bedel-item .button-group {
+    display: flex;
+    gap: 10px; /* Espacio entre los botones */
+}
+
+/* Botones */
+.modificar-btn, .eliminar-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.modificar-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.eliminar-btn {
+    background-color: #dc3545;
+    color: white;
+}
+
+.modificar-btn:hover {
+    background-color: #0056b3;
+}
+
+.eliminar-btn:hover {
+    background-color: #a71d2a;
+}

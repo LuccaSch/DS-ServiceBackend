@@ -5,26 +5,21 @@ boton.addEventListener("click", function () {
     const valorBusqueda = document.getElementById("valor_busqueda").value;
     const filtroSeleccionado = document.getElementById("filtro").value;
 
-    // Validar que se haya seleccionado un filtro y que el valor de búsqueda no esté vacío
-
+    // Validamos que se haya seleccionado un filtro y que el valor de búsqueda no esté vacío
     if (filtroSeleccionado !== "0" && !valorBusqueda) {
-        // agregar un mensaje como en registrat bedel ->
-
         alert("Por favor, Escriba un valor de búsqueda.");
         return;
     }
 
-
-    // limpiamos el conteiner
+    // Limpiar contenedor antes de cargar
     bedelListContainer.innerHTML = "";
-
 
     const filtroDatos = {
         filtro: filtroSeleccionado,
         valorBusqueda: valorBusqueda
     };
 
-
+    //comienzo de la preticion
     fetch("/admin/api/getBedel", {
         method: "POST",
         headers: {
@@ -34,23 +29,67 @@ boton.addEventListener("click", function () {
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error("Error al obtener la lista de bedels");
+                throw new Error("Ocurrio un error inesperado intente mas tarde.");
             }
             return response.json();
         })
         .then(data => {
-            // Renderizarcion de los bedels en la lista
+            // Si el filtro no tiene ninguna coincidencia informamos y terminamos la ejecucion
 
-            //Preguntamos si hay concidencias
             if (data.length === 0) {
                 bedelListContainer.textContent = "No se encontraron bedels.";
                 return;
             }
 
             data.forEach(bedel => {
+                // Creamos el contenedor para cada bedel
+
                 const bedelItem = document.createElement("div");
                 bedelItem.className = "bedel-item";
-                bedelItem.textContent = `"Usuario": ${bedel.usuario} | "Nombre": ${bedel.nombre} | "Apellido": ${bedel.apellido} | "Turno": ${bedel.turno}`;
+
+                // Segun el estado le seteamos el color (verde:"ACTIVO" , amarillo:"ELIMINADO")
+                bedelItem.style.backgroundColor = bedel.estado ? "lightgreen" : "yellow";
+
+                const bedelInfo = document.createElement("span");
+                bedelInfo.textContent = `"Usuario": ${bedel.usuario} | "Nombre": ${bedel.nombre} | "Apellido": ${bedel.apellido} | "Turno": ${bedel.turno}`;
+                bedelItem.appendChild(bedelInfo);
+
+                // AGREGACION DE BOTONES
+
+                //MODIFICAR
+                const modificarBtn = document.createElement("button");
+                modificarBtn.textContent = "Modificar";
+                modificarBtn.className = "modificar-btn";
+                modificarBtn.addEventListener("click", () => {
+                    alert(`Modificar bedel con usuario: ${bedel.usuario}`);
+                });
+                bedelItem.appendChild(modificarBtn);
+
+                //ELIMINAR
+                const eliminarBtn = document.createElement("button");
+                eliminarBtn.textContent = "Eliminar";
+                eliminarBtn.className = "eliminar-btn";
+                eliminarBtn.addEventListener("click", () => {
+                    if (confirm(`¿Estás seguro de que deseas eliminar a ${bedel.usuario}?`)) {
+                        fetch(`/admin/api/deleteBedel/${bedel.usuario}`, {
+                            method: "DELETE",
+                        })
+                            .then(response => {
+                                if (!response.ok) {
+                                    throw new Error("Error al eliminar el bedel");
+                                }
+                                alert("Bedel eliminado correctamente");
+                                bedelItem.remove(); // Eliminar el elemento del DOM
+                            })
+                            .catch(error => {
+                                console.error("Error:", error);
+                                alert("No se pudo eliminar el bedel.");
+                            });
+                    }
+                });
+                bedelItem.appendChild(eliminarBtn);
+
+                // Agregar el Bedel al contenedor principal
                 bedelListContainer.appendChild(bedelItem);
             });
         })
