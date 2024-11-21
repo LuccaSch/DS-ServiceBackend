@@ -7,6 +7,9 @@
     <title>Buscar Bedel</title>
 </head>
 <body>
+
+    <!-- Cabecera -->
+
     <header class="header">
         <ul class="menu-ul">
             <li><a href="/admin">Inicio</a></li>
@@ -21,6 +24,8 @@
             </div>
         </div>
     </header>
+
+    <!-- Busqueda de bedels-->
     <div class="h1-titulo">
         <h1>BUSCAR BEDEL</h1>
     </div>
@@ -29,6 +34,7 @@
         <p>
             <label for="LabelBuscar" class="buscar_bedel_filtro">Valor de busqueda</label>
             <input type="text" name="Valor de busqueda" id="valor_busqueda">
+            <div id="mensajeError" class="mensaje-error" style="color: red;"></div>
         </p>
         <p>
             <label for="Filtro*" class="Filtro">Como buscar:</label>
@@ -42,11 +48,48 @@
 
         </div>
         <div id="bedel-list">
-            <!-- Aquí se llenará la lista dinámicamente -->
+            <!-- esta lista se llena dinamicamente desde js -->
         </div>
             
         </p>
         <button  class="boton-buscar" type="button" id="buscar" on>Buscar</button>
+    </div>
+
+
+    <!-- Modal de modificar bedel-->
+    <div id="modal-bedel" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2 id="modal-title">Modificar Bedel</h2>
+            <form id="bedel-form">
+                <input type="hidden" id="bedel-id" name="bedelId">
+                <p>
+                    <label for="bedel-usuario">Usuario:</label>
+                    <input type="text" id="bedel-usuario" name="usuario">
+                </p>
+                <p>
+                    <label for="bedel-nombre">Nombre:</label>
+                    <input type="text" id="bedel-nombre" name="nombre">
+                </p>
+                <p>
+                    <label for="bedel-apellido">Apellido:</label>
+                    <input type="text" id="bedel-apellido" name="apellido">
+                </p>
+                <p>
+                    <label for="bedel-turno">Turno:</label>
+                    <input type="text" id="bedel-turno" name="turno">
+                </p>
+                <div class="modal-buttons">
+                    <button type="button" id="save-button">Guardar</button>
+                    <button type="button" id="delete-button">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Eliminar bedel-->
+
+    <!-- script-->
     <script src="/js/buscarBedel.js"></script>
 </body>
 </html>

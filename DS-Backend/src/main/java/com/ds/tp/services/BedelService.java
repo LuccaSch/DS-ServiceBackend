@@ -44,7 +44,8 @@ public class BedelService {
     }
 
     // Funciones del servicio BEDEL
-    //-------------------------------------------------POST BEDEL------------------------------------------------------
+
+    //--------------------------------------------------POST BEDEL--------------------------------------------------
 
     public ResponseEntity<Object> postBedel(BedelDTO unBedelDTO) {
         HashMap<String, Object> respuesta = new HashMap<>();
@@ -131,7 +132,7 @@ public class BedelService {
         return empresaService.validarRequerimientoContrasenia(contrasenia);
     }
 
-    //--------------------------------------------------GETBEDELS----------------------------------------------
+    //--------------------------------------------------GETBEDELS--------------------------------------------------
 
     public ResponseEntity<Object> getBedels(FiltroBuscarBedelDTO filtroDatos) {
         try{
@@ -140,7 +141,6 @@ public class BedelService {
             //Bloque para busqueda por similitud de campos
 
             if (!filtroDatos.getFiltro().equals("0")) {
-
                 // Expresiones regulares para búsquedas por similitud
                 String valor = filtroDatos.getValorBusqueda();
                 Pattern pattern = Pattern.compile(valor, Pattern.CASE_INSENSITIVE);
@@ -179,12 +179,21 @@ public class BedelService {
     }
 
     public BedelDTO crearBedelDTO(Bedel unBedel){
-        return new BedelDTO(unBedel.getUsuario(), unBedel.getNombre(),unBedel.getApellido(),unBedel.getTurno(),unBedel.isEstado());
+        return new BedelDTO(unBedel.getId()
+                        ,unBedel.getUsuario()
+                        ,unBedel.getNombre()
+                        ,unBedel.getApellido()
+                        ,unBedel.getTurno()
+                        ,unBedel.isEstado());
     }
 
     public List<BedelDTO> crearListaBedelDto(List<Bedel> listaBedels){
         return listaBedels.stream()
-                        .map(b -> crearBedelDTO(b))
+                        .map(bedel -> crearBedelDTO(bedel))
                         .collect(Collectors.toList());
     }
+
+    //--------------------------------------------------DELETE BEDEL--------------------------------------------------
+
+    //--------------------------------------------------UPDATE BEDEL--------------------------------------------------
 }

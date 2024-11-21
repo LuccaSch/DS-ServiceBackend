@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 @Table(name = "aula_informatica")
 @PrimaryKeyJoinColumn(name = "id")  
 public class AulaInformatica extends Aula{
+    
     /*
     atributos heredados:
 
