@@ -4,35 +4,35 @@ public class RequerimientoContraseniaDTO{
 
     //a futuro habria que hacer el mapeo a json de los resultados de la consulta GET
 
-    private int cantDigitos;
-    private int cantMayusculas;
-    private int cantNumeros;
+    private Integer cantDigitos;
+    private Integer cantMayusculas;
+    private Integer cantNumeros;
 
     //getter / setter
     
-    public int getCantDigitos() {
+    public Integer getCantDigitos() {
         return cantDigitos;
     }
-    public void setCantDigitos(int cantDigitos) {
+    public void setCantDigitos(Integer cantDigitos) {
         this.cantDigitos = cantDigitos;
     }
-    public int getCantMayusculas() {
+    public Integer getCantMayusculas() {
         return cantMayusculas;
     }
-    public void setCantMayusculas(int cantMayusculas) {
+    public void setCantMayusculas(Integer cantMayusculas) {
         this.cantMayusculas = cantMayusculas;
     }
-    public int getCantNumeros() {
+    public Integer getCantNumeros() {
         return cantNumeros;
     }
-    public void setCantNumeros(int cantNumeros) {
+    public void setCantNumeros(Integer cantNumeros) {
         this.cantNumeros = cantNumeros;
     }
 
     //constructores
     public RequerimientoContraseniaDTO(){};
 
-    public RequerimientoContraseniaDTO(int cantDigitos, int cantMayusculas, int cantNumeros) {
+    public RequerimientoContraseniaDTO(Integer cantDigitos, Integer cantMayusculas, Integer cantNumeros) {
         this.cantDigitos = cantDigitos;
         this.cantMayusculas = cantMayusculas;
         this.cantNumeros = cantNumeros;

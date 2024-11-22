@@ -85,9 +85,20 @@ public class DSUtilResponseEntity {
     }
 
     //OK
-    public static ResponseEntity<Object> statusOk(String mensaje,Object cuerpo) {
-        return ResponseEntity.status(HttpStatus.OK).body(cuerpo);
+    public static ResponseEntity<Object> statusOk(String mensaje,Object resultado) {
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("mensaje", mensaje);
+        respuesta.put("resultado", resultado);
+        return ResponseEntity.status(HttpStatus.OK).body(respuesta);
     }
+
+        //OK
+        public static ResponseEntity<Object> statusOk(Object resultado) {
+            Map<String, Object> respuesta = new HashMap<>();
+            respuesta.put("resultado", resultado);
+            return ResponseEntity.status(HttpStatus.OK).body(respuesta);
+        }
+
 
 
 

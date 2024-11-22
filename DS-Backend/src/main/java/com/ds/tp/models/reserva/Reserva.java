@@ -25,15 +25,15 @@ public abstract class Reserva {
     protected Long id;
 
     @Column(name="id_docente")
-    protected long idDocente;
+    protected Long idDocente;
     @Column(name="id_asignatura")
-    protected long idAsignatura;
+    protected Long idAsignatura;
     @Column
     protected String nombreDocente;
     @Column
     protected String nombreAsignatura;
     @Column(name="cant_alumnos")
-    protected int cantAlumnos;
+    protected Integer cantAlumnos;
     @Column(name="fecha_registro")
     protected Timestamp fechaRegistroTimestamp;
 
@@ -49,17 +49,17 @@ public abstract class Reserva {
         this.id = id;
     }
 
-    public long getIdDocente() {
+    public Long getIdDocente() {
         return idDocente;
     }
-    public void setIdDocente(int idDocente) {
+    public void setIdDocente(Long idDocente) {
         this.idDocente = idDocente;
     }
 
-    public long getIdAsignatura() {
+    public Long getIdAsignatura() {
         return idAsignatura;
     }
-    public void setIdAsignatura(int idAsignatura) {
+    public void setIdAsignatura(Long idAsignatura) {
         this.idAsignatura = idAsignatura;
     }
 
@@ -77,10 +77,10 @@ public abstract class Reserva {
         this.nombreAsignatura = nombreAsignatura;
     }
 
-    public int getCantAlumnos() {
+    public Integer getCantAlumnos() {
         return cantAlumnos;
     }
-    public void setCantAlumnos(int cantAlumnos) {
+    public void setCantAlumnos(Integer cantAlumnos) {
         this.cantAlumnos = cantAlumnos;
     }
 

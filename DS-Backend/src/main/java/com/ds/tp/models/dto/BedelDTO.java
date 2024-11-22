@@ -26,14 +26,14 @@ public class BedelDTO {
     private String email;
 
     @JsonProperty("turno")
-    private int turno;
+    private Integer turno;
 
     @JsonProperty("estado")
-    private boolean estado;
+    private Boolean estado;
 
     //constructor
 
-    public BedelDTO(Long id,String usuario, String nombre,String apellido, int turno,boolean estado) {
+    public BedelDTO(Long id,String usuario, String nombre,String apellido, Integer turno,Boolean estado) {
         this.id=id;
         this.apellido = apellido;
         this.nombre = nombre;
@@ -84,11 +84,11 @@ public class BedelDTO {
         this.email = email;
     }
 
-    public int getTurno() {
+    public Integer getTurno() {
         return turno;
     }
 
-    public void setTurno(int turno) {
+    public void setTurno(Integer turno) {
         this.turno = turno;
     }
 
@@ -100,11 +100,11 @@ public class BedelDTO {
         this.confContrasenia = confContrasenia;
     }
 
-    public boolean isEstado() {
+    public Boolean isEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(Boolean estado) {
         this.estado = estado;
     }
 

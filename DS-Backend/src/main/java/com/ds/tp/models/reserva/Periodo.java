@@ -45,7 +45,7 @@ public class Periodo {
     }
 
     //getter/setter
-    public long getId() {
+    public Long getId() {
         return id;
     }
     public void setId(Long id) {

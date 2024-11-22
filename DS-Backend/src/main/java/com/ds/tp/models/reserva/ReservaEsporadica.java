@@ -29,7 +29,7 @@ public class ReservaEsporadica extends Reserva{
     public ReservaEsporadica(){}
 
     //constructor: todos los campos
-    public ReservaEsporadica(Bedel bedel, int cantAlumnos, Timestamp fechaRegistroTimestamp, int idAsignatura, int idDocente, String nombreAsignatura, String nombreDocente) {
+    public ReservaEsporadica(Bedel bedel, Integer cantAlumnos, Timestamp fechaRegistroTimestamp, Long idAsignatura, Long idDocente, String nombreAsignatura, String nombreDocente) {
         this.bedel = bedel;
         this.cantAlumnos = cantAlumnos;
         this.fechaRegistroTimestamp = fechaRegistroTimestamp;
@@ -40,7 +40,7 @@ public class ReservaEsporadica extends Reserva{
     }
 
     //constructor: Solo los campos que no pueden ser null
-    public ReservaEsporadica(Bedel bedel, int cantAlumnos, Timestamp fechaRegistroTimestamp, int idAsignatura, int idDocente) {
+    public ReservaEsporadica(Bedel bedel, Integer cantAlumnos, Timestamp fechaRegistroTimestamp, Long idAsignatura, Long idDocente) {
         this.bedel = bedel;
         this.cantAlumnos = cantAlumnos;
         this.fechaRegistroTimestamp = fechaRegistroTimestamp;

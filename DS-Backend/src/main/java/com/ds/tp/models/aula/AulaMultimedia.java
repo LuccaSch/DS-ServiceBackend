@@ -23,16 +23,16 @@ public class AulaMultimedia extends Aula{
     //atributos
 
     @Column
-    private boolean televisor;
+    private Boolean televisor;
 
     @Column
-    private boolean canion;
+    private Boolean canion;
 
     @Column
-    private boolean computadora;
+    private Boolean computadora;
 
     @Column
-    private boolean ventiladores;
+    private Boolean ventiladores;
 
     //constructores
 
@@ -40,7 +40,7 @@ public class AulaMultimedia extends Aula{
     public AulaMultimedia(){}
 
     //constructor: todos los campos
-    public AulaMultimedia(int maximoAlumnos, boolean estado, String piso, String tipoPizaarron, boolean aireAcondicionado,boolean televisor,boolean canion,boolean computadora, boolean ventiladores){
+    public AulaMultimedia(Integer maximoAlumnos, Boolean estado, String piso, String tipoPizaarron, Boolean aireAcondicionado,Boolean televisor,Boolean canion,Boolean computadora, Boolean ventiladores){
         this.maximoAlumnos = maximoAlumnos;
         this.estado = estado;
         this.piso = piso;
@@ -53,36 +53,36 @@ public class AulaMultimedia extends Aula{
     }
 
     //constructor: Solo los campos que no pueden ser null
-    public AulaMultimedia(int maximoAlumnos, boolean estado){
+    public AulaMultimedia(Integer maximoAlumnos, Boolean estado){
         this.maximoAlumnos = maximoAlumnos;
         this.estado = estado;
     }
 
-    public boolean isTelevisor() {
+    public Boolean isTelevisor() {
         return televisor;
     }
-    public void setTelevisor(boolean televisor) {
+    public void setTelevisor(Boolean televisor) {
         this.televisor = televisor;
     }
 
-    public boolean isCanion() {
+    public Boolean isCanion() {
         return canion;
     }
-    public void setCanion(boolean canion) {
+    public void setCanion(Boolean canion) {
         this.canion = canion;
     }
 
-    public boolean isComputadora() {
+    public Boolean isComputadora() {
         return computadora;
     }
-    public void setComputadora(boolean computadora) {
+    public void setComputadora(Boolean computadora) {
         this.computadora = computadora;
     }
 
-    public boolean isVentiladores() {
+    public Boolean isVentiladores() {
         return ventiladores;
     }
-    public void setVentiladores(boolean ventiladores) {
+    public void setVentiladores(Boolean ventiladores) {
         this.ventiladores = ventiladores;
     }
 }

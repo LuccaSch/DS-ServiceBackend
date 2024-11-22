@@ -161,7 +161,9 @@ document.getElementById("save-button").addEventListener("click", () => {
     })
         .then(response => {
             if (!response.ok) {
-                throw new Error("No se pudo actualizar el Bedel.");
+                return response.json().then(errorData => {
+                    throw new Error("No se pudo actualizar el Bedel: " + errorData.message); 
+                });
             }
             return response.json();
         })
