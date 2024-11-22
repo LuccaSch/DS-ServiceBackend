@@ -141,11 +141,13 @@ ul li a {
 /* Contenedor de botones */
 .bedel-item .button-group {
     display: flex;
-    gap: 10px; /* Espacio entre los botones */
+    gap: 20px; /* Espacio entre los botones */
 }
 
 /* Botones */
 .modificar-btn, .eliminar-btn {
+    width: 70px;
+    height: 30px;
     padding: 5px 10px;
     border: none;
     border-radius: 3px;
@@ -214,20 +216,20 @@ ul li a {
     margin-top: 20px;
 }
 
-#save-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
+.btn-aceptar {
+    background-color: #4CAF50;  
+    color: white;  
+    border: none;  
+    padding: 10px 20px;  
+    border-radius: 5px;  
+    cursor: pointer;  
 }
 
-#save-button:hover {
-    background-color: #45a049;
+.btn-aceptar:hover {
+    background-color: #45a049; 
 }
 
-#delete-button {
+.btn-cancelar {
     background-color: #f44336;
     color: white;
     border: none;
@@ -236,6 +238,6 @@ ul li a {
     cursor: pointer;
 }
 
-#delete-button:hover {
+.btn-cancelar:hover {
     background-color: #e53935;
 }

@@ -1,5 +1,6 @@
 package com.ds.tp.services;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
@@ -150,15 +151,19 @@ public class BedelService {
                 switch (filtroDatos.getFiltro()) {
                     case "1" -> bedelList = bedelList.stream()
                                         .filter(bedel -> pattern.matcher(bedel.getUsuario()).find())
+                                        .sorted(Comparator.comparingLong(Bedel::getId))
                                         .collect(Collectors.toList());
                     case "2" -> bedelList = bedelList.stream()
                                         .filter(bedel -> pattern.matcher(bedel.getNombre()).find())
+                                        .sorted(Comparator.comparingLong(Bedel::getId))
                                         .collect(Collectors.toList());
                     case "3" -> bedelList = bedelList.stream()
                                         .filter(bedel -> pattern.matcher(bedel.getApellido()).find())
+                                        .sorted(Comparator.comparingLong(Bedel::getId))
                                         .collect(Collectors.toList());
                     case "4" -> bedelList = bedelList.stream()
                                         .filter(bedel -> bedel.getTurnoString().equals(valor))
+                                        .sorted(Comparator.comparingLong(Bedel::getId))
                                         .collect(Collectors.toList());                                     
                 }
             }
