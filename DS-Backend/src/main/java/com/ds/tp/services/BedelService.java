@@ -132,7 +132,7 @@ public class BedelService {
         return empresaService.validarRequerimientoContrasenia(contrasenia);
     }
 
-    //--------------------------------------------------GETBEDELS--------------------------------------------------
+    //--------------------------------------------------GET BEDELS--------------------------------------------------
 
     public ResponseEntity<Object> getBedels(FiltroBuscarBedelDTO filtroDatos) {
         try{
@@ -193,7 +193,60 @@ public class BedelService {
                         .collect(Collectors.toList());
     }
 
-    //--------------------------------------------------DELETE BEDEL--------------------------------------------------
-
     //--------------------------------------------------UPDATE BEDEL--------------------------------------------------
+    public ResponseEntity<Object> putBedel(BedelDTO bedelDTO){
+        try{
+            Optional<Bedel> bedelOptional= bedelRepository.findById(bedelDTO.getId());
+
+            if(bedelOptional.isEmpty()){
+                HashMap<String, Object> respuesta = new HashMap<>();
+                respuesta.put("mensaje", "El bedel que quiere modificar no existe");
+                respuesta.put("estado", false);
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
+            }
+
+            Bedel unBedel= actualizarBedel(bedelOptional, bedelDTO);
+
+            this.bedelRepository.save(unBedel);
+
+            BedelDTO respuestaBedelDTO = crearBedelDTO(unBedel);
+
+            return ResponseEntity.status(HttpStatus.OK).body(respuestaBedelDTO);
+        }
+        catch (DataAccessException e){
+            HashMap<String, Object> respuesta = new HashMap<>();
+            respuesta.put("mensaje", "Internal Server Error");
+            respuesta.put("estado", false);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(respuesta);
+        }
+        catch (Exception e) {
+            HashMap<String, Object> respuesta = new HashMap<>();
+            respuesta.put("mensaje", "Error Inesperado");
+            respuesta.put("estado", false);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
+        }
+    }
+
+    public Bedel actualizarBedel(Optional<Bedel> optionalBedel,BedelDTO bedelDTO){
+        Bedel bedel= optionalBedel.get();
+        if(!(bedelDTO.getNombre()==null)){
+            bedel.setNombre(bedelDTO.getNombre());
+        }
+
+        if(!(bedelDTO.getApellido()==null)){
+            bedel.setApellido(bedelDTO.getApellido());
+        }
+
+        if(!(bedelDTO.getTurno()==null)){
+            bedel.setTurno(bedelDTO.getTurno());
+        }
+
+        if(!(bedelDTO.getContrasenia()==null)){
+            bedel.setContrasenia(bedelDTO.getContrasenia());
+        }
+
+        return bedel;
+    }
+
+    //--------------------------------------------------DELETE BEDEL--------------------------------------------------
 }
