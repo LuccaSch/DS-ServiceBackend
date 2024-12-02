@@ -138,9 +138,9 @@ function openModalModificar(bedel) {
     const modal = document.getElementById("modal-modificar");
     document.getElementById("bedel-id").value = bedel.id;
     document.getElementById("bedel-modificar-usuario").value = bedel.usuario;
-    document.getElementById("bedel-modificar-nombre").value = bedel.nombre;
-    document.getElementById("bedel-modificar-apellido").value = bedel.apellido;
-    document.getElementById("bedel-modificar-turno").value = bedel.turno;
+    document.getElementById("bedel-modificar-nombre").placeholder = bedel.nombre;
+    document.getElementById("bedel-modificar-apellido").placeholder = bedel.apellido;
+    document.getElementById("bedel-modificar-turno").placeholder = bedel.turno;
     modal.style.display = "block";
 }
 
@@ -151,13 +151,13 @@ function closeModalModificar() {
 document.getElementById("cancel-modificar-button").addEventListener("click", closeModalModificar);
 
 document.getElementById("save-modificar-button").addEventListener("click", () => {
-    const updatedBedel = {
-        id: document.getElementById("bedel-id").value,
+    let updatedBedel = {
+        id : document.getElementById("bedel-id").value,
         usuario: document.getElementById("bedel-modificar-usuario").value,
-        nombre: document.getElementById("bedel-modificar-nombre").value,
-        apellido: document.getElementById("bedel-modificar-apellido").value,
-        turno: document.getElementById("bedel-modificar-turno").value
-    };
+        nombre: document.getElementById("bedel-modificar-nombre").value || null,
+        apellido: document.getElementById("bedel-modificar-apellido").value || null,
+        turno: document.getElementById("bedel-modificar-turno").value || null
+    }
 
     fetch(`/admin/api/updateBedel`, {
         method: "PUT",

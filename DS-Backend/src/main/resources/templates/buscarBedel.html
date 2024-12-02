@@ -32,28 +32,29 @@
 
     <div class="container">
         <p>
-            <label for="LabelBuscar" class="buscar_bedel_filtro">Valor de busqueda</label>
-            <input type="text" name="Valor de busqueda" id="valor_busqueda">
-            <div id="mensajeError" class="mensaje-error" style="color: red;"></div>
+            <label for="valor_busqueda" class="buscar_bedel_filtro">Valor de búsqueda:</label>
+            <input type="text" name="valor_de_busqueda" id="valor_busqueda">
         </p>
         <p>
-            <label for="Filtro*" class="Filtro">Como buscar:</label>
-            <select name="select" id="filtro" >
-                <option value="0" selected >Seleccion de busqueda</option>
+            <label for="filtro" class="Filtro">Como buscar:</label>
+            <select name="select" id="filtro">
+                <option value="0" selected>Seleccion de búsqueda</option>
                 <option value="1">Usuario</option>
                 <option value="2">Nombre</option>
                 <option value="3">Apellido</option>
                 <option value="4">Turno</option>
             </select>
-
-        </div>
-        <div id="bedel-list">
-            <!-- esta lista se llena dinamicamente desde js -->
-        </div>
-            
         </p>
-        <button  class="boton-buscar" type="button" id="buscar">Buscar</button>
     </div>
+    
+    <div id="mensajeError" class="mensaje-error" style="color: red;"></div>
+    
+    <div id="bedel-list">
+         <!-- esta lista se llena dinámicamente desde JS -->
+    </div>
+    
+    <button class="boton-buscar" type="button" id="buscar">Buscar</button>
+    
 
 
     <!-- Modal de modificar bedel-->
