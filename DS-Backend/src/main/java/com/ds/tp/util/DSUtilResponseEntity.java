@@ -60,7 +60,6 @@ public class DSUtilResponseEntity {
     }
 
     //Conflict
-
     public static ResponseEntity<Object> statusConflict(String mensaje) {
         Map<String, Object> respuesta = new HashMap<>();
         respuesta.put("mensaje", mensaje);
@@ -92,15 +91,18 @@ public class DSUtilResponseEntity {
         return ResponseEntity.status(HttpStatus.OK).body(respuesta);
     }
 
-        //OK
-        public static ResponseEntity<Object> statusOk(Object resultado) {
-            Map<String, Object> respuesta = new HashMap<>();
-            respuesta.put("resultado", resultado);
-            return ResponseEntity.status(HttpStatus.OK).body(respuesta);
-        }
+    //OK
+    public static ResponseEntity<Object> statusOk(Object resultado) {
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("resultado", resultado);
+        return ResponseEntity.status(HttpStatus.OK).body(respuesta);
+    }
 
-
-
+    public static ResponseEntity<Object> statusOk(String mensaje){
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("mensaje", mensaje);
+        return ResponseEntity.status(HttpStatus.OK).body(respuesta);
+    }
 
 }
 

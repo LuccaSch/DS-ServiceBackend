@@ -1,8 +1,7 @@
 const boton = document.getElementById('buscar');
 const mensajeError = document.getElementById("mensajeError");
 
-// BUSQUEDA DE BEDELS
-
+// BUSQUEDA DE BEDELES
 boton.addEventListener("click", function () {
     const bedelListContainer = document.getElementById("bedel-list");
     const valorBusqueda = document.getElementById("valor_busqueda").value;
@@ -25,7 +24,7 @@ boton.addEventListener("click", function () {
     };
 
     // Comienzo de la petición
-    try{
+    try {
         limpiarMensajeError();
 
         fetch("/admin/api/getBedel", {
@@ -43,111 +42,122 @@ boton.addEventListener("click", function () {
             })
             .then(data => {
 
-                // Si el filtro no tiene ninguna coincidencia informamos y terminamos la ejecución
-
+                // Si no hay coincidencias, informamos
                 if (data.length === 0) {
-                    bedelListContainer.textContent = "No se encontraron bedels.";
+                    bedelListContainer.textContent = "No se encontraron bedeles.";
                     return;
                 }
 
                 data.forEach(bedel => {
                     // Creamos el contenedor para cada bedel
-
                     const bedelItem = document.createElement("div");
                     bedelItem.className = "bedel-item";
-
-                    // Según el estado le seteamos el color (verde:"ACTIVO", amarillo:"ELIMINADO")
                     bedelItem.style.backgroundColor = bedel.estado ? "lightgreen" : "yellow";
 
                     const bedelInfo = document.createElement("span");
                     bedelInfo.textContent = `"ID": ${bedel.id} | "Usuario": ${bedel.usuario} | "Nombre": ${bedel.nombre} | "Apellido": ${bedel.apellido} | "Turno": ${bedel.turno}`;
                     bedelItem.appendChild(bedelInfo);
 
-                    //Consultamos el estado del bedel 
-
-                    bedelItem.style.backgroundColor = bedel.estado ? "lightgreen" : "yellow";
-                    // AGREGACIÓN DE BOTONES
-
-                    // MODIFICAR
+                    // Botón para modificar
                     const modificarBtn = document.createElement("button");
                     modificarBtn.textContent = "Modificar";
                     modificarBtn.className = "modificar-btn";
                     modificarBtn.addEventListener("click", () => {
-                        openModalModificar(bedel); 
+                        openModalModificar(bedel);
                     });
                     bedelItem.appendChild(modificarBtn);
 
-                    // ELIMINAR
+                    // Botón para eliminar/activar
                     const eliminarBtn = document.createElement("button");
-                    eliminarBtn.textContent = bedel.estado ? "Eliminar" : " Activar ";
+                    eliminarBtn.textContent = bedel.estado ? "Eliminar" : "Activar";
                     eliminarBtn.className = "eliminar-btn";
-                    eliminarBtn.style.backgroundColor = bedel.estado ? "lightred" : "green";
+                    eliminarBtn.style.backgroundColor = bedel.estado ? "red" : "green";
                     eliminarBtn.addEventListener("click", () => {
-                        openModalEliminar(bedel);
+                        toggleEstadoBedel(bedel, eliminarBtn, bedelItem);
                     });
                     bedelItem.appendChild(eliminarBtn);
 
-                    // Agregar el Bedel al contenedor de bedels
                     bedelListContainer.appendChild(bedelItem);
                 });
             })
             .catch(error => {
                 console.error("Error:", error);
-                bedelListContainer.textContent = "No se pudo cargar la lista de bedels.";
+                bedelListContainer.textContent = "No se pudo cargar la lista de bedeles.";
             });
-    }
-    catch(error){
+    } catch (error) {
         console.log("Error en la petición: " + error.message);
-        mensajeError.textContent = "Error al realizar la peticion, por favor intente mas tarde.";
+        mensajeError.textContent = "Error al realizar la petición, por favor intente más tarde.";
     }
 });
 
 const mostrarMensajeError = (mensaje) => {
     mensajeError.textContent = mensaje;
-}
+};
 
 const limpiarMensajeError = () => {
     mensajeError.textContent = "";
+};
+
+// TOGGLE ESTADO (Activar/Eliminar)
+function toggleEstadoBedel(bedel, button, bedelItem) {
+    const url = bedel.estado 
+        ? `/admin/api/deleteBedel/${bedel.id}` 
+        : `/admin/api/activarBedel/${bedel.id}`;
+    const nuevoEstado = !bedel.estado;
+
+    fetch(url, {
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(errorData => {
+                    throw new Error("Error al cambiar estado del bedel: " + errorData.message);
+                });
+            }
+            return response.json();
+        })
+        .then(() => {
+            // Actualizamos el estado visual del Bedel
+            bedel.estado = nuevoEstado;
+            bedelItem.style.backgroundColor = bedel.estado ? "lightgreen" : "yellow";
+            button.textContent = bedel.estado ? "Eliminar" : "Activar";
+            button.style.backgroundColor = bedel.estado ? "red" : "green";
+            alert(`Bedel ${bedel.estado ? "activado" : "eliminado"} correctamente.`);
+        })
+        .catch(error => {
+            console.error("Error:", error);
+            alert("Ocurrió un error al intentar cambiar el estado del Bedel.");
+        });
 }
 
-// MODIFICACION
-
-//Funcion para abrir el Modal de modificacon
+// FUNCIONES PARA MODAL MODIFICAR
 function openModalModificar(bedel) {
     const modal = document.getElementById("modal-modificar");
-
     document.getElementById("bedel-id").value = bedel.id;
     document.getElementById("bedel-modificar-usuario").value = bedel.usuario;
-    document.getElementById("bedel-modificar-nombre").placeholder = bedel.nombre;
-    document.getElementById("bedel-modificar-apellido").placeholder = bedel.apellido;
-    document.getElementById("bedel-modificar-turno").placeholder = bedel.turno;
-
+    document.getElementById("bedel-modificar-nombre").value = bedel.nombre;
+    document.getElementById("bedel-modificar-apellido").value = bedel.apellido;
+    document.getElementById("bedel-modificar-turno").value = bedel.turno;
     modal.style.display = "block";
 }
 
-// Función para cerrar el modal de modificacon
 function closeModalModificar() {
-    const modal = document.getElementById("modal-modificar");
-    modal.style.display = "none";
+    document.getElementById("modal-modificar").style.display = "none";
 }
 
-// Botones dentro del modal
+document.getElementById("cancel-modificar-button").addEventListener("click", closeModalModificar);
 
-//cancelar
-
-document.getElementById("cancel-modificar-button").addEventListener("click", () => {
-    closeModalModificar();
-})
-
-// Guardar modificacion
 document.getElementById("save-modificar-button").addEventListener("click", () => {
-    let updatedBedel = {
-        id : document.getElementById("bedel-id").value,
+    const updatedBedel = {
+        id: document.getElementById("bedel-id").value,
         usuario: document.getElementById("bedel-modificar-usuario").value,
-        nombre: document.getElementById("bedel-modificar-nombre").value || null,
-        apellido: document.getElementById("bedel-modificar-apellido").value || null,
-        turno: document.getElementById("bedel-modificar-turno").value || null
-    }
+        nombre: document.getElementById("bedel-modificar-nombre").value,
+        apellido: document.getElementById("bedel-modificar-apellido").value,
+        turno: document.getElementById("bedel-modificar-turno").value
+    };
 
     fetch(`/admin/api/updateBedel`, {
         method: "PUT",
@@ -158,93 +168,16 @@ document.getElementById("save-modificar-button").addEventListener("click", () =>
     })
         .then(response => {
             if (!response.ok) {
-                return response.json().then(errorData => {
-                    throw new Error("No se pudo actualizar el Bedel: " + errorData.message); 
-                });
+                throw new Error("Error al actualizar el Bedel.");
             }
             return response.json();
         })
-        .then(data => {
+        .then(() => {
             alert("Bedel actualizado correctamente.");
             closeModalModificar();
         })
         .catch(error => {
             console.error("Error:", error);
-            alert("Ocurrió un error al intentar actualizar el Bedel.");
+            alert("Ocurrió un error al actualizar el Bedel.");
         });
-})
-
-document.querySelector("#close-button-modificar").addEventListener("click", closeModalModificar);
-
-
-window.addEventListener("click", (event) => {
-    const modal = document.getElementById("modal-modificar");
-    if (event.target === modal) {
-        closeModalModificar();
-    }
-});
-
-// ELIMINACION
-
-// modal de eliminación
-function openModalEliminar(bedel) {
-    const modal = document.getElementById("modal-eliminar");
-
-    // Mostrar los datos del Bedel en el modal
-    document.getElementById("bedel-eliminar-usuario").value = bedel.usuario;
-    document.getElementById("bedel-eliminar-nombre").value = bedel.nombre;
-    document.getElementById("bedel-eliminar-apellido").value = bedel.apellido;
-    document.getElementById("bedel-eliminar-turno").value = bedel.turno;
-
-    // Mostrar el modal
-    modal.style.display = "block";
-}
-
-// Función para cerrar el modal
-function closeModalEliminar() {
-    const modal = document.getElementById("modal-eliminar");
-    modal.style.display = "none";
-}
-
-document.getElementById("cancel-delete-button").addEventListener("click", () => {
-    closeModalEliminar();
-})
-
-// Eliminar el Bedel
-document.getElementById("save-delete-button").addEventListener("click", () => {
-    bedelId = document.getElementById("bedel-id").value;
-
-    fetch(`/admin/api/deleteBedel/${bedelId}`, {
-        method: "DELETE",
-        headers: {
-            "Content-Type": "application/json"
-        }
-    })
-    .then(response => {
-        if (!response.ok) {
-            return response.json().then(errorData => {
-                throw new Error("No se pudo eliminar el Bedel: " + errorData.message); 
-            });
-        }
-        return response.json();
-    })
-    .then(data => {
-        alert("Bedel eliminado correctamente.");
-        closeModalEliminar(); // Cerrar el modal después de eliminar
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        alert("Ocurrió un error al intentar eliminar el Bedel.");
-    });
-});
-
-// Cerrar el modal al hacer clic en la X
-document.querySelector("#close-button-eliminar").addEventListener("click", closeModalEliminar);
-
-// Cerrar el modal si se hace clic fuera de él
-window.addEventListener("click", (event) => {
-    const modal = document.getElementById("modal-eliminar");
-    if (event.target === modal) {
-        closeModalEliminar();
-    }
 });

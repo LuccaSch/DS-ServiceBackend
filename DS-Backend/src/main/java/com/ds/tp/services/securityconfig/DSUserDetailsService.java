@@ -29,7 +29,7 @@ public class DSUserDetailsService implements UserDetailsService {
         
         Optional<Bedel> bedel = bedelRepository.findByUsuario(user);
 
-        if (bedel.isPresent()) {
+        if (bedel.isPresent() && bedel.get().isEstado()) {
             return new org.springframework.security.core.userdetails.User(
                     bedel.get().getUsuario(),
                     bedel.get().getContrasenia(),

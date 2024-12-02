@@ -2,6 +2,7 @@ package com.ds.tp.controllers.admin;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -49,6 +50,16 @@ public class AdminRestController {
     public ResponseEntity<Object> actualizarBedel(@RequestBody BedelDTO bedelDTO) {
 
         return this.bedelService.putBedel(bedelDTO);
+    }
+
+    @PutMapping("/deleteBedel/{id}")
+    public ResponseEntity<Object> deleteBedel(@PathVariable Long id){
+        return bedelService.deleteBedel(id);
+    }
+    
+    @PutMapping("/activarBedel/{id}")
+    public ResponseEntity<Object> activateBedel(@PathVariable Long id) {
+        return bedelService.activateBedel(id);
     }
 }
 

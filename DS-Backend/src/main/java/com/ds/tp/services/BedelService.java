@@ -269,4 +269,68 @@ public class BedelService {
 
 
     //--------------------------------------------------DELETE BEDEL--------------------------------------------------
+
+    public ResponseEntity<Object> deleteBedel(Long id){
+        try{
+            Optional<Bedel> bedelOptional = bedelRepository.findById(id);
+
+            if(bedelOptional.isEmpty()){
+                return DSUtilResponseEntity.statusBadRequest("Error al intentar eliminar bedel, no existe dentro de la base de datos");
+            }
+
+            Bedel bedel = bedelOptional.get();
+
+            if(!bedel.isEstado()){
+                return DSUtilResponseEntity.statusBadRequest("Error se quiere eliminar un bedel que ya se encuentra inactivo");
+            }
+
+            bedel.setEstado(false);
+
+            bedelRepository.save(bedel);
+
+            return DSUtilResponseEntity.statusOk("Bedel Eliminado correctamente");
+        }
+        catch (DataAccessException e) {
+            System.out.println("Error de acceso a datos: " + e.getMessage());
+
+            return DSUtilResponseEntity.statusInternalServerError("Error interno del Servidor, por favor intentar mas tarde");
+        }
+        catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+
+            return DSUtilResponseEntity.statusInternalServerError("Error inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
+        }
+    }
+
+    public ResponseEntity<Object> activateBedel(Long id){
+        try{
+            Optional<Bedel> bedelOptional = bedelRepository.findById(id);
+
+            if(bedelOptional.isEmpty()){
+                return DSUtilResponseEntity.statusBadRequest("Error al intentar activar el bedel, no existe dentro de la base de datos");
+            }
+
+            Bedel bedel = bedelOptional.get();
+
+            if(bedel.isEstado()){
+                return DSUtilResponseEntity.statusBadRequest("Error se quiere activar un bedel que ya se encuentra inactivo");
+            }
+
+            bedel.setEstado(true);
+
+            bedelRepository.save(bedel);
+
+            return DSUtilResponseEntity.statusOk("Bedel Activado correctamente");
+        }
+        catch (DataAccessException e) {
+            System.out.println("Error de acceso a datos: " + e.getMessage());
+
+            return DSUtilResponseEntity.statusInternalServerError("Error interno del Servidor, por favor intentar mas tarde");
+        }
+        catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+
+            return DSUtilResponseEntity.statusInternalServerError("Error inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
+        }
+    }
 }
