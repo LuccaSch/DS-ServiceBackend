@@ -1,16 +1,16 @@
 package com.ds.tp.controllers.admin;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ds.tp.models.dto.BedelDTO;
+import com.ds.tp.models.dto.FiltroBuscarBedelDTO;
 import com.ds.tp.services.BedelService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,9 +27,13 @@ public class AdminRestController {
         this.bedelService = bedelService;
     }
 
-    @GetMapping("/getBedel")
-    public List<BedelDTO> getBedel(){
-        return bedelService.getBedels();
+    @PostMapping("/getBedel")
+    public ResponseEntity<Object> buscarBedel(@RequestBody FiltroBuscarBedelDTO filtroDatos, HttpServletRequest request) {
+        String clientIp = "[GET /getBedel] Solicitud de consulta de bedels desde IP: "+request.getRemoteAddr();
+
+        System.out.print(clientIp);
+
+        return this.bedelService.getBedels(filtroDatos);
     }
 
     @PostMapping("/postBedel")
@@ -41,4 +45,23 @@ public class AdminRestController {
 
         return this.bedelService.postBedel(unBedelDTO);
     }
+
+    @PutMapping("/updateBedel")
+    public ResponseEntity<Object> actualizarBedel(@RequestBody BedelDTO bedelDTO) {
+
+        return this.bedelService.putBedel(bedelDTO);
+    }
+
+    @PutMapping("/deleteBedel/{id}")
+    public ResponseEntity<Object> deleteBedel(@PathVariable Long id){
+        return bedelService.deleteBedel(id);
+    }
+    
+    @PutMapping("/activarBedel/{id}")
+    public ResponseEntity<Object> activateBedel(@PathVariable Long id) {
+        return bedelService.activateBedel(id);
+    }
 }
+
+
+

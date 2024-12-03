@@ -13,7 +13,7 @@ let registrarBedel = async () => {
         turno: parseInt(document.getElementById("turno").value.replace(/\D/g, ''))
     };
 
-    // Validaciones de campos, muestra un error en el campo mensaje error dentro del html, deberiamos agregar un log interno¿?
+    // Validaciones de campos, muestra un error en el campo mensaje error 
 
     if (!bedel.nombre || !bedel.apellido || !bedel.usuario || !bedel.contrasenia || !bedel.confContrasenia || !bedel.email || !bedel.turno) {
         mensajeError.textContent = "Error: todos los campos son obligatorios.";
@@ -39,8 +39,6 @@ let registrarBedel = async () => {
         mensajeError.textContent = "Error: El apellido debe tener menos de 40 caracteres.";
         return;
     }
-
-    // es nesesario agregar la verificacion de la contraseña aca o solo se verifica si son iguales y se hace la verificacion en service¿?
 
     try {
         limpiarMensajeError();

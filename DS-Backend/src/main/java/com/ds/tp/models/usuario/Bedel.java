@@ -22,9 +22,9 @@ public class Bedel extends Usuario{
     //atributos
 
     @Column
-    private int turno;
+    private Integer turno;
     @Column(nullable=false)
-    private boolean estado;
+    private Boolean estado;
 
     //constructor
 
@@ -32,7 +32,7 @@ public class Bedel extends Usuario{
     public Bedel(){}
 
     //constructor: todos los campos
-    public Bedel(String usuario, String nombre, String apellido, String contrasenia,int turno,boolean estado){
+    public Bedel(String usuario, String nombre, String apellido, String contrasenia,Integer turno,Boolean estado){
         this.usuario=usuario;
         this.nombre=nombre;
         this.contrasenia=contrasenia;
@@ -42,7 +42,7 @@ public class Bedel extends Usuario{
     }
 
     //constructor: Solo los campos que no pueden ser null
-    public Bedel(String usuario,String contrasenia,int turno,boolean estado){
+    public Bedel(String usuario,String contrasenia,Integer turno,Boolean estado){
         this.usuario=usuario;
         this.contrasenia=contrasenia;
         this.turno=turno;
@@ -50,19 +50,23 @@ public class Bedel extends Usuario{
     }
 
     //getter/setter
-    public int getTurno() {
+    public Integer getTurno() {
         return turno;
     }
 
-    public void setTurno(int turno) {
+    public void setTurno(Integer turno) {
         this.turno = turno;
     }
 
-    public boolean isEstado() {
+    public String getTurnoString(){
+        return String.valueOf(this.turno);
+    }
+
+    public Boolean isEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(Boolean estado) {
         this.estado = estado;
     }
 

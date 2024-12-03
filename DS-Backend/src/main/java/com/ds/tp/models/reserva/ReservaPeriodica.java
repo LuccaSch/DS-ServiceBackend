@@ -36,7 +36,7 @@ public class ReservaPeriodica extends Reserva{
     public ReservaPeriodica(){}
 
     //constructor: todos los campos
-    public ReservaPeriodica(Bedel bedel, int cantAlumnos, Timestamp fechaRegistroTimestamp, int idAsignatura, int idDocente, String nombreAsignatura, String nombreDocente,Periodo periodo) {
+    public ReservaPeriodica(Bedel bedel, Integer cantAlumnos, Timestamp fechaRegistroTimestamp, Long idAsignatura, Long idDocente, String nombreAsignatura, String nombreDocente,Periodo periodo) {
         this.bedel = bedel;
         this.cantAlumnos = cantAlumnos;
         this.fechaRegistroTimestamp = fechaRegistroTimestamp;
@@ -48,7 +48,7 @@ public class ReservaPeriodica extends Reserva{
     }
 
     //constructor: Solo los campos que no pueden ser null
-    public ReservaPeriodica(Bedel bedel, int cantAlumnos, Timestamp fechaRegistroTimestamp, int idAsignatura, int idDocente,Periodo periodo){
+    public ReservaPeriodica(Bedel bedel, Integer cantAlumnos, Timestamp fechaRegistroTimestamp, Long idAsignatura, Long idDocente,Periodo periodo){
         this.bedel = bedel;
         this.cantAlumnos = cantAlumnos;
         this.fechaRegistroTimestamp = fechaRegistroTimestamp;

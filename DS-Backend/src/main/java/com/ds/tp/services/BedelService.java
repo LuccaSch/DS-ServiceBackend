@@ -1,8 +1,9 @@
 package com.ds.tp.services;
 
-import java.util.HashMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,14 +14,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.ds.tp.models.dto.BedelDTO;
+import com.ds.tp.models.dto.FiltroBuscarBedelDTO;
 import com.ds.tp.models.usuario.Administrador;
 import com.ds.tp.models.usuario.Bedel;
 import com.ds.tp.repositories.AdminRepository;
 import com.ds.tp.repositories.BedelRepository;
+import com.ds.tp.util.DSUtilResponseEntity;
 
 @Service
 public class BedelService {
-    // Atributos inyectados por Spring
+    
+    // Atributos inyectados por Spring (El passwordEncoder de seguridad, se puede redefinir en passwordEncoder() dentro de config)
     @Autowired
     private final BedelRepository bedelRepository;
 
@@ -30,7 +34,6 @@ public class BedelService {
     @Autowired
     private final AdminRepository adminRepository;
 
-    // El passwordEncoder es inyectado desde la configuración de seguridad, se puede redefinir en passwordEncoder() dentro de config
     @Autowired
     private final PasswordEncoder passwordEncoder; 
 
@@ -42,47 +45,39 @@ public class BedelService {
         this.adminRepository = adminRepository;
     }
 
-    // Funciones del servicio BEDEL
-    public List<BedelDTO> getBedels() {
-        List<Bedel> bedelList = this.bedelRepository.findAll();
-        return this.crearListaBedelDto(bedelList);
-    }
+    // FUNCIONES DEL SERVICIO BEDEL
+
+    //--------------------------------------------------POST BEDEL--------------------------------------------------
 
     public ResponseEntity<Object> postBedel(BedelDTO unBedelDTO) {
-        HashMap<String, Object> respuesta = new HashMap<>();
-
         Optional<String> resultadoValidacion = verificarDatos(unBedelDTO);
 
         // Verificación de datos del bedel
         if (resultadoValidacion.isPresent()) {
-            respuesta.put("mensaje", resultadoValidacion.get());
-            respuesta.put("estado", false);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(respuesta);
+            return DSUtilResponseEntity.statusBadRequest(resultadoValidacion.get());
         }
         
         // Verificar el formato de la contraseña
         if (!validarFormatoContrasenia(unBedelDTO.getContrasenia())) {
-            respuesta.put("mensaje", "ERROR: Formato de contraseña invalido");
-            respuesta.put("estado", false);
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
+            return DSUtilResponseEntity.statusConflict("ERROR: Formato de contraseña invalido");
         }
 
-        // Verificar si el usuario ya existe, tanto como bedel como admin.
+        // Verificar si el usuario ya existe, tanto como bedel o como admin.
 
         Optional<Bedel> resultadoBedel = bedelRepository.findByUsuario(unBedelDTO.getUsuario());
         
         if (resultadoBedel.isPresent()) {
-            respuesta.put("mensaje", "Usuario ya está registrado: " + unBedelDTO.getUsuario());
-            respuesta.put("estado", false);
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
+            String mensajeRetorno="Usuario ya está registrado: " + unBedelDTO.getUsuario();
+
+            return DSUtilResponseEntity.statusConflict(mensajeRetorno);
         }
 
         Optional<Administrador> resultadoAdmin = adminRepository.findByUsuario(unBedelDTO.getUsuario());
         
         if (resultadoAdmin.isPresent()) {
-            respuesta.put("mensaje", "Usuario ya está registrado: " + unBedelDTO.getUsuario());
-            respuesta.put("estado", false);
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(respuesta);
+            String mensajeRetorno="Usuario ya está registrado: " + unBedelDTO.getUsuario();
+
+            return DSUtilResponseEntity.statusConflict(mensajeRetorno);
         }
         
         // Crear el objeto Bedel con la contraseña encriptada
@@ -91,15 +86,20 @@ public class BedelService {
         // Guardar el bedel en la base de datos
         try {
             bedelRepository.save(unBedel);
-            respuesta.put("mensaje", "El bedel se registró correctamente");
-            respuesta.put("estado", true);
+
             System.out.println("[INFO] Se registró: " + unBedel.toString());
-            return ResponseEntity.status(HttpStatus.CREATED).body(respuesta);
+
+            return DSUtilResponseEntity.statusCreated("El bedel se registró correctamente");
+
         } catch (DataAccessException e) {
             System.out.println("Error de acceso a datos: " + e.getMessage());
-            respuesta.put("mensaje", "Internal Server Error" + e.getMessage());
-            respuesta.put("estado", false);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(respuesta);
+
+            return DSUtilResponseEntity.statusInternalServerError("Error interno del Servidor, por favor intentar mas tarde");
+        }
+        catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+
+            return DSUtilResponseEntity.statusInternalServerError("Error inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
         }
     }
 
@@ -133,13 +133,223 @@ public class BedelService {
         return empresaService.validarRequerimientoContrasenia(contrasenia);
     }
 
+
+
+    //--------------------------------------------------GET BEDELS--------------------------------------------------
+
+    public ResponseEntity<Object> getBedels(FiltroBuscarBedelDTO filtroDatos) {
+        try{
+            List<Bedel> bedelList = this.bedelRepository.findAll();
+
+            //Bloque para busqueda por similitud de campos
+
+            if (!filtroDatos.getFiltro().equals("0")) {
+                // Expresiones regulares para búsquedas por similitud
+                String valor = filtroDatos.getValorBusqueda();
+                Pattern pattern = Pattern.compile(valor, Pattern.CASE_INSENSITIVE);
+
+                switch (filtroDatos.getFiltro()) {
+                    case "1" -> bedelList = bedelList.stream()
+                                        .filter(bedel -> pattern.matcher(bedel.getUsuario()).find())
+                                        .sorted(Comparator.comparingLong(Bedel::getId))
+                                        .collect(Collectors.toList());
+                    case "2" -> bedelList = bedelList.stream()
+                                        .filter(bedel -> pattern.matcher(bedel.getNombre()).find())
+                                        .sorted(Comparator.comparingLong(Bedel::getId))
+                                        .collect(Collectors.toList());
+                    case "3" -> bedelList = bedelList.stream()
+                                        .filter(bedel -> pattern.matcher(bedel.getApellido()).find())
+                                        .sorted(Comparator.comparingLong(Bedel::getId))
+                                        .collect(Collectors.toList());
+                    case "4" -> bedelList = bedelList.stream()
+                                        .filter(bedel -> bedel.getTurnoString().equals(valor))
+                                        .sorted(Comparator.comparingLong(Bedel::getId))
+                                        .collect(Collectors.toList());                                     
+                }
+            }
+            
+            List<BedelDTO> bedelListDTO= this.crearListaBedelDto(bedelList);
+
+            return ResponseEntity.status(HttpStatus.OK).body(bedelListDTO);
+        }
+        catch (DataAccessException e) {
+            System.out.println("Error de acceso a datos: " + e.getMessage());
+            return DSUtilResponseEntity.statusInternalServerError("Error interno del Servidor, por favor intentar mas tarde");
+        } 
+        catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+            return DSUtilResponseEntity.statusInternalServerError("Error inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
+        }
+    }
+
     public BedelDTO crearBedelDTO(Bedel unBedel){
-        return new BedelDTO(unBedel.getUsuario(), unBedel.getNombre(),unBedel.getApellido(),unBedel.getTurno());
+        return new BedelDTO(unBedel.getId()
+                        ,unBedel.getUsuario()
+                        ,unBedel.getNombre()
+                        ,unBedel.getApellido()
+                        ,unBedel.getTurno()
+                        ,unBedel.isEstado());
     }
 
     public List<BedelDTO> crearListaBedelDto(List<Bedel> listaBedels){
         return listaBedels.stream()
-                        .map(b -> crearBedelDTO(b))
+                        .map(bedel -> crearBedelDTO(bedel))
                         .collect(Collectors.toList());
+    }
+
+
+
+    //--------------------------------------------------UPDATE BEDEL--------------------------------------------------
+
+    public ResponseEntity<Object> putBedel(BedelDTO bedelDTO){
+        try{
+            Optional<Bedel> bedelOptional= bedelRepository.findById(bedelDTO.getId());
+
+            if(bedelOptional.isEmpty()){
+                return DSUtilResponseEntity.statusBadRequest("El bedel que quiere modificar no existe");
+            }
+
+            Bedel unBedel= bedelOptional.get();
+
+            try{
+                if(this.actualizarBedel(unBedel, bedelDTO)){
+
+                    this.bedelRepository.save(unBedel);
+
+                    BedelDTO bedelModificadoDTO = crearBedelDTO(unBedel);
+
+                    String mensaje= "Bedel modificado correctamente"+bedelModificadoDTO.getUsuario();
+
+                    return DSUtilResponseEntity.statusOk(mensaje,bedelModificadoDTO);
+
+                }
+                else{
+                    return DSUtilResponseEntity.statusBadRequest("No se modifico el bedel debido a que no se seleccionaron campos a modificar");
+                }
+            } catch (IllegalArgumentException e){
+                return DSUtilResponseEntity.statusBadRequest(e.getMessage());
+            }
+
+        }
+        catch (DataAccessException e) {
+            System.out.println("Error de acceso a datos: " + e.getMessage());
+
+            return DSUtilResponseEntity.statusInternalServerError("Error interno del Servidor, por favor intentar mas tarde");
+        }
+        catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+
+            return DSUtilResponseEntity.statusInternalServerError("Error inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
+        }
+    }
+
+    public boolean actualizarBedel(Bedel bedel,BedelDTO bedelDTO) throws IllegalArgumentException{
+
+        boolean actualizado=false;
+
+        if(!(bedelDTO.getNombre()==null)){
+            if(bedelDTO.getNombre().length()>40){
+                throw new IllegalArgumentException("Error: El nombre no puede tener mas de 40 caracteres.");
+            }
+            bedel.setNombre(bedelDTO.getNombre());
+            actualizado=true;
+        }
+
+        if(!(bedelDTO.getApellido()==null)){
+            if(bedelDTO.getApellido().length()>40){
+                throw new IllegalArgumentException("Error: El apellido no puede tener mas de 40 caracteres.");
+            }
+            bedel.setApellido(bedelDTO.getApellido());
+            actualizado=true;
+        }
+
+        if(!(bedelDTO.getTurno()==null)){
+            if(!(bedelDTO.getTurno().equals(1)) && !(bedelDTO.getTurno().equals(2))){
+                throw new IllegalArgumentException("Error: Solo existe el Turno 1 y 2, debe seleccionar el correcto");
+            }
+            bedel.setTurno(bedelDTO.getTurno());
+            actualizado=true;
+        }
+
+        if(!(bedelDTO.getContrasenia()==null)){
+            if(!(bedelDTO.getContrasenia().equals(bedelDTO.getConfContrasenia()))){
+                throw new IllegalArgumentException("Error: Las contraseñas deben ser iguales");
+            }
+            if(!(validarFormatoContrasenia(bedelDTO.getContrasenia()))){
+                throw new IllegalArgumentException("Error: La contraseña solicitada no cumple las condiciones de la empresa");
+            }
+            bedel.setContrasenia(passwordEncoder.encode(bedelDTO.getContrasenia()));
+            actualizado=true;
+        }
+
+        return actualizado;
+    }
+
+
+
+    //--------------------------------------------------DELETE BEDEL--------------------------------------------------
+
+    public ResponseEntity<Object> deleteBedel(Long id){
+        try{
+            Optional<Bedel> bedelOptional = bedelRepository.findById(id);
+
+            if(bedelOptional.isEmpty()){
+                return DSUtilResponseEntity.statusBadRequest("Error al intentar eliminar bedel, no existe dentro de la base de datos");
+            }
+
+            Bedel bedel = bedelOptional.get();
+
+            if(!bedel.isEstado()){
+                return DSUtilResponseEntity.statusBadRequest("Error se quiere eliminar un bedel que ya se encuentra inactivo");
+            }
+
+            bedel.setEstado(false);
+
+            bedelRepository.save(bedel);
+
+            return DSUtilResponseEntity.statusOk("Bedel Eliminado correctamente");
+        }
+        catch (DataAccessException e) {
+            System.out.println("Error de acceso a datos: " + e.getMessage());
+
+            return DSUtilResponseEntity.statusInternalServerError("Error interno del Servidor, por favor intentar mas tarde");
+        }
+        catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+
+            return DSUtilResponseEntity.statusInternalServerError("Error inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
+        }
+    }
+
+    public ResponseEntity<Object> activateBedel(Long id){
+        try{
+            Optional<Bedel> bedelOptional = bedelRepository.findById(id);
+
+            if(bedelOptional.isEmpty()){
+                return DSUtilResponseEntity.statusBadRequest("Error al intentar activar el bedel, no existe dentro de la base de datos");
+            }
+
+            Bedel bedel = bedelOptional.get();
+
+            if(bedel.isEstado()){
+                return DSUtilResponseEntity.statusBadRequest("Error se quiere activar un bedel que ya se encuentra inactivo");
+            }
+
+            bedel.setEstado(true);
+
+            bedelRepository.save(bedel);
+
+            return DSUtilResponseEntity.statusOk("Bedel Activado correctamente");
+        }
+        catch (DataAccessException e) {
+            System.out.println("Error de acceso a datos: " + e.getMessage());
+
+            return DSUtilResponseEntity.statusInternalServerError("Error interno del Servidor, por favor intentar mas tarde");
+        }
+        catch (Exception e) {
+            System.out.println("Error inesperado: " + e.getMessage());
+
+            return DSUtilResponseEntity.statusInternalServerError("Error inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
+        }
     }
 }

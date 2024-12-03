@@ -4,6 +4,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class BedelDTO {
 
+    @JsonProperty("id")
+    private Long id;
+
     @JsonProperty("nombre")
     private String nombre;
 
@@ -23,15 +26,20 @@ public class BedelDTO {
     private String email;
 
     @JsonProperty("turno")
-    private int turno;
+    private Integer turno;
+
+    @JsonProperty("estado")
+    private Boolean estado;
 
     //constructor
 
-    public BedelDTO(String usuario, String nombre,String apellido, int turno) {
+    public BedelDTO(Long id,String usuario, String nombre,String apellido, Integer turno,Boolean estado) {
+        this.id=id;
         this.apellido = apellido;
         this.nombre = nombre;
         this.turno = turno;
         this.usuario = usuario;
+        this.estado = estado;
     }
 
     // Getters y Setters
@@ -76,11 +84,11 @@ public class BedelDTO {
         this.email = email;
     }
 
-    public int getTurno() {
+    public Integer getTurno() {
         return turno;
     }
 
-    public void setTurno(int turno) {
+    public void setTurno(Integer turno) {
         this.turno = turno;
     }
 
@@ -90,5 +98,21 @@ public class BedelDTO {
 
     public void setConfContrasenia(String confContrasenia) {
         this.confContrasenia = confContrasenia;
+    }
+
+    public Boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

@@ -8,6 +8,7 @@
     <title>Registrar Bedel</title>
 </head>
 <body>
+    <!-- Cabecera -->
     <header class="header">
         <ul class="menu-ul">
             <li><a href="/admin">Inicio</a></li>
@@ -15,6 +16,8 @@
             <li><a href="/admin/registrarBedel">Registrar Bedel</a></li>
         </ul>
     </header>
+
+    <!-- Registro Bedel -->
     <div class="h1_bedel">
         <h1>REGISTRAR BEDEL</h1>
     </div>
@@ -56,19 +59,23 @@
             <span>*</span> Campos obligatorios.
         </p>
     </div>
+
+    <!-- Mensaje Error -->
     
     <div id="mensajeError" class="mensaje-error" style="color: red;"></div>
 
+    <!-- Botones -->
     <div class="botones-acep-cancel">
         <button class="btn-cancelar" type="button" id="cancelar" onclick="location.href='/admin'">Cancelar</button>
         <button class="btn-aceptar" type="button" id="registrar" onclick="registrarBedel()">Registrar</button>
     </div>
 
+    <!-- Modal para mostrar el resultado de la operacion -->
     <div id="resultadoModal" class="modal" style="display: none;">
         <div class="contenidoModal">
             <span id="cerrarModal" class="cerrar" style="cursor:pointer;">&times;</span>
             <h2 id="resultadoMensaje"></h2>
-            <button id="aceptarBtn" >Aceptar</button>
+            <button class="btn-aceptar" id="aceptarBtn" >Aceptar</button>
         </div>
     </div>
 </body>

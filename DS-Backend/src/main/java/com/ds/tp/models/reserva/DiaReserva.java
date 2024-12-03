@@ -29,7 +29,7 @@ public class DiaReserva{
     private LocalTime horaInicio;
 
     @Column
-    private int duracion;
+    private Integer duracion;
     
     @ManyToOne
     @JoinColumn(name = "id_aula",referencedColumnName="id",nullable=false)
@@ -42,7 +42,7 @@ public class DiaReserva{
     public DiaReserva(){}
 
     //constructor: todos los campos
-    public DiaReserva(Aula aula, int duracion, LocalDate fechaReserva, LocalTime horaInicio) {
+    public DiaReserva(Aula aula, Integer duracion, LocalDate fechaReserva, LocalTime horaInicio) {
         this.aula = aula;
         this.duracion = duracion;
         this.fechaReserva = fechaReserva;
@@ -50,7 +50,7 @@ public class DiaReserva{
     }
     
     //getter/setter
-    public long getId() {
+    public Long getId() {
         return id;
     }
     public void setId(Long id) {
@@ -68,10 +68,10 @@ public class DiaReserva{
     public void setHoraInicio(LocalTime horaInicio) {
         this.horaInicio = horaInicio;
     }
-    public int getDuracion() {
+    public Integer getDuracion() {
         return duracion;
     }
-    public void setDuracion(int duracion) {
+    public void setDuracion(Integer duracion) {
         this.duracion = duracion;
     }
     public Aula getAula() {

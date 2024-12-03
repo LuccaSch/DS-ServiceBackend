@@ -18,13 +18,13 @@ public abstract class Aula {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected long id;
+    protected Long id;
 
     @Column(name = "maximo_alumnos",nullable=false)
-    protected int maximoAlumnos;
+    protected Integer maximoAlumnos;
 
     @Column(nullable=false)
-    protected boolean estado;
+    protected Boolean estado;
 
     @Column
     protected String piso;
@@ -33,31 +33,31 @@ public abstract class Aula {
     protected String tipoPizarron;
 
     @Column(name = "aire_acondicionado")
-    protected boolean aireAcondicionado;
+    protected Boolean aireAcondicionado;
     
     // Getters y Setters
 
-    public long getIdAula() {
+    public Long getIdAula() {
         return id;
     }
     
-    public void setIdAula(long id) {
+    public void setIdAula(Long id) {
         this.id = id;
     }
 
-    public int getMaximoAlumnos() {
+    public Integer getMaximoAlumnos() {
         return maximoAlumnos;
     }
 
-    public void setMaximoAlumnos(int maximoAlumnos) {
+    public void setMaximoAlumnos(Integer maximoAlumnos) {
         this.maximoAlumnos = maximoAlumnos;
     }
 
-    public boolean isEstado() {
+    public Boolean isEstado() {
         return estado;
     }
 
-    public void setEstado(boolean estado) {
+    public void setEstado(Boolean estado) {
         this.estado = estado;
     }
 
@@ -77,11 +77,11 @@ public abstract class Aula {
         this.tipoPizarron = tipoPizaarron;
     }
 
-    public boolean isAireAcondicionado() {
+    public Boolean isAireAcondicionado() {
         return aireAcondicionado;
     }
 
-    public void setAireAcondicionado(boolean aireAcondicionado) {
+    public void setAireAcondicionado(Boolean aireAcondicionado) {
         this.aireAcondicionado = aireAcondicionado;
     }
 }

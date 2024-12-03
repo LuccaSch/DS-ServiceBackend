@@ -23,7 +23,7 @@ public class AulaSinRecursos extends Aula{
 
     //atributos
     @Column
-    protected boolean ventiladores;
+    protected Boolean ventiladores;
     
     @Column
     protected String descripcion;
@@ -34,7 +34,7 @@ public class AulaSinRecursos extends Aula{
     public AulaSinRecursos(){}
 
     //constructor: todos los campos
-    public AulaSinRecursos(int maximoAlumnos, boolean estado, String piso, String tipoPizaarron, boolean aireAcondicionado,boolean ventiladores,String descripcion){
+    public AulaSinRecursos(Integer maximoAlumnos, Boolean estado, String piso, String tipoPizaarron, Boolean aireAcondicionado,Boolean ventiladores,String descripcion){
         this.maximoAlumnos = maximoAlumnos;
         this.estado = estado;
         this.piso = piso;
@@ -45,16 +45,16 @@ public class AulaSinRecursos extends Aula{
     }
 
     //constructor: Solo los campos que no pueden ser null
-    public AulaSinRecursos(int maximoAlumnos, boolean estado){
+    public AulaSinRecursos(Integer maximoAlumnos, Boolean estado){
         this.maximoAlumnos = maximoAlumnos;
         this.estado = estado;
     }
 
     //getter/setter
-    public boolean isVentiladores() {
+    public Boolean isVentiladores() {
         return ventiladores;
     }
-    public void setVentiladores(boolean ventiladores) {
+    public void setVentiladores(Boolean ventiladores) {
         this.ventiladores = ventiladores;
     }
 

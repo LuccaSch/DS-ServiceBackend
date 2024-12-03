@@ -9,6 +9,7 @@ import jakarta.persistence.Table;
 @Table(name = "aula_informatica")
 @PrimaryKeyJoinColumn(name = "id")  
 public class AulaInformatica extends Aula{
+    
     /*
     atributos heredados:
 
@@ -23,10 +24,10 @@ public class AulaInformatica extends Aula{
     //atributos
 
     @Column(name="cant_pc", nullable=false)
-    private int cantPc;
+    private Integer cantPc;
 
     @Column
-    private boolean canion; 
+    private Boolean canion; 
 
     //constructores
 
@@ -34,7 +35,7 @@ public class AulaInformatica extends Aula{
     public AulaInformatica(){}
 
     //constructor: todos los campos
-    public AulaInformatica(int maximoAlumnos, boolean estado, String piso, String tipoPizaarron, boolean aireAcondicionado,int cantPc,boolean canion){
+    public AulaInformatica(Integer maximoAlumnos, Boolean estado, String piso, String tipoPizaarron, Boolean aireAcondicionado,Integer cantPc,Boolean canion){
         this.maximoAlumnos = maximoAlumnos;
         this.estado = estado;
         this.piso = piso;
@@ -45,24 +46,24 @@ public class AulaInformatica extends Aula{
     }
 
     //constructor: Solo los campos que no pueden ser null
-    public AulaInformatica(int maximoAlumnos, boolean estado){
+    public AulaInformatica(Integer maximoAlumnos, Boolean estado){
         this.maximoAlumnos = maximoAlumnos;
         this.estado = estado;
     }
 
 
     //getter/setter
-    public int getCantPc() {
+    public Integer getCantPc() {
         return cantPc;
     }
-    public void setCantPc(int cantPc) {
+    public void setCantPc(Integer cantPc) {
         this.cantPc = cantPc;
     }
 
-    public boolean isCanion() {
+    public Boolean isCanion() {
         return canion;
     }
-    public void setCanion(boolean canion) {
+    public void setCanion(Boolean canion) {
         this.canion = canion;
     }
 }

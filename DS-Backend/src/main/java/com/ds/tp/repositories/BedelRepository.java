@@ -6,9 +6,13 @@ import org.springframework.stereotype.Repository;
 
 import com.ds.tp.models.usuario.Bedel;
 
+
 @Repository
 public interface BedelRepository extends JpaRepository<Bedel,Long> {
     
    public Optional<Bedel> findByUsuario(String usuario);
+
+   @Override
+   public Optional<Bedel> findById(Long id);
 
 }
