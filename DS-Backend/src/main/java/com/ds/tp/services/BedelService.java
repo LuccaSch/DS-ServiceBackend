@@ -211,19 +211,23 @@ public class BedelService {
 
             Bedel unBedel= bedelOptional.get();
 
-            if(this.actualizarBedel(unBedel, bedelDTO)){
+            try{
+                if(this.actualizarBedel(unBedel, bedelDTO)){
 
-                this.bedelRepository.save(unBedel);
+                    this.bedelRepository.save(unBedel);
 
-                BedelDTO bedelModificadoDTO = crearBedelDTO(unBedel);
+                    BedelDTO bedelModificadoDTO = crearBedelDTO(unBedel);
 
-                String mensaje= "Bedel modificado correctamente"+bedelModificadoDTO.getUsuario();
+                    String mensaje= "Bedel modificado correctamente"+bedelModificadoDTO.getUsuario();
 
-                return DSUtilResponseEntity.statusOk(mensaje,bedelModificadoDTO);
+                    return DSUtilResponseEntity.statusOk(mensaje,bedelModificadoDTO);
 
-            }
-            else{
-                return DSUtilResponseEntity.statusBadRequest("No se modifico el bedel debido a que no se seleccionaron campos a modificar");
+                }
+                else{
+                    return DSUtilResponseEntity.statusBadRequest("No se modifico el bedel debido a que no se seleccionaron campos a modificar");
+                }
+            } catch (IllegalArgumentException e){
+                return DSUtilResponseEntity.statusBadRequest(e.getMessage());
             }
 
         }
@@ -239,27 +243,42 @@ public class BedelService {
         }
     }
 
-    public boolean actualizarBedel(Bedel bedel,BedelDTO bedelDTO){
+    public boolean actualizarBedel(Bedel bedel,BedelDTO bedelDTO) throws IllegalArgumentException{
 
         boolean actualizado=false;
 
         if(!(bedelDTO.getNombre()==null)){
+            if(bedelDTO.getNombre().length()>40){
+                throw new IllegalArgumentException("Error: El nombre no puede tener mas de 40 caracteres.");
+            }
             bedel.setNombre(bedelDTO.getNombre());
             actualizado=true;
         }
 
         if(!(bedelDTO.getApellido()==null)){
+            if(bedelDTO.getApellido().length()>40){
+                throw new IllegalArgumentException("Error: El apellido no puede tener mas de 40 caracteres.");
+            }
             bedel.setApellido(bedelDTO.getApellido());
             actualizado=true;
         }
 
         if(!(bedelDTO.getTurno()==null)){
+            if(!(bedelDTO.getTurno().equals(1)) && !(bedelDTO.getTurno().equals(2))){
+                throw new IllegalArgumentException("Error: Solo existe el Turno 1 y 2, debe seleccionar el correcto");
+            }
             bedel.setTurno(bedelDTO.getTurno());
             actualizado=true;
         }
 
         if(!(bedelDTO.getContrasenia()==null)){
-            bedel.setContrasenia(bedelDTO.getContrasenia());
+            if(!(bedelDTO.getContrasenia().equals(bedelDTO.getConfContrasenia()))){
+                throw new IllegalArgumentException("Error: Las contraseñas deben ser iguales");
+            }
+            if(!(validarFormatoContrasenia(bedelDTO.getContrasenia()))){
+                throw new IllegalArgumentException("Error: La contraseña solicitada no cumple las condiciones de la empresa");
+            }
+            bedel.setContrasenia(passwordEncoder.encode(bedelDTO.getContrasenia()));
             actualizado=true;
         }
 

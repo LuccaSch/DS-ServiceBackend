@@ -49,7 +49,7 @@ boton.addEventListener("click", function () {
             body: JSON.stringify(filtroDatos)
         })
             .then(response => {
-                //Si la peticion es erronea (Status!=200) se mostrara el modal De resultado con el Mensaje
+                //Si la peticion es erronea (Status!=200) se mostrara el modal De resultado con el Mensaje de error
                 if (!response.ok) {
                     return response.json().then(data => {
                         mostrarModalConMensajeError(data.mensaje || "Ocurrio un error desconocido, por favor contactar con soporte."); 
@@ -114,7 +114,13 @@ boton.addEventListener("click", function () {
 
 // ----------------------------ELIMINACION DE BEDELS----------------------------
 
+function closeModalEliminar() {
+    document.getElementById("modal-eliminar").style.display = "none";
+}
+
 function openModalEliminar(bedel, button, bedelItem) {
+
+    const tituloEliminar = document.getElementById('modal-title-eliminar');
 
     // Mostrar el modal de eliminar bedel
     const modalEliminar = document.getElementById('modal-eliminar');
@@ -122,6 +128,9 @@ function openModalEliminar(bedel, button, bedelItem) {
     const nombreEliminar = document.getElementById('bedel-eliminar-nombre');
     const apellidoEliminar = document.getElementById('bedel-eliminar-apellido');
     const turnoEliminar = document.getElementById('bedel-eliminar-turno');
+
+    //Mostrar titulo dependiendo del estado
+    tituloEliminar.textContent = `Quiere ${bedel.estado ? "eliminar" : "activar"} el bedel:`;
 
     // Rellenar la información del bedel en el modal
     usuarioEliminar.textContent = bedel.usuario;
@@ -139,18 +148,11 @@ function openModalEliminar(bedel, button, bedelItem) {
         // Cerrar el modal después de realizar la acción
         modalEliminar.style.display = "none"; 
     };
-
-    // Al hacer clic en "Cancelar" se cierra el modal sin hacer nada
-    const cancelButton = document.getElementById('cancel-delete-button');
-    cancelButton.onclick = function() {
-        modalEliminar.style.display = "none"; // Cerrar el modal sin hacer nada
-    };
-
-    const closeButton = document.getElementById('close-button-eliminar');
-    closeButton.onclick = function() {
-        modalEliminar.style.display = "none"; // Cerrar el modal sin hacer nada
-    };
 }
+
+document.getElementById("close-button-eliminar").addEventListener("click", closeModalEliminar);
+
+document.getElementById("cancel-delete-button").addEventListener("click", closeModalEliminar);
 
 // TOGGLE ESTADO (Activar/Eliminar)
 function toggleEstadoBedel(bedel, button, bedelItem) {
@@ -194,6 +196,10 @@ function toggleEstadoBedel(bedel, button, bedelItem) {
 
 // ----------------------------MODIFICAR DE BEDELS----------------------------
 
+function closeModalModificar() {
+    document.getElementById("modal-modificar").style.display = "none";
+}
+
 function openModalModificar(bedel) {
     const modal = document.getElementById("modal-modificar");
     document.getElementById("bedel-id").value = bedel.id;
@@ -212,9 +218,7 @@ function openModalModificar(bedel) {
     modal.style.display = "block";
 }
 
-function closeModalModificar() {
-    document.getElementById("modal-modificar").style.display = "none";
-}
+document.getElementById("close-button-modificar").addEventListener("click", closeModalModificar);
 
 document.getElementById("cancel-modificar-button").addEventListener("click", closeModalModificar);
 
@@ -229,7 +233,16 @@ document.getElementById("save-modificar-button").addEventListener("click", () =>
         turno: document.getElementById("bedel-modificar-turno").value || null
     }
 
-    //Verificaciones
+    //Verificaciones antes de la peticion
+
+    if(updatedBedel.nombre === null && 
+        updatedBedel.apellido=== null && 
+        updatedBedel.contrasenia=== null && 
+        updatedBedel.confContrasenia === null && 
+        updatedBedel.turno === null){
+        mostrarModalConMensajeError("Error: Modifique algun campo para continuar."); 
+        return;
+    }
 
     if (updatedBedel.contrasenia !== updatedBedel.confContrasenia) {
         mostrarModalConMensajeError("Error: las contraseñas no coinciden."); 
@@ -282,6 +295,9 @@ document.getElementById("save-modificar-button").addEventListener("click", () =>
 
 
 // ----------------------------MENSAJES, MODALES Y FUNCIONES AUXILIARES----------------------------
+function closeModalMensaje() {
+    modalResultado.style.display = "none";
+}
 
 function mostrarModalConMensajeError(mensaje) {
 
@@ -306,15 +322,13 @@ function mostrarModalConMensajeExito(mensaje) {
 }
 
 // Cerrar modal resultado al hacer clic en el botón 'Aceptar'
-botonAceptarResultado.onclick = () => {
-    modalResultado.style.display = "none";
-};
+
+botonAceptarResultado.addEventListener("click", closeModalMensaje);
 
 // Cerrar modal al hacer clic en el botón de cerrar
-document.getElementById("close-button-resultado").onclick = () => {
-    modalResultado.style.display = "none";
-};
+document.getElementById("close-button-resultado").addEventListener("click", closeModalMensaje);
 
+//Mensaje de filtrado
 
 const mostrarMensajeError = (mensaje) => {
     mensajeError.textContent = mensaje;
