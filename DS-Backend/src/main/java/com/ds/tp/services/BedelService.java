@@ -226,7 +226,8 @@ public class BedelService {
                 else{
                     return DSUtilResponseEntity.statusBadRequest("No se modifico el bedel debido a que no se seleccionaron campos a modificar");
                 }
-            } catch (IllegalArgumentException e){
+            } 
+            catch (IllegalArgumentException e){
                 return DSUtilResponseEntity.statusBadRequest(e.getMessage());
             }
 
