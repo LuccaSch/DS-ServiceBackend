@@ -51,9 +51,10 @@ boton.addEventListener("click", function () {
             .then(response => {
                 //Si la peticion es erronea (Status!=200) se mostrara el modal De resultado con el Mensaje de error
                 if (!(response.status === 200 || response.status === 201)) {
-                    return response.json().then(data => {
+                    response.json().then(data => {
                         mostrarModalConMensajeError(data.mensaje || "Ocurrio un error desconocido, por favor contactar con soporte."); 
                     });
+                    return;
                 }
                 //si no hay errores se retorna la lista de bedeles
                 return response.json();
@@ -172,9 +173,10 @@ function toggleEstadoBedel(bedel, button, bedelItem) {
         .then(response => {
             //Si hay error muestra mostrarModalConMensajeError y el mensaje
             if (!(response.status === 200 || response.status === 201)) {
-                return response.json().then(data => {
+                response.json().then(data => {
                     mostrarModalConMensajeError(data.mensaje || "Ocurrio un error desconocido, por favor contactar con soporte."); 
                 });
+                return;
             }
             return response.json();
         })
@@ -276,9 +278,10 @@ document.getElementById("save-modificar-button").addEventListener("click", () =>
     })
         .then(response => {
             if (!(response.status === 200 || response.status === 201)) {
-                return response.json().then(data => {
+                response.json().then(data => {
                     mostrarModalConMensajeError(data.mensaje || "Ocurrio un error desconocido, por favor contactar con soporte."); 
                 });
+                return;
             }
             return response.json();
         })

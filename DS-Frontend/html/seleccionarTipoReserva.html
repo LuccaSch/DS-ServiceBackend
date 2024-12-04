@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/seleccionarTipoReserva.css">
+    <title>Reservar Aula</title>
+</head>
+<body>
+
+    <!-- Cabecera -->
+
+    <header class="header">
+        <ul class="menu-ul">
+            <li><a href="/admin">Inicio</a></li>
+            <li><a href="/admin/registrarReserva">Registar Reserva</a></li>
+            <li><a href="/admin/buscarAula">Buscar Aula</a></li>
+        </ul>
+    </header>
+        <div class="usuario">
+            <img src="/img/USUARIO.png" alt="USUARIO" class="imagen-usuario">
+            <div class="nombre-usuario">
+                <p>Nombre_de_Usuario</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="h1_titulo">
+            <h1>SELECCIONAR TIPO DE RESERVA</h1>
+    </div>
+    <div class="container">
+        <div class="botones-reserva">
+            <button type="button" id="Periódica" onclick="location.href='/admin/reservaPeriodica'">Periódica</button>
+            <button type="button" id="Esporadica" onclick="location.href='/admin/reservaEsporadica'">Esporadica</button>
+
+            <div class="linea-vertical"></div>
+        </div>
+            <div class="campos-no-habilitados">
+                <p>
+                    <label for="CantidadAlumnos*" class="colocar_cantidad">*CantidadAlumnos</label>
+                    <input type="text" name="introducir_cantidad" id="nombre" required placeholder="Ingrese la cantidad">
+                </p>
+                <p>
+                    <label for="docente*" class="colocar_docente">*Docente Solicitante:</label>
+                    <select name="select" id="docente" required>
+                        <option value="" selected disabled>Seleccione el docente</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="catedra*" class="colocar_catedra">*</label>
+                    <select name="select" id="catedra" required>
+                        <option value="" selected disabled>Seleccione la catedra</option>
+                    </select>
+                </p>
+                <p>
+                    <label for="coreeo*" class="colocar_correo">*Correo Electrónico:</label>
+                    <input type="correo" name="introducir_correo" id="coreeo" required placeholder="Correo Electrónico">
+                </p>
+                
+                <p>
+                    <label for="tipo-aula*" class="colocar_tipo">*Tipo de Aula:</label>
+                    <select name="select" id="turno" required>
+                        <option value="" selected disabled>Seleccione el Tipo de Aula</option>
+                        <option value="Multimedia">Multimedia</option>
+                        <option value="Informatica">Informatica</option>
+                        <option value="SinRescursos">Sin Recursos</option>
+                    </select>
+                </p>
+                <p class="aviso">
+                    <span>*</span> Campos obligatorios.
+                </p>
+            </div>
+    </div>
+</body>
+</html>

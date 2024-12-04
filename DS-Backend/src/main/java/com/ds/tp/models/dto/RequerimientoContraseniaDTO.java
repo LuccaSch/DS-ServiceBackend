@@ -1,5 +1,7 @@
 package com.ds.tp.models.dto;
 
+
+
 public class RequerimientoContraseniaDTO{
 
     //a futuro habria que hacer el mapeo a json de los resultados de la consulta GET

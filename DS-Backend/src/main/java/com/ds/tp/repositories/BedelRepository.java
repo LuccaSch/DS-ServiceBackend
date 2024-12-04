@@ -1,4 +1,5 @@
 package com.ds.tp.repositories;
+
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,8 +12,4 @@ import com.ds.tp.models.usuario.Bedel;
 public interface BedelRepository extends JpaRepository<Bedel,Long> {
     
    public Optional<Bedel> findByUsuario(String usuario);
-
-   @Override
-   public Optional<Bedel> findById(Long id);
-
 }

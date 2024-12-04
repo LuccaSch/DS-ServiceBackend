@@ -56,21 +56,25 @@ let registrarBedel = async () => {
             // 409 CONFLICTO
             const errorData = await peticion.json();
             boton.style.backgroundColor = 'red';
+            boton.style.border = '2px solid red';
             mostrarResultadoModal(errorData.mensaje);
         } else if (peticion.status === 400) {
             // 400 BAD REQUEST
             const errorData = await peticion.json();
             boton.style.backgroundColor = 'red';
+            boton.style.border = '2px solid red';
             mostrarResultadoModal(errorData.mensaje);
         } else if (peticion.status === 200 || peticion.status === 201) {
             // 200 o 201 ÉXITO
             const respuesta = await peticion.json();
             boton.style.backgroundColor = 'green';
+            boton.style.border = '2px solid green';
             mostrarResultadoModal("Bedel registrado correctamente");
             resetearFormulario();
         } else if (peticion.status === 500) {
             // 500 INTERNAL SERVER ERROR
             boton.style.backgroundColor = 'red';
+            boton.style.border = '2px solid red';
             mostrarResultadoModal("Error en el servidor. Inténtalo nuevamente más tarde.");
         } else {
             mostrarResultadoModal("Error inesperado: " + peticion.status);
