@@ -204,15 +204,18 @@ function closeModalModificar() {
 
 function openModalModificar(bedel) {
     const modal = document.getElementById("modal-modificar");
+    //Se agrega un elemento oculto ID para enviar en la peticion y se le asigna el id del bedel
     document.getElementById("bedel-id").value = bedel.id;
-    document.getElementById("bedel-modificar-usuario").value = bedel.usuario;
 
+    //Se recetea el formulario
+    document.getElementById("bedel-modificar-usuario").value = bedel.usuario;
     document.getElementById("bedel-modificar-nombre").value = "";
     document.getElementById("bedel-modificar-apellido").value = "";
     document.getElementById("bedel-modificar-turno").value = "";
     document.getElementById("bedel-modificar-contrasenia").value = "";
     document.getElementById("bedel-modificar-confContrasenia").value = "";
 
+    //se pone los datos actuales en el placeholder, los que se cambien seran enviados en la peticion
     document.getElementById("bedel-modificar-nombre").placeholder = bedel.nombre;
     document.getElementById("bedel-modificar-apellido").placeholder = bedel.apellido;
     document.getElementById("bedel-modificar-turno").placeholder = bedel.turno;
@@ -228,6 +231,7 @@ document.getElementById("save-modificar-button").addEventListener("click", () =>
     let updatedBedel = {
         id : document.getElementById("bedel-id").value,
         usuario: document.getElementById("bedel-modificar-usuario").value,
+        //Si no se modifica el atributo se le asigna el valor NULL para que el servidor sepa que atributos fueron cambiados
         nombre: document.getElementById("bedel-modificar-nombre").value || null,
         apellido: document.getElementById("bedel-modificar-apellido").value || null,
         contrasenia : document.getElementById("bedel-modificar-contrasenia").value || null,

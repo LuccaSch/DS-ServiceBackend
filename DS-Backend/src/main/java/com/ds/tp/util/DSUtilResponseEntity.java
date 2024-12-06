@@ -104,5 +104,12 @@ public class DSUtilResponseEntity {
         return ResponseEntity.status(HttpStatus.OK).body(respuesta);
     }
 
+    //UNAUTHORIZED
+    public static ResponseEntity<Object> statusUnauthorized(String mensaje){
+        Map<String, Object> respuesta = new HashMap<>();
+        respuesta.put("mensaje", mensaje);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(respuesta);
+    }
+
 }
 
