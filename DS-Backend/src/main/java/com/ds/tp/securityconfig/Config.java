@@ -53,6 +53,7 @@ public class Config {
         .csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(auth -> auth
             .requestMatchers(publicResources).permitAll()
+            .requestMatchers("/current/api/user").authenticated()
             .requestMatchers(bedelResources).hasAuthority("ROLE_BEDEL")
             .requestMatchers(adminResources).hasAuthority("ROLE_ADMIN")  
             .anyRequest().authenticated()

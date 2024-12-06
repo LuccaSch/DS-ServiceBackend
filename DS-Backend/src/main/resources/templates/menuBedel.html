@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="h1_titulo">
-            <h1>BIENVENIDO BEDEL</h1>
+            <h1 id="titulo-current-user">Bienvenido</h1>
     </div>
     <div class="container">
             <img src="/img/UTN_logo.png" alt="UTN Logo" class="logo">
@@ -18,9 +18,12 @@
             <div class="botones-menu">
                 <button class="btn-reg-reserva" type="button" id="registrar reserva" onclick="location.href='/bedel/registrarReserva'">Registrar Reserva</button>
                 <button class="btn-aula" type="button" id="buscar aula" onclick="location.href='/bedel/buscarAula'">Buscar Aula</button>
-                <button class="btn-reservas" type="button" id="reservas" onclick="location.href='/bedel/reservas'">Reservas</button>
+                <button class="btn-reservas" type="button" id="reservas" onclick="location.href='/bedel/reservas'">Mis Reservas</button>
             </div>
     </div>
+
+    <!-- script-->
+    <script src="/js/menuBedel.js"></script>
 </body>
 </html>
 

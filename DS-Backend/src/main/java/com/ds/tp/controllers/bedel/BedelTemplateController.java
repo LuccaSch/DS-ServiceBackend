@@ -9,11 +9,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 public class BedelTemplateController {
 
+    //Constructor
     public BedelTemplateController(){}
 
+    //Menu principal
     @GetMapping()
     public String home(){
         return "menuBedel";
+    }
+
+    @GetMapping("/reservas")
+    public String misReservas(){
+        return "buscarReserva";
     }
 
 }
