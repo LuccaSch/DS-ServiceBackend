@@ -50,6 +50,10 @@ input, select {
     margin-top: 20px;              /* Espacio superior para el contenedor, si es necesario */
     
 }
+.btn-registrar-reserva ,.btn-reservas ,.btn-aula{
+    text-decoration: none;
+    color: #000;
+}
 
 button {
     width: 200px;

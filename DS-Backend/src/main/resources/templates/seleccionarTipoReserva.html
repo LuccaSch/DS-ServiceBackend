@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/reservaPeriodica.css">
+    <link rel="stylesheet" href="../css/seleccionarTipoReserva.css">
+    <script src="../js/seleccionarTipoReserva.js"></script>
     <title>Reservar Aula</title>
 </head>
 <body>
@@ -17,7 +18,6 @@
             <li><a href="/bedel/buscarAulas">Buscar Aulas</a></li>
             <li><a href="/bedel/buscarReservas">Reservas</a></li>
         </ul>
-    
         <div class="usuario">
             <img src="/img/USUARIO.png" alt="USUARIO" class="imagen-usuario">
             <div class="nombre-usuario">
@@ -25,46 +25,14 @@
             </div>
         </div>
     </header>
+
     <div class="h1_titulo">
-        <h1>REGISTRAR RESERVA PERIODICA</h1>
+        <h1>SELECCIONAR TIPO DE RESERVA</h1>
     </div>
     <div class="container">
-        <div class="fechas-reservas">
-            <div class="sub-container">
-                <select name="select" id="dia" required class="lista-dias">
-                    <option value="" selected disabled>Dia</option>
-                        <option value="Lunes">Lunes</option>
-                        <option value="Martes">Martes</option>
-                        <option value="Miercoles">Miercoles</option>
-                        <option value="Jueves">Jueves</option>
-                        <option value="Viernes">Viernes</option>
-                        <option value="Sabados">Sabados</option>
-                </select>
-                <p>
-                    <label for="hora">Hora Inicio:</label>
-                    <input type="number" id="hora" name="hora" placeholder="HH:MM">
-                </p>
-                <p>
-                    <label for="hora">Duracion:</label>
-                    <input type="number" id="hora" name="hora" placeholder="HH:MM">
-                </p>
-                
-            </div>
-            <button class="agregar-dia">Agregar Dia</button>
-            <table class="dias-agregado">
-                <tr>
-                    <th>Dia</th>
-                    <th>Hora Inicio</th>
-                    <th>Duracion</th>
-                    <th></th>
-                </tr>
-                <tr>
-                    <td>Lunes</td>
-                    <td>08:00</td>
-                    <td>2 horas</td>
-                    <td><button>Eliminar</button></td>
-                </tr>
-            </table>
+        <div class="botones-reserva">
+            <button type="button" id="Periódica"><a href="/bedel/reservaPeriodica">Periodica</a></button>
+            <button type="button" id="Esporadica"><a href="/bedel/reservaEsporadica">Esporadica</a></button>
         </div>
 
         <div class="linea-vertical"></div>
@@ -117,13 +85,12 @@
                 <p class="aviso">
                     <span>*</span> Campos obligatorios.
                 </p>
-                <p class="btn-container">
-                    <button class="btn-cancelar" type="button" id="cancelar"><a class="btn-cancelar" href="/bedel/seleccionarTipoReserva">Cancelar</a></button>
-                    <button class="btn-guardar" type="button" id="registrar" onclick="">Guardar</button>
-                </p>
         </div>
+        
     </div>
-   
+    <p class="btn-container">
+        <button class="btn-cancelar" type="button" id="cancelar"><a href="/bedel">Cancelar</a></button>
+    </p>
 </body>
 </html>
 
