@@ -43,7 +43,12 @@ ul li a {
     color: #3f3d3d;
 }
 /*^ Encabezado ^*/
-
+.h1_titulo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
 body {
     height: 100%; 
     font-family: 'Noto Sans', sans-serif;
@@ -72,6 +77,17 @@ input, select {
     position: relative;
     gap: 200px
 }
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.linea-vertical {
+    width: 2px;
+    height: 400px;
+    background-color: #000000;
+    justify-self: center;
+}
 
 .dias-agregado {
     width: 100%; /* Ocupa el ancho completo del contenedor */
@@ -92,4 +108,54 @@ input, select {
 }
 .dias-agregado td {
     text-align: center;
+}
+
+.dias-agregado{
+    width: 500px;
+    height: 200px;
+}
+
+.radio-button input{
+    width: 30px;
+    height: 20px;
+}
+.btn-container{
+    display: flex;
+    justify-content: end;
+    gap: 20px;
+}
+.btn-cancelar{
+    text-decoration: none;
+    color: #000000;
+}
+.fechas-reservas{
+    width: 500px;
+    height: 500px;
+}
+.fechas-reservas p input {
+    width: 100px;
+    height: 50px;
+}
+.fechas-reservas select {
+    margin-top: 25px;
+    width: 100px;
+    height: 50px;
+}
+.sub-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.sub-container p{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.dias-agregado{
+    margin-top: 100px;
+    width: 600px;
+    height: 100px;
+}
+.agregar-dia{
+    margin-left: 400px;
 }

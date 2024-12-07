@@ -83,6 +83,9 @@ input, select {
     background-color: #000000;
     justify-self: center;
 }
+.espacio{
+    width: 200px;
+}
 .radio-button input{
     width: 30px;
     height: 20px;
