@@ -1,4 +1,3 @@
-/* Encabezado */
 .header {
     display: flex;
     justify-content: space-between;
@@ -44,13 +43,17 @@ ul li a {
     color: #3f3d3d;
 }
 /*^ Encabezado ^*/
-
+.h1_titulo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
 body {
     height: 100%; 
     font-family: 'Noto Sans', sans-serif;
     background-color: #ffffff; 
 }
-
 input, select {
     background-color: #e7e3e3; 
     width: 408px; 
@@ -74,36 +77,16 @@ input, select {
     position: relative;
     gap: 200px
 }
-.campos-no-habilitados{
-    opacity: 30%;
-}
-.habilitar{
-    opacity: 100%;
-}
-.ocultar{
-    display: none;
-}
-.mostrar{
-    display: block;
-    width: 300px;
-    height: 500px;
-    margin-top: -550px;
-    margin-left: 50px;
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 .linea-vertical {
     width: 2px;
     height: 400px;
     background-color: #000000;
     justify-self: center;
-}
-.radio-button input{
-    width: 30px;
-    height: 20px;
-}
-input[type=number]::-webkit-inner-spin-button,
-input[type=number]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
 }
 
 .dias-agregado {
@@ -126,51 +109,53 @@ input[type=number]::-webkit-outer-spin-button {
 .dias-agregado td {
     text-align: center;
 }
-.botones-reserva {
-    display: flex;                 /* Activamos el modelo Flexbox */
-    flex-direction: column;        /* Coloca los botones en una columna (uno encima del otro) */
-    align-items: center;           /* Centra los botones horizontalmente dentro del contenedor */
-    gap: 20px;                     /* Espacio entre los botones */
-    margin-top: 20px;              /* Espacio superior para el contenedor, si es necesario */
-    
+
+.dias-agregado{
+    width: 500px;
+    height: 200px;
 }
-.botones-reserva button a{
-    text-decoration: none;
-    color: #000;
-}
-.radio{
-    display: none;
-}
-.fechas-reservas{
-    width: 300px;
-    height: 500px;
-}
-.btn-guardar{
-    display: none;
+
+.radio-button input{
+    width: 30px;
+    height: 20px;
 }
 .btn-container{
     display: flex;
     justify-content: end;
+    gap: 20px;
 }
-
-button {
-    width: 200px;
-    height: 40px;
-    border: 2px solid #000;
-    background-color: #fff;
-    cursor: pointer;
-    transition: background-color 0.2s;
-    border-radius: 5px;	
+.btn-cancelar{
+    text-decoration: none;
+    color: #000000;
 }
-
-button:hover {
-    background-color: #9ac7ec;
-    border: 2px solid #6096c2;
+.fechas-reservas{
+    width: 500px;
+    height: 500px;
 }
-
-.h1_titulo{
+.fechas-reservas p input {
+    width: 50px;
+    height: 50px;
+}
+.fechas-reservas select {
+    margin-top: 25px;
+    width: 100px;
+    height: 50px;
+}
+.sub-container{
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    
+}
+.sub-container p{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.dias-agregado{
+    margin-top: 100px;
+    width: 600px;
+    height: 100px;
+}
+.agregar-dia{
+    margin-left: 400px;
 }

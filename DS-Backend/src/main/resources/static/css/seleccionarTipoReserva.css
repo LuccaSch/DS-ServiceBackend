@@ -77,19 +77,6 @@ input, select {
 .campos-no-habilitados{
     opacity: 30%;
 }
-.habilitar{
-    opacity: 100%;
-}
-.ocultar{
-    display: none;
-}
-.mostrar{
-    display: block;
-    width: 300px;
-    height: 500px;
-    margin-top: -550px;
-    margin-left: 50px;
-}
 .linea-vertical {
     width: 2px;
     height: 400px;
@@ -138,9 +125,6 @@ input[type=number]::-webkit-outer-spin-button {
     text-decoration: none;
     color: #000;
 }
-.radio{
-    display: none;
-}
 .fechas-reservas{
     width: 300px;
     height: 500px;
@@ -151,6 +135,11 @@ input[type=number]::-webkit-outer-spin-button {
 .btn-container{
     display: flex;
     justify-content: end;
+}
+
+.btn-container button a {
+    text-decoration: none;
+    color: #000;
 }
 
 button {
