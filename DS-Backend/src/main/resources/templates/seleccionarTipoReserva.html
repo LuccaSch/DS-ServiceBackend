@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/seleccionarTipoReserva.css">
-    <script src="../js/seleccionarTipoReserva.js"></script>
+    <link rel="stylesheet" href="/css/seleccionarTipoReserva.css">
+    <script src="/js/seleccionarTipoReserva.js"></script>
     <title>Reservar Aula</title>
 </head>
 <body>
@@ -13,10 +13,10 @@
 
     <header class="header">
         <ul class="menu-ul">
-            <li><a href="/bedel">Inicio</a></li>
-            <li><a href="/bedel/seleccionarTipoReserva">Registar Reserva</a></li>
-            <li><a href="/bedel/buscarAulas">Buscar Aulas</a></li>
-            <li><a href="/bedel/buscarReservas">Reservas</a></li>
+            <li><button class="btn" type="button" onclick="location.href='/bedel'">Inicio</button></li>
+            <li><button class="btn" type="button" onclick="location.href='/bedel/reserva/crear'">Registrar Reserva</button></li>
+            <li><button class="btn" type="button" onclick="location.href='/bedel/aula/buscar'">Buscar aula</button></li>
+            <li><button class="btn" type="button" onclick="location.href='/bedel/reserva/buscar'">Mis Reservas</button></li>
         </ul>
         <div class="usuario">
             <img src="/img/USUARIO.png" alt="USUARIO" class="imagen-usuario">
@@ -31,8 +31,8 @@
     </div>
     <div class="container">
         <div class="botones-reserva">
-            <button type="button" id="Periódica"><a href="/bedel/reservaPeriodica">Periodica</a></button>
-            <button type="button" id="Esporadica"><a href="/bedel/reservaEsporadica">Esporadica</a></button>
+            <button type="button" id="Periódica" onclick="location.href='/bedel/reserva/crear/reservaPeriodica'">Periodica</button>
+            <button type="button" id="Esporadica" onclick="location.href='/bedel/reserva/crear/reservaEsporadica'">Esporadica</button>
         </div>
 
         <div class="linea-vertical"></div>

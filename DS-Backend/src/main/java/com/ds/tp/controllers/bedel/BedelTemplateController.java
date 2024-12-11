@@ -18,22 +18,22 @@ public class BedelTemplateController {
         return "menuBedel";
     }
 
-    @GetMapping("/reservas")
+    @GetMapping("/reserva/buscar")
     public String misReservas(){
         return "buscarReserva";
     }
 
-    @GetMapping("/seleccionarTipoReserva")
+    @GetMapping("reserva/crear")
     public String tipoReserva(){
         return "seleccionarTipoReserva";
     }
 
-    @GetMapping("/reservaPeriodica")
+    @GetMapping("reserva/crear/reservaPeriodica")
     public String reservaPeriodica(){
         return "reservaPeriodica";
     }
     
-    @GetMapping("/reservaEsporadica")
+    @GetMapping("reserva/crear/reservaEsporadica")
     public String reservaEsporadica(){
         return "reservaEsporadica";
     }
