@@ -10,6 +10,15 @@ public class RequerimientoContraseniaDTO{
     private Integer cantMayusculas;
     private Integer cantNumeros;
 
+    //constructores
+    public RequerimientoContraseniaDTO(){};
+
+    public RequerimientoContraseniaDTO(Integer cantDigitos, Integer cantMayusculas, Integer cantNumeros) {
+        this.cantDigitos = cantDigitos;
+        this.cantMayusculas = cantMayusculas;
+        this.cantNumeros = cantNumeros;
+    }
+
     //getter / setter
     
     public Integer getCantDigitos() {
@@ -30,14 +39,4 @@ public class RequerimientoContraseniaDTO{
     public void setCantNumeros(Integer cantNumeros) {
         this.cantNumeros = cantNumeros;
     }
-
-    //constructores
-    public RequerimientoContraseniaDTO(){};
-
-    public RequerimientoContraseniaDTO(Integer cantDigitos, Integer cantMayusculas, Integer cantNumeros) {
-        this.cantDigitos = cantDigitos;
-        this.cantMayusculas = cantMayusculas;
-        this.cantNumeros = cantNumeros;
-    }
-
 }

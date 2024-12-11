@@ -23,8 +23,8 @@ public abstract class Aula {
     @Column(name = "maximo_alumnos",nullable=false)
     protected Integer maximoAlumnos;
 
-    @Column(nullable=false)
-    protected Boolean estado;
+    @Column(name = "aula_disponible", nullable=false)
+    protected boolean aulaDisponible;
 
     @Column
     protected String piso;
@@ -53,12 +53,12 @@ public abstract class Aula {
         this.maximoAlumnos = maximoAlumnos;
     }
 
-    public Boolean isEstado() {
-        return estado;
+    public boolean isDisponible() {
+        return aulaDisponible;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setAulaDisponible(Boolean aulaDisponible) {
+        this.aulaDisponible = aulaDisponible;
     }
 
     public String getPiso() {
@@ -83,5 +83,25 @@ public abstract class Aula {
 
     public void setAireAcondicionado(Boolean aireAcondicionado) {
         this.aireAcondicionado = aireAcondicionado;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true; 
+        }
+    
+        if (obj == null || getClass() != obj.getClass()) {
+            return false; 
+        }
+    
+        Aula other = (Aula) obj;
+    
+        return this.id != null && this.id.equals(other.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
     }
 }

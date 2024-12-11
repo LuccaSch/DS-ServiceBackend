@@ -29,11 +29,15 @@ public class DiaReserva{
     private LocalTime horaInicio;
 
     @Column
-    private Integer duracion;
+    private int duracion;
     
     @ManyToOne
     @JoinColumn(name = "id_aula",referencedColumnName="id",nullable=false)
     private Aula aula;
+
+    @ManyToOne
+    @JoinColumn(name = "id_reserva",referencedColumnName="id",nullable=false)
+    private Reserva reserva;
 
 
     //constructores
@@ -68,10 +72,10 @@ public class DiaReserva{
     public void setHoraInicio(LocalTime horaInicio) {
         this.horaInicio = horaInicio;
     }
-    public Integer getDuracion() {
+    public int getDuracion() {
         return duracion;
     }
-    public void setDuracion(Integer duracion) {
+    public void setDuracion(int duracion) {
         this.duracion = duracion;
     }
     public Aula getAula() {
@@ -79,5 +83,13 @@ public class DiaReserva{
     }
     public void setAula(Aula aula) {
         this.aula = aula;
+    }
+
+    public Reserva getReserva() {
+        return reserva;
+    }
+
+    public void setReserva(Reserva reserva) {
+        this.reserva = reserva;
     }
 }

@@ -4,33 +4,37 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+public class DisponibilidadAulaDTO {
 
+    @JsonProperty("superposicion")
+    private boolean superposicion;
 
-public class DisponibilidadDTO {
+    @JsonProperty("aulasCandidatas")
+    private List<AulaDTO> listaAulas;
 
     @JsonProperty("reserva")
     private ReservaDTO reserva;
 
-    @JsonProperty("Aulas")
-    private List<AulaDTO> listaAulas;
 
     //Constructor
-    public DisponibilidadDTO(List<AulaDTO> listaAulas, ReservaDTO reserva) {
-        this.listaAulas = listaAulas;
+
+    public DisponibilidadAulaDTO(ReservaDTO reserva){
         this.reserva = reserva;
+        this.superposicion = true;
     }
 
-    public DisponibilidadDTO(List<AulaDTO> listaAulas) {
+    public DisponibilidadAulaDTO(List<AulaDTO> listaAulas) {
         this.listaAulas = listaAulas;
+        this.superposicion = false;
     }
 
-    public DisponibilidadDTO(ReservaDTO reserva) {
-        this.reserva=reserva;
-    }
-
-    public DisponibilidadDTO(){}
+    public DisponibilidadAulaDTO(){}
 
     //GETTER/SETTER
+
+    public boolean isSuperposicion() {
+        return superposicion;
+    }
 
     public ReservaDTO getReserva() {
         return reserva;

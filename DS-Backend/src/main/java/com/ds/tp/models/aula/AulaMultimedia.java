@@ -42,7 +42,7 @@ public class AulaMultimedia extends Aula{
     //constructor: todos los campos
     public AulaMultimedia(Integer maximoAlumnos, Boolean estado, String piso, String tipoPizaarron, Boolean aireAcondicionado,Boolean televisor,Boolean canion,Boolean computadora, Boolean ventiladores){
         this.maximoAlumnos = maximoAlumnos;
-        this.estado = estado;
+        this.aulaDisponible = estado;
         this.piso = piso;
         this.tipoPizarron = tipoPizaarron;
         this.aireAcondicionado = aireAcondicionado;
@@ -55,7 +55,7 @@ public class AulaMultimedia extends Aula{
     //constructor: Solo los campos que no pueden ser null
     public AulaMultimedia(Integer maximoAlumnos, Boolean estado){
         this.maximoAlumnos = maximoAlumnos;
-        this.estado = estado;
+        this.aulaDisponible = estado;
     }
 
     public Boolean isTelevisor() {

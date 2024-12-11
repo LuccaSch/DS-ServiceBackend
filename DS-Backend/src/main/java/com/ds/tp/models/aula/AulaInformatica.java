@@ -37,7 +37,7 @@ public class AulaInformatica extends Aula{
     //constructor: todos los campos
     public AulaInformatica(Integer maximoAlumnos, Boolean estado, String piso, String tipoPizaarron, Boolean aireAcondicionado,Integer cantPc,Boolean canion){
         this.maximoAlumnos = maximoAlumnos;
-        this.estado = estado;
+        this.aulaDisponible = estado;
         this.piso = piso;
         this.tipoPizarron = tipoPizaarron;
         this.aireAcondicionado = aireAcondicionado;
@@ -48,7 +48,7 @@ public class AulaInformatica extends Aula{
     //constructor: Solo los campos que no pueden ser null
     public AulaInformatica(Integer maximoAlumnos, Boolean estado){
         this.maximoAlumnos = maximoAlumnos;
-        this.estado = estado;
+        this.aulaDisponible = estado;
     }
 
 
