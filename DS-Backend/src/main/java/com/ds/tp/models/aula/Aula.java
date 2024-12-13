@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "aula")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Aula {
+public class Aula {
 
     // Atributos
 
@@ -26,7 +26,7 @@ public abstract class Aula {
     @Column(name = "aula_disponible", nullable=false)
     protected boolean aulaDisponible;
 
-    @Column
+    @Column(name = "piso")
     protected String piso;
 
     @Column(name = "tipo_pizzarron")

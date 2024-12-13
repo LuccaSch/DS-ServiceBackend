@@ -17,13 +17,13 @@ public class Periodo {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name="cuatrimestre")
     private String cuatrimestre; //crear el enum ¿?
 
-    @Column
+    @Column(name="fecha_inicio",nullable=false)
     private LocalDate fechaInicio;
 
-    @Column
+    @Column(name="fecha_fin",nullable=false)
     private LocalDate fechaFin;
 
     //constructores

@@ -23,4 +23,9 @@ public interface AulaRepository extends JpaRepository<Aula, Long> {
 
     @Query("SELECT asr FROM AulaSinRecursos asr WHERE asr.maximoAlumnos >= :cantidadAlumnos AND asr.aulaDisponible = true")
     Optional<List<AulaSinRecursos>> findAulasSinRecursosByMaximoAlumnos(@Param("cantidadAlumnos") Integer cantidadAlumnos);
+
+    @SuppressWarnings("null")
+    @Override
+    public Optional<Aula> findById(Long idAula);
 }
+

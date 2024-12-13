@@ -139,11 +139,16 @@ public class BedelService {
 
     public ResponseEntity<Object> getBedels(FiltroBuscarBedelDTO filtroDatos) {
         try{
+            if(verificarDatosIncorrectosFiltro(filtroDatos)){
+                return DSUtilResponseEntity.statusBadRequest("ERROR: Se quiere filtrar por datos faltantes o incorrectos");
+            }
+
+
             List<Bedel> bedelList = this.bedelRepository.findAll();
 
             //Bloque para busqueda por similitud de campos
 
-            if (!filtroDatos.getFiltro().equals("0")) {
+            if(!filtroDatos.getFiltro().equals("0")){
                 // Expresiones regulares para búsquedas por similitud
                 String valor = filtroDatos.getValorBusqueda();
                 Pattern pattern = Pattern.compile(valor, Pattern.CASE_INSENSITIVE);
@@ -167,6 +172,11 @@ public class BedelService {
                                         .collect(Collectors.toList());                                     
                 }
             }
+            else{
+                bedelList = bedelList.stream()
+                                .sorted(Comparator.comparingLong(Bedel::getId))
+                                .collect(Collectors.toList()); 
+            }
             
             List<BedelDTO> bedelListDTO= this.crearListaBedelDto(bedelList);
 
@@ -180,6 +190,14 @@ public class BedelService {
             System.out.println("Error inesperado: " + e.getMessage());
             return DSUtilResponseEntity.statusInternalServerError("Error inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
         }
+    }
+
+    public boolean verificarDatosIncorrectosFiltro(FiltroBuscarBedelDTO filtroDatos){
+        if(filtroDatos.getFiltro()==null){
+            return true;
+        }
+
+        return !filtroDatos.getFiltro().equals("0") && filtroDatos.getValorBusqueda()==null;
     }
 
     public BedelDTO crearBedelDTO(Bedel unBedel){
@@ -203,6 +221,11 @@ public class BedelService {
 
     public ResponseEntity<Object> putBedel(BedelDTO bedelDTO){
         try{
+            if(this.verificarDatosIncorrectosUpdate(bedelDTO)){
+                return DSUtilResponseEntity.statusBadRequest("ERROR: No se pudo buscar el bedel debido a la falta de ID en la solicitud");
+            }
+
+
             Optional<Bedel> bedelOptional= bedelRepository.findById(bedelDTO.getId());
 
             if(bedelOptional.isEmpty()){
@@ -211,37 +234,35 @@ public class BedelService {
 
             Bedel unBedel= bedelOptional.get();
 
-            try{
-                if(this.actualizarBedel(unBedel, bedelDTO)){
 
-                    this.bedelRepository.save(unBedel);
+            if(this.actualizarBedel(unBedel, bedelDTO)){
 
-                    BedelDTO bedelModificadoDTO = crearBedelDTO(unBedel);
+                this.bedelRepository.save(unBedel);
 
-                    String mensaje= "Bedel modificado correctamente"+bedelModificadoDTO.getUsuario();
+                BedelDTO bedelModificadoDTO = crearBedelDTO(unBedel);
 
-                    return DSUtilResponseEntity.statusOk(mensaje,bedelModificadoDTO);
+                String mensaje= "Bedel modificado correctamente"+bedelModificadoDTO.getUsuario();
 
-                }
-                else{
-                    return DSUtilResponseEntity.statusBadRequest("No se modifico el bedel debido a que no se seleccionaron campos a modificar");
-                }
-            } 
-            catch (IllegalArgumentException e){
-                return DSUtilResponseEntity.statusBadRequest(e.getMessage());
+                return DSUtilResponseEntity.statusOk(mensaje,bedelModificadoDTO);
+
             }
-
+            else{
+                return DSUtilResponseEntity.statusBadRequest("No se modifico el bedel debido a que no se seleccionaron campos a modificar");
+            }
         }
         catch (DataAccessException e) {
-            System.out.println("Error de acceso a datos: " + e.getMessage());
-
             return DSUtilResponseEntity.statusInternalServerError("Error interno del Servidor, por favor intentar mas tarde");
         }
+        catch (IllegalArgumentException e){
+            return DSUtilResponseEntity.statusBadRequest(e.getMessage());
+        }
         catch (Exception e) {
-            System.out.println("Error inesperado: " + e.getMessage());
-
             return DSUtilResponseEntity.statusInternalServerError("Error inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
         }
+    }
+
+    public boolean verificarDatosIncorrectosUpdate(BedelDTO bedelDTO){
+        return bedelDTO.getId()==null;
     }
 
     public boolean actualizarBedel(Bedel bedel,BedelDTO bedelDTO) throws IllegalArgumentException{
@@ -292,6 +313,10 @@ public class BedelService {
 
     public ResponseEntity<Object> deleteBedel(Long id){
         try{
+            if(id==null){
+                return DSUtilResponseEntity.statusBadRequest("ERROR: No se pudo eliminar el bedel debido a la falta de ID en la solicitud");
+            }
+
             Optional<Bedel> bedelOptional = bedelRepository.findById(id);
 
             if(bedelOptional.isEmpty()){
@@ -324,6 +349,11 @@ public class BedelService {
 
     public ResponseEntity<Object> activateBedel(Long id){
         try{
+
+            if(id==null){
+                return DSUtilResponseEntity.statusBadRequest("ERROR: No se pudo eliminar el bedel debido a la falta de ID en la solicitud");
+            }
+
             Optional<Bedel> bedelOptional = bedelRepository.findById(id);
 
             if(bedelOptional.isEmpty()){

@@ -1,9 +1,12 @@
 package com.ds.tp.models.reserva;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.ds.tp.models.usuario.Bedel;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +15,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
@@ -26,22 +30,30 @@ public abstract class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @Column(name="id_docente")
+    @Column(name="id_docente",nullable=false)
     protected Long idDocente;
-    @Column(name="id_asignatura")
+
+    @Column(name="id_asignatura",nullable=false)
     protected Long idAsignatura;
-    @Column
+
+    @Column(name="nombre_docente")
     protected String nombreDocente;
-    @Column
+
+    @Column(name="nombre_asignatura")
     protected String nombreAsignatura;
-    @Column(name="cant_alumnos")
+
+    @Column(name="cant_alumnos",nullable=false)
     protected Integer cantAlumnos;
-    @Column(name="fecha_registro")
+
+    @Column(name="fecha_registro",nullable=false)
     protected Timestamp fechaRegistroTimestamp;
 
     @OneToOne
     @JoinColumn(name = "id_bedel", referencedColumnName = "id", nullable = false)
     protected Bedel bedel;
+
+    @OneToMany(mappedBy = "reserva", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DiaReserva> diasReserva = new ArrayList<>();
 
     //getter-setter
     public Long getId() {
@@ -98,5 +110,17 @@ public abstract class Reserva {
     }
     public void setBedel(Bedel bedel) {
         this.bedel = bedel;
+    }
+
+    public List<DiaReserva> getDiasReserva() {
+        return diasReserva;
+    }
+
+    public void setDiasReserva(List<DiaReserva> diasReserva) {
+        this.diasReserva = diasReserva;
+    }
+
+    public void addDiaReserva(DiaReserva diaReserva){
+        diasReserva.add(diaReserva);
     }
 }

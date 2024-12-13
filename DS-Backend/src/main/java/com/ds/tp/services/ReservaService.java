@@ -6,11 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.logging.log4j.CloseableThreadContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +19,6 @@ import com.ds.tp.models.dto.DiaReservaDTO;
 import com.ds.tp.models.dto.ReservaDTO;
 import com.ds.tp.models.reserva.DiaReserva;
 import com.ds.tp.models.reserva.Periodo;
-import com.ds.tp.models.reserva.Reserva;
 import com.ds.tp.models.reserva.ReservaEsporadica;
 import com.ds.tp.models.reserva.ReservaPeriodica;
 import com.ds.tp.models.usuario.Bedel;
@@ -32,20 +29,23 @@ import com.ds.tp.util.DSUtilResponseEntity;
 
 @Service
 public class ReservaService {
+    //ATRIBUTOS
+
     // Atributos inyectados por Spring
-    
     @Autowired
-    private BedelRepository bedelRepository;
+    private final BedelRepository bedelRepository;
 
     @Autowired
-    private AulaRepository aulaRepository;
+    private final AulaRepository aulaRepository;
 
     @Autowired
-    private ReservaRepository reservaRepository;
+    private final ReservaRepository reservaRepository;
 
     //Atributos propios de la clase
     private static final int PERIODICA=0;
     private static final int ESPORADICA=1; 
+
+    //Constructor
 
     public ReservaService(BedelRepository bedelRepository, AulaRepository aulaRepository,ReservaRepository reservaRepository) {
         this.bedelRepository = bedelRepository;
@@ -53,18 +53,29 @@ public class ReservaService {
         this.reservaRepository=reservaRepository;
     }
 
-    //Constructor
-
     // FUNCIONES DEL SERVICIO RESERVA
+
+    //--------------------------------------------------POST RESERVA--------------------------------------------------   
 
     public ResponseEntity<Object> postReserva(ReservaDTO reservaDTO){
 
-        if(reservaDTO.getTipo()==PERIODICA){
-            this.convertirPeriodica(reservaDTO);
-            return crearReservaPeriodica(reservaDTO);
+        if(verificarDatosIncorrectosReserva(reservaDTO)){
+            return DSUtilResponseEntity.statusBadRequest("ERROR: No se puede crear la reserva porque existen datos invalidos dentro de la solicitud");
         }
 
-        return crearReservaEsporadica(reservaDTO);
+        switch (reservaDTO.getTipo()) {
+            case PERIODICA -> {
+                this.convertirPeriodica(reservaDTO);
+                return crearReservaPeriodica(reservaDTO);
+            }
+            case ESPORADICA -> {
+                return crearReservaEsporadica(reservaDTO);
+            }
+            default -> {
+                return DSUtilResponseEntity.statusBadRequest("ERROR: Se quiere crear una reserva de un tipo invalido");
+            }
+        }
+
     }
 
 
@@ -74,9 +85,18 @@ public class ReservaService {
 
     private ResponseEntity<Object> crearReservaEsporadica(ReservaDTO reservaDTO) {
         try{
-            ReservaEsporadica nuevaReservaEsporadica = new ReservaEsporadica(this.obtenerUsuarioLogeado(),reservaDTO.getCantAlumnos(),Timestamp.from(Instant.now()) ,reservaDTO.getIdAsignatura(), reservaDTO.getIdDocente(),reservaDTO.getNombreAsignatura(),reservaDTO.getNombreDocente());
+            ReservaEsporadica nuevaReservaEsporadica = new ReservaEsporadica(this.obtenerUsuarioLogeado(),
+                                                                reservaDTO.getCantAlumnos(),
+                                                                Timestamp.from(Instant.now()),
+                                                                reservaDTO.getIdAsignatura(), 
+                                                                reservaDTO.getIdDocente(),
+                                                                reservaDTO.getNombreAsignatura(),
+                                                                reservaDTO.getNombreDocente()
+                                                            );
 
-            nuevaReservaEsporadica.setDiasReserva(this.crearDiasReserva(reservaDTO.getListaDiasReservaDTO()));
+            nuevaReservaEsporadica.setDiasReserva(this.crearDiasReserva(
+                                                reservaDTO.getListaDiasReservaDTO())
+                                                );
 
             reservaRepository.save(nuevaReservaEsporadica);
 
@@ -98,13 +118,22 @@ public class ReservaService {
 
     public ResponseEntity<Object> crearReservaPeriodica(ReservaDTO reservaDTO) {
         try{
+
             Optional<Periodo> periodoOptional = reservaRepository.findPeriodoById(reservaDTO.getPeriodo());
             
             if(periodoOptional.isEmpty()){
                 DSUtilResponseEntity.statusInternalServerError("Se quiere asignar un periodo invalido a la reserva");
             }
 
-            ReservaPeriodica nuevaReservaEsporadica = new ReservaPeriodica(this.obtenerUsuarioLogeado(),reservaDTO.getCantAlumnos(),Timestamp.from(Instant.now()) ,reservaDTO.getIdAsignatura(), reservaDTO.getIdDocente(),reservaDTO.getNombreAsignatura(),reservaDTO.getNombreDocente(),periodoOptional.get());
+            ReservaPeriodica nuevaReservaEsporadica = new ReservaPeriodica(this.obtenerUsuarioLogeado(),
+                                                        reservaDTO.getCantAlumnos(),
+                                                        Timestamp.from(Instant.now()),
+                                                        reservaDTO.getIdAsignatura(),
+                                                        reservaDTO.getIdDocente(),
+                                                        reservaDTO.getNombreAsignatura(),
+                                                        reservaDTO.getNombreDocente(),
+                                                        periodoOptional.get()
+                                                    );
 
             nuevaReservaEsporadica.setDiasReserva(this.crearDiasReserva(reservaDTO.getListaDiasReservaDTO()));
 
@@ -125,6 +154,7 @@ public class ReservaService {
     }
 
 
+    //--------------------------------------------------METODOS GENERALES--------------------------------------------------
 
     public List<DiaReserva> crearDiasReserva(List<DiaReservaDTO> listaDiasReservaDTO){
         List<DiaReserva> diasReserva = new ArrayList<>();
@@ -146,7 +176,8 @@ public class ReservaService {
         throw new IllegalStateException("ERROR: Se pide crear una reserva de un Aula inexistente");
     }
 
-    public Bedel obtenerUsuarioLogeado() {
+
+    public Bedel obtenerUsuarioLogeado() throws IllegalStateException{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             throw new IllegalStateException("ERROR: No hay un usuario autenticado.");
@@ -161,5 +192,29 @@ public class ReservaService {
         }
 
         throw new IllegalStateException("ERROR: No existe el usuario Solicitado");
+    }
+
+    public boolean verificarDatosIncorrectosReserva(ReservaDTO nuevaReserva){
+
+        if(nuevaReserva.getIdDocente()==null || nuevaReserva.getIdAsignatura()==null || 
+        nuevaReserva.getNombreDocente()==null || nuevaReserva.getNombreAsignatura()==null||
+        nuevaReserva.getCantAlumnos()==null || nuevaReserva.getListaDiasReservaDTO()==null ){
+            return true;           
+        }
+
+        if(nuevaReserva.getTipo()==PERIODICA){
+            if (nuevaReserva.getPeriodo()==null){
+                return true;  
+            }
+            if (!(nuevaReserva.getPeriodo().equals(0) || nuevaReserva.getPeriodo().equals(1) || nuevaReserva.getPeriodo().equals(1))){
+                return true;  
+            }
+        }
+
+        if(nuevaReserva.getListaDiasReservaDTO().isEmpty()){
+            return true;
+        }
+
+        return nuevaReserva.getCantAlumnos()<=0;
     }
 }

@@ -25,8 +25,10 @@ public class EmpresaService {
             return false;
         }
 
-        // Validar números y ya retorna el resultado (para ahorrar 1 if() )    
-            
+        // Validar números y ya retorna el resultado   
+
         return contrasenia.chars().filter(Character::isDigit).count() >= reqContrasenia.getCantNumeros();
     }
+
+    
 }

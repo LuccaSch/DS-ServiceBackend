@@ -13,7 +13,7 @@ public abstract class Usuario {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     protected Long id;
 
-    @Column(nullable=false)
+    @Column(nullable=false,unique=true)
     protected String usuario;
     @Column(nullable=false)
     protected String nombre;

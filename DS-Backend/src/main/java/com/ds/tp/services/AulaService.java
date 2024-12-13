@@ -30,15 +30,16 @@ import com.ds.tp.util.DSUtilResponseEntity;
 @Service
 public class AulaService {
     //ATRIBUTOS
+
     // Atributos inyectados por Spring 
     @Autowired
-    AulaRepository aulaRepository;
+    private final AulaRepository aulaRepository;
 
     @Autowired
-    ReservaRepository reservaRepository;
+    private final ReservaRepository reservaRepository;
 
     @Autowired
-    DiaReservaRepository diaReservaRepository;
+    private final DiaReservaRepository diaReservaRepository;
 
     //Atributos propios de la clase
     private static final int INFORMATICA = 0;
@@ -56,8 +57,12 @@ public class AulaService {
 
     //--------------------------------------------------GET AULAS--------------------------------------------------
 
+    //ESPORADICA
     public ResponseEntity<Object> getAulaEsporadica(RequerimientoDisponibilidadDTO requisito) {
         try{
+            if(verificarDatosIncorrectosRequerimiento(requisito)){
+                return DSUtilResponseEntity.statusBadRequest("ERROR: No se puede crear la reserva porque existen datos invalidos dentro de la solicitud");
+            }
             //Creanis un opcional de Aula
             Optional<? extends List<? extends Aula>> aulasOpt;
 
@@ -67,7 +72,7 @@ public class AulaService {
                 case MULTIMEDIA -> aulasOpt = aulaRepository.findAulasMultimediaByMaximoAlumnos(requisito.getCantidadAlumnos());
                 case SINRECURSOS -> aulasOpt = aulaRepository.findAulasSinRecursosByMaximoAlumnos(requisito.getCantidadAlumnos());
                 default -> {
-                            return DSUtilResponseEntity.statusBadRequest("Tipo de aula invalido válido: Seleccione entre Informatica, Multimedia Y Sin Recursos");
+                            return DSUtilResponseEntity.statusBadRequest("ERROR: Tipo de aula invalido: Seleccione entre Informatica, Multimedia Y Sin Recursos");
                         }
             }
 
@@ -91,13 +96,10 @@ public class AulaService {
             return DSUtilResponseEntity.statusOk(disponibilidadFinal);
         }
         catch (DataAccessException e) {
-            System.out.println("Error de acceso a datos: " + e.getMessage());
-
-            return DSUtilResponseEntity.statusInternalServerError("Error interno del Servidor, por favor intentar mas tarde");
+            return DSUtilResponseEntity.statusInternalServerError("ERROR: interno del Servidor, por favor intentar mas tarde");
         }
         catch (Exception e) {
-            System.out.println("Error de acceso a datos: " + e.getMessage());
-            return DSUtilResponseEntity.statusInternalServerError("Error inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
+            return DSUtilResponseEntity.statusInternalServerError("ERROR: inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
         }
 
     }
@@ -237,6 +239,8 @@ public class AulaService {
         }
     }
 
+    //--------------------------------------------------METODOS GENERALES--------------------------------------------------
+
     public AulaDTO crearAulaDTO(Aula aula){
         return new AulaDTO(aula.getIdAula(),aula.isDisponible(), aula.getMaximoAlumnos(), aula.getPiso(), aula.getTipoPizarron());
     }
@@ -257,4 +261,13 @@ public class AulaService {
                     reserva.getNombreDocente()
                     );
     }
+
+    public boolean verificarDatosIncorrectosRequerimiento(RequerimientoDisponibilidadDTO requisito){
+        if(requisito.getCantidadAlumnos()==null || requisito.getDiasReserva()==null){
+            return true;
+        }
+        
+        return requisito.getDiasReserva().isEmpty();
+    }
+
 }

@@ -22,13 +22,13 @@ public class DiaReserva{
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name="fecha_reserva")
+    @Column(name="fecha_reserva",nullable=false)
     private LocalDate fechaReserva;
 
-    @Column(name="hora_inicio")
+    @Column(name="hora_inicio",nullable=false)
     private LocalTime horaInicio;
 
-    @Column
+    @Column(name="duracion",nullable=false)
     private int duracion;
     
     @ManyToOne

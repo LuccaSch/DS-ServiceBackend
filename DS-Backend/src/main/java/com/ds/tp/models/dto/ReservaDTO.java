@@ -16,6 +16,9 @@ public class ReservaDTO{
     @JsonProperty("idAsignatura")
     private Long idAsignatura;
 
+    @JsonProperty("idBedel")
+    private Long idBedel;
+
     @JsonProperty("usuarioBedel")
     private String usuarioBedel;
     
@@ -40,7 +43,7 @@ public class ReservaDTO{
 
     @JsonProperty("periodo")
     //0 Anual, 1 primerCuatrimestr, 2 SegundoCuatrimestre 
-    private int periodo;
+    private Long periodo;
 
 
     public ReservaDTO(Long id,Integer cantAlumnos, Timestamp fechaRegistroTimestamp, Long idAsignatura, String idBedel, Long idDocente, String nombreAsignatura, String nombreDocente,int tipo, List<DiaReservaDTO> listaDiasReservaDTO) {
@@ -56,10 +59,12 @@ public class ReservaDTO{
         this.tipo=tipo;
     }
 
-    public ReservaDTO(Long id, Long idAsignatura, String idBedel, Long idDocente, String nombreAsignatura, String nombreDocente) {
+
+    //NO MODIFICAR SE USA PARA DISPONIBILIDAD
+    public ReservaDTO(Long id, Long idAsignatura, Long idBedel, Long idDocente, String nombreAsignatura, String nombreDocente) {
         this.id = id;
         this.idAsignatura = idAsignatura;
-        this.usuarioBedel = idBedel;
+        this.idBedel = idBedel;
         this.idDocente = idDocente;
         this.nombreAsignatura = nombreAsignatura;
         this.nombreDocente = nombreDocente;
@@ -89,11 +94,11 @@ public class ReservaDTO{
         this.idAsignatura = idAsignatura;
     }
 
-    public String getIdBedel() {
+    public String getUsuarioBedel() {
         return usuarioBedel;
     }
 
-    public void setIdBedel(String idBedel) {
+    public void setUsuarioBedel(String idBedel) {
         this.usuarioBedel = idBedel;
     }
 
@@ -137,11 +142,11 @@ public class ReservaDTO{
         this.listaDiasReservaDTO = listaDiasReservaDTO;
     }
 
-    public int getPeriodo() {
+    public Long getPeriodo() {
         return periodo;
     }
 
-    public void setPeriodo(int periodo) {
+    public void setPeriodo(Long periodo) {
         this.periodo = periodo;
     }
 
@@ -151,6 +156,14 @@ public class ReservaDTO{
 
     public void setTipo(int tipo) {
         this.tipo = tipo;
+    }
+
+    public Long getIdBedel() {
+        return idBedel;
+    }
+
+    public void setIdBedel(Long idBedel) {
+        this.idBedel = idBedel;
     }
 
 }
