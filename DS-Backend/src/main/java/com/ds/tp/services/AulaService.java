@@ -191,6 +191,7 @@ public class AulaService {
         return Optional.empty();
     }
 
+
     public Optional<Duration> calcularSuperposicion(DiaReserva diaReserva,DiaReservaDTO diaReservaDTO) {
         //La duracion en minutos
         Duration duracion1=Duration.ofMinutes(diaReservaDTO.getDuracion());

@@ -1,6 +1,7 @@
 package com.ds.tp.models.dto;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -15,8 +16,8 @@ public class ReservaDTO{
     @JsonProperty("idAsignatura")
     private Long idAsignatura;
 
-    @JsonProperty("idBedel")
-    private Long idBedel;
+    @JsonProperty("usuarioBedel")
+    private String usuarioBedel;
     
     @JsonProperty("nombreDocente")
     private String nombreDocente;
@@ -30,21 +31,35 @@ public class ReservaDTO{
     @JsonProperty("fechaRegistro")
     private Timestamp fechaRegistroTimestamp;
 
-    public ReservaDTO(Long id,Integer cantAlumnos, Timestamp fechaRegistroTimestamp, Long idAsignatura, Long idBedel, Long idDocente, String nombreAsignatura, String nombreDocente) {
+    @JsonProperty("diaReservaDTO")
+    private List<DiaReservaDTO> listaDiasReservaDTO;
+
+    @JsonProperty("tipo")
+    // 0 periodica, 1 esporadica
+    private int tipo;
+
+    @JsonProperty("periodo")
+    //0 Anual, 1 primerCuatrimestr, 2 SegundoCuatrimestre 
+    private int periodo;
+
+
+    public ReservaDTO(Long id,Integer cantAlumnos, Timestamp fechaRegistroTimestamp, Long idAsignatura, String idBedel, Long idDocente, String nombreAsignatura, String nombreDocente,int tipo, List<DiaReservaDTO> listaDiasReservaDTO) {
         this.cantAlumnos = cantAlumnos;
         this.fechaRegistroTimestamp = fechaRegistroTimestamp;
         this.id = id;
         this.idAsignatura = idAsignatura;
-        this.idBedel = idBedel;
+        this.usuarioBedel = idBedel;
         this.idDocente = idDocente;
         this.nombreAsignatura = nombreAsignatura;
         this.nombreDocente = nombreDocente;
+        this.listaDiasReservaDTO=listaDiasReservaDTO;
+        this.tipo=tipo;
     }
 
-    public ReservaDTO(Long id, Long idAsignatura, Long idBedel, Long idDocente, String nombreAsignatura, String nombreDocente) {
+    public ReservaDTO(Long id, Long idAsignatura, String idBedel, Long idDocente, String nombreAsignatura, String nombreDocente) {
         this.id = id;
         this.idAsignatura = idAsignatura;
-        this.idBedel = idBedel;
+        this.usuarioBedel = idBedel;
         this.idDocente = idDocente;
         this.nombreAsignatura = nombreAsignatura;
         this.nombreDocente = nombreDocente;
@@ -74,12 +89,12 @@ public class ReservaDTO{
         this.idAsignatura = idAsignatura;
     }
 
-    public Long getIdBedel() {
-        return idBedel;
+    public String getIdBedel() {
+        return usuarioBedel;
     }
 
-    public void setIdBedel(Long idBedel) {
-        this.idBedel = idBedel;
+    public void setIdBedel(String idBedel) {
+        this.usuarioBedel = idBedel;
     }
 
     public String getNombreDocente() {
@@ -113,4 +128,29 @@ public class ReservaDTO{
     public void setFechaRegistroTimestamp(Timestamp fechaRegistroTimestamp) {
         this.fechaRegistroTimestamp = fechaRegistroTimestamp;
     }
+
+    public List<DiaReservaDTO> getListaDiasReservaDTO() {
+        return listaDiasReservaDTO;
+    }
+
+    public void setListaDiasReservaDTO(List<DiaReservaDTO> listaDiasReservaDTO) {
+        this.listaDiasReservaDTO = listaDiasReservaDTO;
+    }
+
+    public int getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(int periodo) {
+        this.periodo = periodo;
+    }
+
+    public int getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(int tipo) {
+        this.tipo = tipo;
+    }
+
 }

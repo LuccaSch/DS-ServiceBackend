@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ds.tp.models.dto.RequerimientoDisponibilidadDTO;
+import com.ds.tp.models.dto.ReservaDTO;
 import com.ds.tp.services.AulaService;
+import com.ds.tp.services.ReservaService;
 
 
 @RestController
-@RequestMapping("/bedel/api")
+@RequestMapping("/bedel/api") 
 
 public class BedelRestController {
 
@@ -20,9 +22,14 @@ public class BedelRestController {
     @Autowired
     AulaService aulaService;
 
+    @Autowired
+    ReservaService reservaService;
+    
+
     //Constructor
-    public BedelRestController(AulaService aulaService){
+    public BedelRestController(AulaService aulaService,ReservaService reservaService){
         this.aulaService=aulaService;
+        this.reservaService=reservaService;
     }
 
     //Metodos
@@ -37,6 +44,12 @@ public class BedelRestController {
     @PostMapping("/getAula/esporadica")
     public ResponseEntity<Object> buscarAulasEsporadica(@RequestBody RequerimientoDisponibilidadDTO requisito) {
         return aulaService.getAulaEsporadica(requisito); 
+    }
+    
+    @PostMapping("/reserva/registrar")
+    public ResponseEntity<Object> postMethodName(@RequestBody ReservaDTO reservaDTO) {
+    
+        return reservaService.postReserva(reservaDTO);
     }
     
 }
