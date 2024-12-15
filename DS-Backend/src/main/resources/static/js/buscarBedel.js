@@ -88,55 +88,90 @@ boton.addEventListener("click", function () {
                 //si no hay errores se retorna la lista de bedeles
                 return response.json();
             })
-            .then(data => {
-
-                // Si no hay coincidencias para el filtro seleccionado, informamos y cortamos la ejecucion
+            .then(data => { 
+                // Limpiamos el contenedor antes de agregar contenido nuevo
+                bedelListContainer.innerHTML = "";
+            
+                // Si no hay coincidencias para el filtro seleccionado, informamos y cortamos la ejecución
                 if (data.length === 0) {
                     bedelListContainer.textContent = "No se encontraron bedeles.";
                     return;
                 }
-
-                //Iteramos todos los bedeles para crear los ItemBedel
+            
+                // Creamos una tabla para contener la información de los bedeles
+                const table = document.createElement("table");
+                table.className = "bedel-table";
+            
+                // Creamos el encabezado de la tabla
+                const thead = document.createElement("thead");
+                thead.innerHTML = `
+                    <tr>
+                        <th>ID</th>
+                        <th>Usuario</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Turno</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                `;
+                table.appendChild(thead);
+            
+                // Creamos el cuerpo de la tabla
+                const tbody = document.createElement("tbody");
+            
+                // Iteramos todos los bedeles para crear las filas
                 data.forEach(bedel => {
-                    // Creamos el contenedor para cada bedel
-                    const bedelItem = document.createElement("div");
-                    bedelItem.className = "bedel-item";
-
-                    //Consultamos si el bedel esta activo o inactivo para setear el color del fondo
-                    bedelItem.style.backgroundColor = bedel.estado ? "#7be48c" : "#fcf96f";
-
-                    //Cargamos la informacion de cada bedel (Se puede mejorar cambiando los |)
-                    const bedelInfo = document.createElement("span");
-                    bedelInfo.textContent = `"ID": ${bedel.id} | "Usuario": ${bedel.usuario} | "Nombre": ${bedel.nombre} | "Apellido": ${bedel.apellido} | "Turno": ${bedel.turno}`;
-                    bedelItem.appendChild(bedelInfo);
-
-                    //Se agrega el Botón para modificar: se setean los atributos y luego el boton que llamara a openModalModificar
+                    const row = document.createElement("tr");
+                    row.className = "bedel-row";
+                    row.dataset.id = bedel.id;
+            
+                    // Consultamos si el bedel está activo o inactivo para setear el fondo de la fila
+                    row.style.backgroundColor = bedel.estado ? "#7be48c" : "#fcf96f";
+            
+                    // Creamos las celdas con la información del bedel
+                    row.innerHTML = `
+                        <td>${bedel.id}</td>
+                        <td>${bedel.usuario}</td>
+                        <td>${bedel.nombre}</td>
+                        <td>${bedel.apellido}</td>
+                        <td>${bedel.turno}</td>
+                        <td>${bedel.estado ? "Activo" : "Inactivo"}</td>
+                    `;
+            
+                    // Creamos la celda de acciones
+                    const actionCell = document.createElement("td");
+            
+                    // Botón para modificar
                     const modificarBtn = document.createElement("button");
                     modificarBtn.textContent = "Modificar";
                     modificarBtn.className = "modificar-btn";
                     modificarBtn.addEventListener("click", () => {
                         openModalModificar(bedel);
                     });
-                    bedelItem.appendChild(modificarBtn);
-
-                    //Se agrega el Botón para eliminar/activar: se setean los atributos y luego el boton que llamara a openModalEliminar
+                    actionCell.appendChild(modificarBtn);
+            
+                    // Botón para eliminar/activar
                     const eliminarBtn = document.createElement("button");
-
                     eliminarBtn.textContent = bedel.estado ? "Eliminar" : "Activar";
-                    
-                    if (bedel.estado) {
-                        eliminarBtn.className = "eliminar-btn-active";  
-                    } else {
-                        eliminarBtn.className = "eliminar-btn-eliminado";
-                    }
-
+                    eliminarBtn.className = bedel.estado ? "eliminar-btn-active" : "eliminar-btn-eliminado";
                     eliminarBtn.addEventListener("click", () => {
-                        openModalEliminar(bedel, eliminarBtn, bedelItem);
+                        openModalEliminar(bedel, eliminarBtn, row);
                     });
-                    bedelItem.appendChild(eliminarBtn);
-
-                    bedelListContainer.appendChild(bedelItem);
+                    actionCell.appendChild(eliminarBtn);
+            
+                    // Añadimos la celda de acciones a la fila
+                    row.appendChild(actionCell);
+            
+                    // Añadimos la fila al cuerpo de la tabla
+                    tbody.appendChild(row);
                 });
+            
+                // Añadimos el cuerpo a la tabla
+                table.appendChild(tbody);
+            
+                // Añadimos la tabla al contenedor
+                bedelListContainer.appendChild(table);
             })
             .catch(error => {
                 console.error("Error:", error);
@@ -228,6 +263,16 @@ function toggleEstadoBedel(bedel, button, bedelItem) {
                 button.className = "eliminar-btn-active";  
             } else {
                 button.className = "eliminar-btn-eliminado";
+            }
+
+            const row = document.querySelector(`tr[data-id="${bedel.id}"]`);
+            if (row) {
+                // Actualizamos el estado dependiendo del valor de 'estado'
+                if (bedel.estado) {
+                    row.children[5].textContent = "Activo";
+                } else {
+                    row.children[5].textContent = "Inactivo";
+                }
             }
             
             mostrarModalConMensajeExito(`Bedel ${bedel.estado ? "activado" : "eliminado"} correctamente.`); 
@@ -333,7 +378,14 @@ document.getElementById("save-modificar-button").addEventListener("click", () =>
         })
         .then(() => {
             closeModalModificar();
-            mostrarModalConMensajeExito("Bedel actualizado correctamente."); 
+            mostrarModalConMensajeExito("Bedel actualizado correctamente.");
+            // Actualizar dinámicamente la fila en el DOM usando data-id
+            const row = document.querySelector(`tr[data-id="${updatedBedel.id}"]`);
+            if (row) {
+                if (updatedBedel.nombre) row.children[2].textContent = updatedBedel.nombre;
+                if (updatedBedel.apellido) row.children[3].textContent = updatedBedel.apellido;
+                if (updatedBedel.turno) row.children[4].textContent = updatedBedel.turno;
+            } 
         })
         .catch(error => {
             console.error("Error:", error);

@@ -129,6 +129,27 @@ p label {
     background-color: #f9f9f9; 
 }
 
+.bedel-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+.bedel-table th, .bedel-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.bedel-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.bedel-row:hover {
+    background-color: #f1f1f1;
+}
+
 /* Estado del item activo/deshabilitado */
 .bedel-item.active {
     background-color: rgb#7be48c;
