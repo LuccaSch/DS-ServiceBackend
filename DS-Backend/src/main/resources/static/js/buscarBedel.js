@@ -192,9 +192,9 @@ function closeModalEliminar() {
 function openModalEliminar(bedel, button, bedelItem) {
 
     const tituloEliminar = document.getElementById('modal-title-eliminar');
+    const modalEliminar = document.getElementById('modal-eliminar');
 
     // Mostrar el modal de eliminar bedel
-    const modalEliminar = document.getElementById('modal-eliminar');
     const usuarioEliminar = document.getElementById('bedel-eliminar-usuario');
     const nombreEliminar = document.getElementById('bedel-eliminar-nombre');
     const apellidoEliminar = document.getElementById('bedel-eliminar-apellido');
@@ -216,8 +216,6 @@ function openModalEliminar(bedel, button, bedelItem) {
     const saveButton = document.getElementById('save-delete-button');
     saveButton.onclick = function() {
         toggleEstadoBedel(bedel, button, bedelItem);
-        // Cerrar el modal después de realizar la acción
-        modalEliminar.style.display = "none"; 
     };
 }
 
@@ -265,17 +263,16 @@ function toggleEstadoBedel(bedel, button, bedelItem) {
                 button.className = "eliminar-btn-eliminado";
             }
 
-            const row = document.querySelector(`tr[data-id="${bedel.id}"]`);
-            if (row) {
-                // Actualizamos el estado dependiendo del valor de 'estado'
-                if (bedel.estado) {
-                    row.children[5].textContent = "Activo";
-                } else {
-                    row.children[5].textContent = "Inactivo";
-                }
+
+            if (bedel.estado) {
+                bedelItem.children[5].textContent = "Activo";
+            } else {
+                bedelItem.children[5].textContent = "Inactivo";
             }
+
             
-            mostrarModalConMensajeExito(`Bedel ${bedel.estado ? "activado" : "eliminado"} correctamente.`); 
+            mostrarModalConMensajeExito(`Bedel ${bedel.estado ? "activado" : "eliminado"} correctamente.`);
+            closeModalEliminar(); 
         })
         .catch(error => {
             console.error("Error:", error);
@@ -306,18 +303,24 @@ function openModalModificar(bedel,bedelItem) {
     document.getElementById("bedel-modificar-nombre").placeholder = bedelItem.children[2].textContent;
     document.getElementById("bedel-modificar-apellido").placeholder = bedelItem.children[3].textContent;
     document.getElementById("bedel-modificar-turno").placeholder = bedelItem.children[4].textContent;
-    
+
     modal.style.display = "block";
+
+    const saveButton = document.getElementById('save-modificar-button');
+    saveButton.onclick = function() {
+        modificarBedel(bedel, bedelItem);
+    };
+    
 }
 
 document.getElementById("close-button-modificar").addEventListener("click", closeModalModificar);
 
 document.getElementById("cancel-modificar-button").addEventListener("click", closeModalModificar);
 
-document.getElementById("save-modificar-button").addEventListener("click", () => {
+function modificarBedel(bedel, bedelItem){
     let updatedBedel = {
-        id : document.getElementById("bedel-id").value,
-        usuario: document.getElementById("bedel-modificar-usuario").value,
+        id : bedel.id,
+        usuario: bedel.usuario,
         //Si no se modifica el atributo se le asigna el valor NULL para que el servidor sepa que atributos fueron cambiados
         nombre: document.getElementById("bedel-modificar-nombre").value || null,
         apellido: document.getElementById("bedel-modificar-apellido").value || null,
@@ -379,19 +382,16 @@ document.getElementById("save-modificar-button").addEventListener("click", () =>
         .then(() => {
             closeModalModificar();
             mostrarModalConMensajeExito("Bedel actualizado correctamente.");
-            // Actualizar dinámicamente la fila en el DOM usando data-id
-            const row = document.querySelector(`tr[data-id="${updatedBedel.id}"]`);
-            if (row) {
-                if (updatedBedel.nombre) row.children[2].textContent = updatedBedel.nombre;
-                if (updatedBedel.apellido) row.children[3].textContent = updatedBedel.apellido;
-                if (updatedBedel.turno) row.children[4].textContent = updatedBedel.turno;
-            } 
+
+            if (updatedBedel.nombre) bedelItem.children[2].textContent = updatedBedel.nombre;
+            if (updatedBedel.apellido) bedelItem.children[3].textContent = updatedBedel.apellido;
+            if (updatedBedel.turno) bedelItem.children[4].textContent = updatedBedel.turno;
         })
         .catch(error => {
             console.error("Error:", error);
             mostrarModalConMensajeError("Ocurrió un error al actualizar el Bedel."); 
         });
-});
+};
 
 
 

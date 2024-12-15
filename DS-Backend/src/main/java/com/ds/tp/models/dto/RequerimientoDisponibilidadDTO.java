@@ -1,6 +1,7 @@
 package com.ds.tp.models.dto;
 
 import java.util.List;
+import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,6 +11,7 @@ public class RequerimientoDisponibilidadDTO {
     @JsonProperty("cantidadAlumnos")
     private Integer cantidadAlumnos;
 
+    //esporadica = false, periodica = true
     @JsonProperty("tipoReserva")
     private Boolean tipoReserva;
 
@@ -17,8 +19,14 @@ public class RequerimientoDisponibilidadDTO {
     @JsonProperty("tipoAula")
     int tipoAula;
 
+    // 0 Anual, 1 primer cuatri, 2 segundo cuatri
+    @JsonProperty("periodo")
+    Long periodo;
+
     @JsonProperty("diasReserva")
     List<DiaReservaDTO> diasReserva;
+
+    Map<Long,List<DiaReservaDTO>> mapDiasSemana;
 
     public RequerimientoDisponibilidadDTO(Integer cantidadAlumnos, List<DiaReservaDTO> diasReserva, int tipoAula, Boolean tipoReserva) {
         this.cantidadAlumnos = cantidadAlumnos;
@@ -58,4 +66,21 @@ public class RequerimientoDisponibilidadDTO {
     public void setDiasReserva(List<DiaReservaDTO> diasReserva) {
         this.diasReserva = diasReserva;
     }
+
+    public Long getPeriodo() {
+        return periodo;
+    }
+
+    public void setPeriodo(Long periodo) {
+        this.periodo = periodo;
+    }
+
+    public Map<Long, List<DiaReservaDTO>> getMapDiasSemana() {
+        return mapDiasSemana;
+    }
+
+    public void setMapDiasSemana(Map<Long, List<DiaReservaDTO>> mapDiasSemana) {
+        this.mapDiasSemana = mapDiasSemana;
+    }
+
 }

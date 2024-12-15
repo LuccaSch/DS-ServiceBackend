@@ -1,11 +1,15 @@
 package com.ds.tp.services;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,9 +25,9 @@ import com.ds.tp.models.dto.DisponibilidadAulaDTO;
 import com.ds.tp.models.dto.RequerimientoDisponibilidadDTO;
 import com.ds.tp.models.dto.ReservaDTO;
 import com.ds.tp.models.reserva.DiaReserva;
+import com.ds.tp.models.reserva.Periodo;
 import com.ds.tp.models.reserva.Reserva;
 import com.ds.tp.repositories.AulaRepository;
-import com.ds.tp.repositories.DiaReservaRepository;
 import com.ds.tp.repositories.ReservaRepository;
 import com.ds.tp.util.DSUtilResponseEntity;
 
@@ -38,8 +42,7 @@ public class AulaService {
     @Autowired
     private final ReservaRepository reservaRepository;
 
-    @Autowired
-    private final DiaReservaRepository diaReservaRepository;
+
 
     //Atributos propios de la clase
     private static final int INFORMATICA = 0;
@@ -47,10 +50,9 @@ public class AulaService {
     private static final int SINRECURSOS = 2;
 
     //Constructor
-    public AulaService(AulaRepository aulaRepository,ReservaRepository reservaRepository,DiaReservaRepository diaReservaRepository){
+    public AulaService(AulaRepository aulaRepository,ReservaRepository reservaRepository){
         this.aulaRepository=aulaRepository;
         this.reservaRepository=reservaRepository;
-        this.diaReservaRepository=diaReservaRepository;
     }
 
     // FUNCIONES DEL SERVICIO AULA
@@ -63,6 +65,7 @@ public class AulaService {
             if(verificarDatosIncorrectosRequerimiento(requisito)){
                 return DSUtilResponseEntity.statusBadRequest("ERROR: No se puede crear la reserva porque existen datos invalidos dentro de la solicitud");
             }
+
             //Creanis un opcional de Aula
             Optional<? extends List<? extends Aula>> aulasOpt;
 
@@ -91,9 +94,16 @@ public class AulaService {
                                     .collect(Collectors.toList());          
 
             //Buscamos La disponibilidad para estas aulas en las fechas solicitadas
-            List<DisponibilidadAulaDTO> disponibilidadFinal = this.getDisponibilidadFinal(listaAulas,requisito.getDiasReserva());
+            if(requisito.getTipoReserva()){
+                List<DisponibilidadAulaDTO> disponibilidadFinal = this.getDisponibilidadFinalPeriodica(listaAulas,requisito.getMapDiasSemana());
             
-            return DSUtilResponseEntity.statusOk(disponibilidadFinal);
+                return DSUtilResponseEntity.statusOk(disponibilidadFinal);
+            }
+            else{
+                List<DisponibilidadAulaDTO> disponibilidadFinal = this.getDisponibilidadFinal(listaAulas,requisito.getDiasReserva());
+            
+                return DSUtilResponseEntity.statusOk(disponibilidadFinal);
+            }
         }
         catch (DataAccessException e) {
             return DSUtilResponseEntity.statusInternalServerError("ERROR: interno del Servidor, por favor intentar mas tarde");
@@ -104,7 +114,6 @@ public class AulaService {
 
     }
 
-
     public List<DisponibilidadAulaDTO> getDisponibilidadFinal(List<Aula> listaAulas,List<DiaReservaDTO> diasReservaDTO){
         
         List<DisponibilidadAulaDTO> disponibilidadFinal = new ArrayList<>();
@@ -112,7 +121,20 @@ public class AulaService {
         //Iteramos cada DiaReserva para encontrar la disponibilidad por ese dia en especifico
         for (DiaReservaDTO unDiaReservaDTO : diasReservaDTO){
             //Añadimos a nuestra Lista de Disponibilidad la disponibilidad de ese diaReservaDTO en particular
-            disponibilidadFinal.add(getDisponibilidadDia(listaAulas,unDiaReservaDTO));
+            DisponibilidadAulaDTO disponibilidadDia = getDisponibilidadDia(listaAulas,unDiaReservaDTO);
+            //Si por el contrario hay aulas candidatas preguntamos si existen mas de 3 para limitar las respuestas y luego las agregamos a la DisponibilidadDTO
+            
+            if(disponibilidadDia.isSuperposicion()){
+                disponibilidadFinal.add(disponibilidadDia);
+            }
+            else{
+                if (disponibilidadDia.getListaAulas().size() > 3) {
+                    disponibilidadDia.setListaAulas(disponibilidadDia.getListaAulas().subList(0, 3));
+                    disponibilidadFinal.add(disponibilidadDia);
+                } else {
+                    disponibilidadFinal.add(disponibilidadDia);
+                }
+            }
         }
 
         //Retornamos la disponibilidad final para todos los dias
@@ -125,7 +147,7 @@ public class AulaService {
         List<DiaReserva> reservasSuperpuestas = new ArrayList<>();
 
         //Traemos todos los diasReservas asociados para la fecha solicitada en el diaReservaDTO
-        List<DiaReserva> diasReserva= diaReservaRepository.findByFechaReserva(diaReservaDTO.getFechaReserva());
+        List<DiaReserva> diasReserva= reservaRepository.findDiaReservaByFechaReserva(diaReservaDTO.getFechaReserva());
 
         //Recorremos toda la lista de aulas
         for (Aula aulaPosibleCandidata : listaAulas){
@@ -169,16 +191,9 @@ public class AulaService {
                     );
         }
         else{
-            //Si por el contrario hay aulas candidatas preguntamos si existen mas de 3 para limitar las respuestas y luego las agregamos a la DisponibilidadDTO
-            if (aulasCandidatas.size() > 3) {
-                return new DisponibilidadAulaDTO(
-                        this.crearListaAulasDTO(aulasCandidatas.subList(0, 3))
-                        );
-            } else {
-                return new DisponibilidadAulaDTO(
-                        this.crearListaAulasDTO(aulasCandidatas)
-                        );
-            }
+            return new DisponibilidadAulaDTO(
+                    this.crearListaAulasDTO(aulasCandidatas)
+                    );
         }
     }
 
@@ -192,7 +207,6 @@ public class AulaService {
     
         return Optional.empty();
     }
-
 
     public Optional<Duration> calcularSuperposicion(DiaReserva diaReserva,DiaReservaDTO diaReservaDTO) {
         //La duracion en minutos
@@ -239,6 +253,87 @@ public class AulaService {
         }
     }
 
+    //PERIODICA
+
+    public ResponseEntity<Object> getAulaPeriodica(RequerimientoDisponibilidadDTO requisito){
+
+        if(this.verificarDatosIncorrectosRequerimiento(requisito)){
+            return DSUtilResponseEntity.statusBadRequest("ERROR: No se puede crear la reserva porque existen datos invalidos dentro de la solicitud");
+        }
+
+        Optional<Periodo> optPeriodo = reservaRepository.findPeriodoById(requisito.getPeriodo());
+
+        if(optPeriodo.isEmpty()){
+            return DSUtilResponseEntity.statusBadRequest("ERROR: Se intenta registrar una reserva con Periodo invalido");
+        }
+
+        Periodo periodo= optPeriodo.get();
+
+        for(DiaReservaDTO diaReservaDTO : requisito.getDiasReserva()){
+            requisito.getMapDiasSemana().put(diaReservaDTO.getId(), this.getDiasSemana(diaReservaDTO, periodo));
+        }
+
+        return this.getAulaEsporadica(requisito); 
+    }
+
+    public List<DiaReservaDTO> getDiasSemana(DiaReservaDTO diaReservaDTO,Periodo periodo){
+
+        List<DiaReservaDTO> listaDiasReserva = new ArrayList<>();
+
+        Duration semana=Duration.ofDays(7);
+        
+        LocalDate fechaAux = periodo.getFechaInicio().with(TemporalAdjusters.next(diaReservaDTO.getDiaSemana()));
+
+        while(fechaAux.isBefore(periodo.getFechaFin())){
+            listaDiasReserva.add(new DiaReservaDTO(diaReservaDTO.getId(),diaReservaDTO.getDuracion(), fechaAux, diaReservaDTO.getHoraInicio(), null));
+            fechaAux.plus(semana);
+        }
+
+        return listaDiasReserva;
+    }
+
+    public List<DisponibilidadAulaDTO> getDisponibilidadFinalPeriodica(List<Aula> listaAulas,Map<Long,List<DiaReservaDTO>> mapDiasSemana){
+        List<DisponibilidadAulaDTO> disponibilidadFinal = new ArrayList<>();
+
+        Set<Long> llavesDiaSemana = mapDiasSemana.keySet();
+
+        for(Long diaSemana : llavesDiaSemana){
+            DisponibilidadAulaDTO disponibilidadDia = getDisponibilidadDiaSemana(listaAulas,mapDiasSemana.get(diaSemana));
+            //Si por el contrario hay aulas candidatas preguntamos si existen mas de 3 para limitar las respuestas y luego las agregamos a la DisponibilidadDTO
+    
+            if(disponibilidadDia.isSuperposicion()){
+                disponibilidadFinal.add(disponibilidadDia);
+            }
+            else{
+                if (disponibilidadDia.getListaAulas().size() > 3) {
+                    disponibilidadDia.setListaAulas(disponibilidadDia.getListaAulas().subList(0, 3));
+                    disponibilidadFinal.add(disponibilidadDia);
+                } else {
+                    disponibilidadFinal.add(disponibilidadDia);
+                }
+            }
+        }
+
+        return disponibilidadFinal;
+    }
+
+    public DisponibilidadAulaDTO getDisponibilidadDiaSemana(List<Aula> listaAulas, List<DiaReservaDTO> diasSemana){
+        
+        List<Aula> aulasCandidatas = listaAulas;
+
+        for(DiaReservaDTO diaSemana : diasSemana){
+            DisponibilidadAulaDTO disponibilidadAulaDTO = getDisponibilidadDia(aulasCandidatas,diaSemana);
+
+            if(disponibilidadAulaDTO.isSuperposicion()){
+                return disponibilidadAulaDTO;
+            }
+            else{
+                aulasCandidatas= this.crearListaAulas(disponibilidadAulaDTO.getListaAulas());
+            }
+        }
+
+        return new DisponibilidadAulaDTO(this.crearListaAulasDTO(aulasCandidatas));
+    }
     //--------------------------------------------------METODOS GENERALES--------------------------------------------------
 
     public AulaDTO crearAulaDTO(Aula aula){
@@ -249,6 +344,16 @@ public class AulaService {
         return listaAulas.stream()
                          .map(aula -> crearAulaDTO(aula))
                          .toList();
+    }
+
+    public List<Aula> crearListaAulas(List<AulaDTO> listaAulaDTO){
+        return listaAulaDTO.stream()
+                            .map(aulaDTO -> crearAula(aulaDTO))
+                            .toList();
+    }
+
+    public Aula crearAula(AulaDTO aulaDTO){
+        return new Aula(aulaDTO.getId(),aulaDTO.getMaximoAlumnos(),aulaDTO.getPiso(),aulaDTO.getTipoPizarron(),true);
     }
 
     public ReservaDTO crearReservaDTO(Reserva reserva){

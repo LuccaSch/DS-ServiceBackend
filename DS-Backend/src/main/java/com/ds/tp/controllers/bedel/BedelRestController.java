@@ -45,11 +45,18 @@ public class BedelRestController {
     public ResponseEntity<Object> buscarAulasEsporadica(@RequestBody RequerimientoDisponibilidadDTO requisito) {
         return aulaService.getAulaEsporadica(requisito); 
     }
+
+    @PostMapping("/getAula/periodica")
+    public ResponseEntity<Object> buscarAulasPeriodica(@RequestBody RequerimientoDisponibilidadDTO requisito) {
+        return aulaService.getAulaPeriodica(requisito); 
+    }
     
     @PostMapping("/reserva/registrar")
     public ResponseEntity<Object> postMethodName(@RequestBody ReservaDTO reservaDTO) {
     
         return reservaService.postReserva(reservaDTO);
     }
+
+
     
 }

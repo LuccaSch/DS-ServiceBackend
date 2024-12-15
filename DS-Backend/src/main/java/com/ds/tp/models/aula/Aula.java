@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "aula")
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Aula {
+public class Aula {
 
     // Atributos
 
@@ -34,6 +34,16 @@ public abstract class Aula {
 
     @Column(name = "aire_acondicionado")
     protected Boolean aireAcondicionado;
+
+    public Aula(){}
+
+    public Aula(Long id, Integer maximoAlumnos, String piso, String tipoPizarron, boolean aulaDisponible) {
+        this.aulaDisponible = aulaDisponible;
+        this.id = id;
+        this.maximoAlumnos = maximoAlumnos;
+        this.piso = piso;
+        this.tipoPizarron = tipoPizarron;
+    }
     
     // Getters y Setters
 

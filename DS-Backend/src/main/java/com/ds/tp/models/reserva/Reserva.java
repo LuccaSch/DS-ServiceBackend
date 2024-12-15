@@ -15,8 +15,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -48,7 +48,7 @@ public abstract class Reserva {
     @Column(name="fecha_registro",nullable=false)
     protected Timestamp fechaRegistroTimestamp;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "id_bedel", referencedColumnName = "id", nullable = false)
     protected Bedel bedel;
 

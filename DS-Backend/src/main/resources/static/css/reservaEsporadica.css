@@ -183,7 +183,7 @@ input[type=number]::-webkit-outer-spin-button {
     background-color: #ad3535;
 }
 
-.btn-aceptar{
+.btn-buscar{
     height: 40px;
     width: 120px; 
     border-radius: 5px;  
@@ -195,6 +195,6 @@ input[type=number]::-webkit-outer-spin-button {
     border-style: solid; 
     cursor: pointer;
 }
-.btn-aceptar:hover {
+.btn-buscar:hover {
     background-color: #93ca4a;
 }

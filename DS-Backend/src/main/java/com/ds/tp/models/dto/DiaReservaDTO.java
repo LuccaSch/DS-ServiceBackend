@@ -1,5 +1,6 @@
 package com.ds.tp.models.dto;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -21,6 +22,8 @@ public class DiaReservaDTO {
     
     @JsonProperty("idAula")
     private Long idAula;
+
+    private DayOfWeek diaSemana;
 
     public DiaReservaDTO(Long id,Integer duracion, LocalDate fechaReserva, LocalTime horaInicio, Long idAula) {
         this.duracion = duracion;
@@ -68,5 +71,13 @@ public class DiaReservaDTO {
 
     public void setIdAula(Long idAula) {
         this.idAula = idAula;
+    }
+
+    public DayOfWeek getDiaSemana() {
+        return diaSemana;
+    }
+
+    public void setDiaSemana(DayOfWeek diaSemana) {
+        this.diaSemana = diaSemana;
     }
 }

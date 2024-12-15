@@ -21,39 +21,35 @@
             </div>
         </div>
     </header>
+
     <div class="h1_titulo">
         <h1>REGISTRAR RESERVA ESPORADICA</h1>
     </div>
+
     <div class="container">
         <div class="fechas-reservas">
             <div class="sub-container">
                 <p>
                     <label for="fecha">Selecciona una fecha:</label>
-                    <input type="date" id="fecha" name="fecha" class="date-dia">
+                    <input type="date" id="fecha-id" name="fecha" class="date-dia">
                 </p>
                 <p>
                     <label for="hora">Hora Inicio:</label>
-                    <input type="number" id="hora" name="hora" placeholder="HH:MM">
+                    <input type="time" id="hora-inicio-id" name="hora" placeholder="HH:MM">
                 </p>
                 <p>
                     <label for="hora">Duracion:</label>
-                    <input type="number" id="hora" name="hora" placeholder="HH:MM">
+                    <input type="number" id="duracion-id" name="hora" placeholder="MMM">
                 </p>
-                
             </div>
-            <button class="agregar-dia">Agregar Dia</button>
-            <table class="dias-agregado">
+            <div id="mensajeError" class="mensaje-error" style="color: red;"></div>
+            <button class="agregar-dia" id="btn-agregar-dia">Agregar Dia</button>
+            <table class="dias-agregado" id="dias-agregados">
                 <tr>
                     <th>Dia</th>
                     <th>Hora Inicio</th>
                     <th>Duracion</th>
                     <th></th>
-                </tr>
-                <tr>
-                    <td>Lunes</td>
-                    <td>08:00</td>
-                    <td>2 horas</td>
-                    <td><button>Eliminar</button></td>
                 </tr>
             </table>
         </div>
@@ -96,7 +92,7 @@
                 </p>
                 <p class="btn-container">
                     <button class="btn-cancelar" type="button" id="cancelar" onclick="location.href='/bedel/reserva/crear'">Cancelar</button>
-                    <button class="btn-aceptar" type="button" id="registrar">Guardar</button>
+                    <button class="btn-buscar" type="button" id="buscar">Buscar</button>
                 </p>
         </div>
     </div>
