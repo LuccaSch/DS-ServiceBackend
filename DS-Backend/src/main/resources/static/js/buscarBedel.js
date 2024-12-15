@@ -147,7 +147,7 @@ boton.addEventListener("click", function () {
                     modificarBtn.textContent = "Modificar";
                     modificarBtn.className = "modificar-btn";
                     modificarBtn.addEventListener("click", () => {
-                        openModalModificar(bedel);
+                        openModalModificar(bedel,row);
                     });
                     actionCell.appendChild(modificarBtn);
             
@@ -205,9 +205,9 @@ function openModalEliminar(bedel, button, bedelItem) {
 
     // Rellenar la información del bedel en el modal
     usuarioEliminar.textContent = bedel.usuario;
-    nombreEliminar.textContent = bedel.nombre;
-    apellidoEliminar.textContent = bedel.apellido;
-    turnoEliminar.textContent = bedel.turno;
+    nombreEliminar.textContent = bedelItem.children[2].textContent;;
+    apellidoEliminar.textContent = bedelItem.children[3].textContent;
+    turnoEliminar.textContent = bedelItem.children[4].textContent;
 
     // Mostrar el modal
     modalEliminar.style.display = "block";
@@ -289,7 +289,7 @@ function closeModalModificar() {
     document.getElementById("modal-modificar").style.display = "none";
 }
 
-function openModalModificar(bedel) {
+function openModalModificar(bedel,bedelItem) {
     const modal = document.getElementById("modal-modificar");
     //Se agrega un elemento oculto ID para enviar en la peticion y se le asigna el id del bedel
     document.getElementById("bedel-id").value = bedel.id;
@@ -303,9 +303,9 @@ function openModalModificar(bedel) {
     document.getElementById("bedel-modificar-confContrasenia").value = "";
 
     //se pone los datos actuales en el placeholder, los que se cambien seran enviados en la peticion
-    document.getElementById("bedel-modificar-nombre").placeholder = bedel.nombre;
-    document.getElementById("bedel-modificar-apellido").placeholder = bedel.apellido;
-    document.getElementById("bedel-modificar-turno").placeholder = bedel.turno;
+    document.getElementById("bedel-modificar-nombre").placeholder = bedelItem.children[2].textContent;
+    document.getElementById("bedel-modificar-apellido").placeholder = bedelItem.children[3].textContent;
+    document.getElementById("bedel-modificar-turno").placeholder = bedelItem.children[4].textContent;
     
     modal.style.display = "block";
 }
