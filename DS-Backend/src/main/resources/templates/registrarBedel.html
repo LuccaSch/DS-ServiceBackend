@@ -4,21 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/registrarBedel.css">
-    <script src="/js/registrarBedel.js" defer></script>  
     <title>Registrar Bedel</title>
 </head>
 <body>
     <!-- Cabecera -->
     <header class="header">
-        <ul class="menu-ul">
-            <li><button class="btn" type="button" onclick="location.href='/admin'">Inicio</button></li>
-            <li><button class="btn" type="button" onclick="location.href='/admin/buscarBedel'">Buscar Bedel</button></li>
-            <li><button class="btn" type="button">Registrar Bedel</button></li>
-        </ul>
+        <div class="menu-ul">
+            <button class="btn" type="button" onclick="location.href='/admin'">Inicio</button>
+            <button class="btn" type="button" onclick="location.href='/admin/buscarBedel'">Buscar Bedel</button>
+            <button class="btn" type="button">Registrar Bedel</button>
+        </div>
         <div class="usuario">
             <img src="/img/USUARIO.png" alt="USUARIO" class="imagen-usuario">
             <div class="nombre-usuario">
-                <p>Nombre_de_Usuario</p>
+                <p id="usuario-nombre"></p>
             </div>
         </div>
     </header>
@@ -75,14 +74,18 @@
         <button class="btn-cancelar" type="button" id="cancelar" onclick="location.href='/admin'">Cancelar</button>
         <button class="btn-aceptar" type="button" id="registrar" onclick="registrarBedel()">Registrar</button>
     </div>
-
+    
     <!-- Modal para mostrar el resultado de la operacion -->
     <div id="resultadoModal" class="modal" style="display: none;">
         <div class="contenidoModal">
             <span id="cerrarModal" class="cerrar" style="cursor:pointer;">&times;</span>
             <h2 id="resultadoMensaje"></h2>
-            <button class="btn-aceptar" id="aceptarBtn" >Aceptar</button>
+            <div class="modal-conteiner-boton">
+                <button class="btn-aceptar-modal-exito" id="aceptarBtn" >Aceptar</button>
+            </div>
         </div>
     </div>
+
+    <script src="/js/registrarBedel.js" defer></script>  
 </body>
 </html>

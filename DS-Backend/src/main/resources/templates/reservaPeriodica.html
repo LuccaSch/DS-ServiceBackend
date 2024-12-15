@@ -11,20 +11,20 @@
     <!-- Cabecera -->
 
     <header class="header">
-        <ul class="menu-ul">
-            <li><button class="btn" type="button" onclick="location.href='/bedel'">Inicio</button></li>
-            <li><button class="btn" type="button" onclick="location.href='/bedel/reserva/crear'">Registrar Reserva</button></li>
-            <li><button class="btn" type="button" onclick="location.href='/bedel/aula/buscar'">Buscar aula</button></li>
-            <li><button class="btn" type="button" onclick="location.href='/bedel/reserva/buscar'">Mis Reservas</button></li>
-        </ul>
-    
+        <div class="menu-ul">
+            <button class="btn" type="button" onclick="location.href='/bedel'">Inicio</button>
+            <button class="btn" type="button" onclick="location.href='/bedel/reserva/crear'">Registrar Reserva</button>
+            <button class="btn" type="button" onclick="location.href='/bedel/aula/buscar'">Buscar aula</button>
+            <button class="btn" type="button" onclick="location.href='/bedel/reserva/buscar'">Mis Reservas</button>
+        </div>
         <div class="usuario">
             <img src="/img/USUARIO.png" alt="USUARIO" class="imagen-usuario">
             <div class="nombre-usuario">
-                <p>Nombre_de_Usuario</p>
+                <p id="usuario-nombre">Nombre_de_Usuario</p>
             </div>
         </div>
     </header>
+
     <div class="h1_titulo">
         <h1>REGISTRAR RESERVA PERIODICA</h1>
     </div>
@@ -118,8 +118,8 @@
                     <span>*</span> Campos obligatorios.
                 </p>
                 <p class="btn-container">
-                    <button class="btn-cancelar" type="button" id="cancelar"><a class="btn-cancelar" href="/bedel/seleccionarTipoReserva">Cancelar</a></button>
-                    <button class="btn-guardar" type="button" id="registrar" onclick="">Guardar</button>
+                    <button class="btn-cancelar" type="button" id="cancelar" onclick="location.href='/bedel/reserva/crear'">Cancelar</button>
+                    <button class="btn-aceptar" type="button" id="registrar">Guardar</button>
                 </p>
         </div>
     </div>

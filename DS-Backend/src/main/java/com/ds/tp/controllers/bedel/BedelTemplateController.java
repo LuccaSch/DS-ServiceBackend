@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
 @Controller
 @RequestMapping("/bedel")
 
@@ -37,4 +38,10 @@ public class BedelTemplateController {
     public String reservaEsporadica(){
         return "reservaEsporadica";
     }
+
+    @GetMapping("aula/buscar")
+    public String getMethodName() {
+        return "buscarAula";
+    }
+    
 }

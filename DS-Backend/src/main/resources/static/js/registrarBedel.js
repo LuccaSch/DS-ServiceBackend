@@ -1,3 +1,31 @@
+// ----------------------------Encabezado---------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const nombreUsuario = document.getElementById('usuario-nombre');
+
+    fetch('/current/api/user', {
+        method: 'GET',
+        credentials: 'include',
+    })
+        .then(response => {
+            if (!response.ok) {
+                response.json().then(data => {
+                    throw new Error(data.mensaje || 'No se pudo obtener la información del usuario por un error desconocido, por favor contactar con soporte.');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.mensaje) {
+                nombreUsuario.textContent = data.mensaje;
+            } else {
+                console.warn('La respuesta no contiene un campo "mensaje".');
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener el usuario autenticado:', error);
+        });
+});
+
 const boton = document.getElementById('aceptarBtn');
 
 let registrarBedel = async () => {
@@ -55,28 +83,25 @@ let registrarBedel = async () => {
         if (peticion.status === 409) {
             // 409 CONFLICTO
             const errorData = await peticion.json();
-            boton.style.backgroundColor = 'red';
-            boton.style.border = '2px solid red';
+            boton.className = "btn-aceptar-modal-error"
             mostrarResultadoModal(errorData.mensaje);
         } else if (peticion.status === 400) {
             // 400 BAD REQUEST
             const errorData = await peticion.json();
-            boton.style.backgroundColor = 'red';
-            boton.style.border = '2px solid red';
+            boton.className = "btn-aceptar-modal-error"
             mostrarResultadoModal(errorData.mensaje);
         } else if (peticion.status === 200 || peticion.status === 201) {
             // 200 o 201 ÉXITO
             const respuesta = await peticion.json();
-            boton.style.backgroundColor = 'green';
-            boton.style.border = '2px solid green';
-            mostrarResultadoModal("Bedel registrado correctamente");
+            boton.className = "btn-aceptar-modal-exito"
+            mostrarResultadoModal(respuesta.mensaje);
             resetearFormulario();
         } else if (peticion.status === 500) {
             // 500 INTERNAL SERVER ERROR
-            boton.style.backgroundColor = 'red';
-            boton.style.border = '2px solid red';
+            boton.className = "btn-aceptar-modal-error"
             mostrarResultadoModal("Error en el servidor. Inténtalo nuevamente más tarde.");
         } else {
+            boton.className = "btn-aceptar-modal-error"
             mostrarResultadoModal("Error inesperado: " + peticion.status);
         }
         

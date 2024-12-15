@@ -1,3 +1,31 @@
+// ----------------------------Encabezado---------------------------
+document.addEventListener('DOMContentLoaded', () => {
+    const nombreUsuario = document.getElementById('usuario-nombre');
+
+    fetch('/current/api/user', {
+        method: 'GET',
+        credentials: 'include',
+    })
+        .then(response => {
+            if (!response.ok) {
+                response.json().then(data => {
+                    throw new Error(data.mensaje || 'No se pudo obtener la información del usuario por un error desconocido, por favor contactar con soporte.');
+                });
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.mensaje) {
+                nombreUsuario.textContent = data.mensaje;
+            } else {
+                console.warn('La respuesta no contiene un campo "mensaje".');
+            }
+        })
+        .catch(error => {
+            console.error('Error al obtener el usuario autenticado:', error);
+        });
+});
+
 //CONSTANTES GLOBALES
 
 //boton buscar
@@ -10,6 +38,7 @@ const mensajeError = document.getElementById("mensajeError");
 const modalResultado = document.getElementById("resultadoModal");
 const mensajeModalResultado = document.getElementById("resultadoMensaje");
 const botonAceptarResultado = document.getElementById("aceptarBtn");
+
 
 // ----------------------------BUSQUEDA DE BEDELES----------------------------
 
@@ -74,7 +103,7 @@ boton.addEventListener("click", function () {
                     bedelItem.className = "bedel-item";
 
                     //Consultamos si el bedel esta activo o inactivo para setear el color del fondo
-                    bedelItem.style.backgroundColor = bedel.estado ? "lightgreen" : "yellow";
+                    bedelItem.style.backgroundColor = bedel.estado ? "#7be48c" : "#fcf96f";
 
                     //Cargamos la informacion de cada bedel (Se puede mejorar cambiando los |)
                     const bedelInfo = document.createElement("span");
@@ -92,9 +121,15 @@ boton.addEventListener("click", function () {
 
                     //Se agrega el Botón para eliminar/activar: se setean los atributos y luego el boton que llamara a openModalEliminar
                     const eliminarBtn = document.createElement("button");
+
                     eliminarBtn.textContent = bedel.estado ? "Eliminar" : "Activar";
-                    eliminarBtn.className = "eliminar-btn";
-                    eliminarBtn.style.backgroundColor = bedel.estado ? "red" : "green";
+                    
+                    if (bedel.estado) {
+                        eliminarBtn.className = "eliminar-btn-active";  
+                    } else {
+                        eliminarBtn.className = "eliminar-btn-eliminado";
+                    }
+
                     eliminarBtn.addEventListener("click", () => {
                         openModalEliminar(bedel, eliminarBtn, bedelItem);
                     });
@@ -181,12 +216,19 @@ function toggleEstadoBedel(bedel, button, bedelItem) {
             return response.json();
         })
         .then(() => {
+            
+            bedel.estado = nuevoEstado;
 
             // Actualizamos el estado visual del Bedel
-            bedel.estado = nuevoEstado;
-            bedelItem.style.backgroundColor = bedel.estado ? "lightgreen" : "yellow";
+            bedelItem.style.backgroundColor = bedel.estado ? "#7be48c" : "#fcf96f";
+
             button.textContent = bedel.estado ? "Eliminar" : "Activar";
-            button.style.backgroundColor = bedel.estado ? "red" : "green";
+
+            if (bedel.estado) {
+                button.className = "eliminar-btn-active";  
+            } else {
+                button.className = "eliminar-btn-eliminado";
+            }
             
             mostrarModalConMensajeExito(`Bedel ${bedel.estado ? "activado" : "eliminado"} correctamente.`); 
         })
@@ -308,7 +350,7 @@ function closeModalMensaje() {
 
 function mostrarModalConMensajeError(mensaje) {
 
-    botonAceptarResultado.style.backgroundColor = "red";
+    botonAceptarResultado.className = "btn-aceptar-modal-resultado-error"
 
     // Configurar el mensaje
     mensajeModalResultado.textContent = mensaje;
@@ -319,7 +361,7 @@ function mostrarModalConMensajeError(mensaje) {
 
 function mostrarModalConMensajeExito(mensaje) {
 
-    botonAceptarResultado.style.backgroundColor = "lightgreen";
+    botonAceptarResultado.className = "btn-aceptar-modal-resultado-exito"
 
     // Configurar el mensaje
     mensajeModalResultado.textContent = mensaje;

@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "aula")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Aula {
+public abstract class Aula {
 
     // Atributos
 
