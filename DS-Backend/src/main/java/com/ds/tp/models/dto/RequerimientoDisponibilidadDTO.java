@@ -27,7 +27,7 @@ public class RequerimientoDisponibilidadDTO {
     @JsonProperty("diasReserva")
     List<DiaReservaDTO> diasReserva;
 
-    Map<Long,List<DiaReservaDTO>> mapDiasSemana = new HashMap<>();
+    Map<Long,List<DiaReservaDTO>> mapDiasSemana;
 
     public RequerimientoDisponibilidadDTO(Integer cantidadAlumnos, List<DiaReservaDTO> diasReserva, int tipoAula, Boolean tipoReserva) {
         this.cantidadAlumnos = cantidadAlumnos;
@@ -82,6 +82,10 @@ public class RequerimientoDisponibilidadDTO {
 
     public void setMapDiasSemana(Map<Long, List<DiaReservaDTO>> mapDiasSemana) {
         this.mapDiasSemana = mapDiasSemana;
+    }
+
+    public void inicializarMapDiaSemana(){
+        this.mapDiasSemana=new HashMap<>();
     }
 
 }

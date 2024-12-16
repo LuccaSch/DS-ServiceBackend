@@ -33,13 +33,6 @@ public class BedelRestController {
     }
 
     //Metodos
-    
-    /*
-    @PostMapping("/getAula/periodica")
-    public ResponseEntity<Object> buscarAulasPeriodica(@RequestBody RequerimientoDisponibilidadDTO requisito) {
-        return aulaService.buscarAulaPeriodica(requisito); 
-    }
-    */
 
     @PostMapping("/getAula/esporadica")
     public ResponseEntity<Object> buscarAulasEsporadica(@RequestBody RequerimientoDisponibilidadDTO requisito) {

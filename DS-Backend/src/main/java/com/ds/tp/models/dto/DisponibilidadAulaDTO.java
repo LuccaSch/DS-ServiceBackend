@@ -51,4 +51,11 @@ public class DisponibilidadAulaDTO {
     public void setListaAulas(List<AulaDTO> listaAulas) {
         this.listaAulas = listaAulas;
     }
+
+    @Override
+    public String toString() {
+        return "DisponibilidadAulaDTO [superposicion=" + superposicion + ", listaAulas=" + listaAulas + ", reserva="
+                + reserva + "]";
+    }
+
 }

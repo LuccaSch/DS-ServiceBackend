@@ -116,7 +116,6 @@ public class AulaService {
     }
 
     public List<DisponibilidadAulaDTO> getDisponibilidadFinal(List<Aula> listaAulas,List<DiaReservaDTO> diasReservaDTO){
-        
         List<DisponibilidadAulaDTO> disponibilidadFinal = new ArrayList<>();
 
         //Iteramos cada DiaReserva para encontrar la disponibilidad por ese dia en especifico
@@ -124,7 +123,6 @@ public class AulaService {
             //Añadimos a nuestra Lista de Disponibilidad la disponibilidad de ese diaReservaDTO en particular
             DisponibilidadAulaDTO disponibilidadDia = getDisponibilidadDia(listaAulas,unDiaReservaDTO);
             //Si por el contrario hay aulas candidatas preguntamos si existen mas de 3 para limitar las respuestas y luego las agregamos a la DisponibilidadDTO
-            
             if(disponibilidadDia.isSuperposicion()){
                 disponibilidadFinal.add(disponibilidadDia);
             }
@@ -159,7 +157,7 @@ public class AulaService {
             la cual esta "Activa" y posee las caracteristicas solicitadas por el usuario
             */
             List<DiaReserva> diasReservaFiltrada= diasReserva.stream()
-                                                            .filter(diaReserva -> diaReserva.getAula().equals(aulaPosibleCandidata))
+                                                            .filter(diaReserva -> diaReserva.getAula().getIdAula().equals(aulaPosibleCandidata.getIdAula()))
                                                             .toList();
 
             //Si no existen diaReserva para nuestra aulaPosibleCandidata en este dia solicitado, eso la convierte automaticamente en candidata
@@ -199,7 +197,6 @@ public class AulaService {
     }
 
     public Optional<DiaReserva> existeSuperposicion(List<DiaReserva> diasReservasExistentes, DiaReservaDTO diaReservaVerificar) {
-        
         for (DiaReserva reservaExistente : diasReservasExistentes) {
             if(this.calcularSuperposicion(reservaExistente, diaReservaVerificar).isPresent()) {
                 return Optional.of(reservaExistente);
@@ -209,29 +206,30 @@ public class AulaService {
         return Optional.empty();
     }
 
-    public Optional<Duration> calcularSuperposicion(DiaReserva diaReserva,DiaReservaDTO diaReservaDTO) {
-        //La duracion en minutos
-        Duration duracion1=Duration.ofMinutes(diaReservaDTO.getDuracion());
-        Duration duracion2=Duration.ofMinutes(diaReserva.getDuracion());
-
-        LocalTime inicio1=diaReservaDTO.getHoraInicio();
-        LocalTime inicio2=diaReserva.getHoraInicio();
-
-        //el fin es el inicio+duracion
+    public Optional<Duration> calcularSuperposicion(DiaReserva diaReserva, DiaReservaDTO diaReservaDTO) {
+        // Duración en minutos
+        Duration duracion1 = Duration.ofMinutes(diaReservaDTO.getDuracion());
+        Duration duracion2 = Duration.ofMinutes(diaReserva.getDuracion());
+    
+        // Hora de inicio y fin de cada reserva
+        LocalTime inicio1 = diaReservaDTO.getHoraInicio();
+        LocalTime inicio2 = diaReserva.getHoraInicio();
         LocalTime fin1 = inicio1.plus(duracion1);
         LocalTime fin2 = inicio2.plus(duracion2);
-
+    
         // Calcular el mayor de los inicios y el menor de los finales
         LocalTime inicioSuperposicion = inicio1.isAfter(inicio2) ? inicio1 : inicio2;
         LocalTime finSuperposicion = fin1.isBefore(fin2) ? fin1 : fin2;
-
+    
         // Verificar si hay superposición
         if (inicioSuperposicion.isBefore(finSuperposicion)) {
-            return Optional.of(Duration.between(inicioSuperposicion, finSuperposicion));
+            Duration duracionSuperposicion = Duration.between(inicioSuperposicion, finSuperposicion);
+            return Optional.of(duracionSuperposicion);
         } else {
             return Optional.empty();
         }
     }
+    
 
     public Reserva calcularMenorSuperposicion(List<DiaReserva> diasReservasSuperpuestas,DiaReservaDTO diaReservaDTO) throws ReservaNoEncontradaException{
         Duration menorSuperposicion = this.calcularSuperposicion(diasReservasSuperpuestas.getFirst(),diaReservaDTO).get();
@@ -244,7 +242,8 @@ public class AulaService {
             }
         }
 
-        Optional<Reserva> reservaMenosSuperpuesta = reservaRepository.findById(diaReservaMenosSuperpuesta.getId());
+
+        Optional<Reserva> reservaMenosSuperpuesta = reservaRepository.findById(diaReservaMenosSuperpuesta.getReserva().getId());
 
         if(reservaMenosSuperpuesta.isEmpty()){
             throw new ReservaNoEncontradaException("ERROR: Un error interno del servidor hizo que no pueda realizar su peticion, intentelo nuevamente en unos minutos");
@@ -269,6 +268,8 @@ public class AulaService {
         }
 
         Periodo periodo= optPeriodo.get();
+
+        requisito.inicializarMapDiaSemana();
 
         for(DiaReservaDTO diaReservaDTO : requisito.getDiasReserva()){
             requisito.getMapDiasSemana().put(diaReservaDTO.getId(), this.getDiasSemana(diaReservaDTO, periodo));
@@ -303,7 +304,8 @@ public class AulaService {
         for(Long diaSemana : llavesDiaSemana){
             DisponibilidadAulaDTO disponibilidadDia = getDisponibilidadDiaSemana(listaAulas,mapDiasSemana.get(diaSemana));
             //Si por el contrario hay aulas candidatas preguntamos si existen mas de 3 para limitar las respuestas y luego las agregamos a la DisponibilidadDTO
-    
+
+
             if(disponibilidadDia.isSuperposicion()){
                 disponibilidadFinal.add(disponibilidadDia);
             }
@@ -320,23 +322,24 @@ public class AulaService {
         return disponibilidadFinal;
     }
 
-    public DisponibilidadAulaDTO getDisponibilidadDiaSemana(List<Aula> listaAulas, List<DiaReservaDTO> diasSemana){
-        
-        List<Aula> aulasCandidatas = listaAulas;
-
-        for(DiaReservaDTO diaSemana : diasSemana){
-            DisponibilidadAulaDTO disponibilidadAulaDTO = getDisponibilidadDia(aulasCandidatas,diaSemana);
-
-            if(disponibilidadAulaDTO.isSuperposicion()){
+    public DisponibilidadAulaDTO getDisponibilidadDiaSemana(List<Aula> listaAulas, List<DiaReservaDTO> diasSemana) {
+        List<Aula> aulasCandidatas = new ArrayList<>(listaAulas);
+    
+        for (DiaReservaDTO diaSemana : diasSemana) {
+    
+            DisponibilidadAulaDTO disponibilidadAulaDTO = getDisponibilidadDia(aulasCandidatas, diaSemana);
+    
+            if (disponibilidadAulaDTO.isSuperposicion()) {
                 return disponibilidadAulaDTO;
-            }
-            else{
-                aulasCandidatas= this.crearListaAulas(disponibilidadAulaDTO.getListaAulas());
+            } else {
+                aulasCandidatas = this.crearListaAulas(disponibilidadAulaDTO.getListaAulas());
             }
         }
-
+    
         return new DisponibilidadAulaDTO(this.crearListaAulasDTO(aulasCandidatas));
     }
+    
+    
     //--------------------------------------------------METODOS GENERALES--------------------------------------------------
 
     public AulaDTO crearAulaDTO(Aula aula){

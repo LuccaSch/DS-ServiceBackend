@@ -78,9 +78,8 @@ public class ReservaService {
 
     }
 
-
     public void convertirPeriodica(ReservaDTO reservaDTO){
-              
+
     }
 
     private ResponseEntity<Object> crearReservaEsporadica(ReservaDTO reservaDTO) {
@@ -113,8 +112,6 @@ public class ReservaService {
             return DSUtilResponseEntity.statusInternalServerError("Error inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
         }
     }
-
-
 
     public ResponseEntity<Object> crearReservaPeriodica(ReservaDTO reservaDTO) {
         try{

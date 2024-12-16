@@ -83,7 +83,7 @@ function buscarDisponibilidad(){
     const requeriminetoDisponibilidadDTO = {
       cantidadAlumnos:20, 
       tipoReserva:true,
-      periodo:0,
+      periodo:2,
       tipoAula:0,         
       diasReserva: diasReserva
     };

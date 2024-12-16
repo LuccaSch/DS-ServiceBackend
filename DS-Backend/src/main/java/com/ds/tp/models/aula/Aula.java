@@ -107,7 +107,7 @@ public class Aula {
     
         Aula other = (Aula) obj;
     
-        return this.id != null && this.id.equals(other.id);
+        return this.id != null && this.id.equals(other.getIdAula());
     }
 
     @Override
