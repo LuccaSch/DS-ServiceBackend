@@ -2,6 +2,9 @@ package com.ds.tp.services;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -58,31 +61,61 @@ public class ReservaService {
     //--------------------------------------------------POST RESERVA--------------------------------------------------   
 
     public ResponseEntity<Object> postReserva(ReservaDTO reservaDTO){
-
-        if(verificarDatosIncorrectosReserva(reservaDTO)){
-            return DSUtilResponseEntity.statusBadRequest("ERROR: No se puede crear la reserva porque existen datos invalidos dentro de la solicitud");
+        try {
+            if(verificarDatosIncorrectosReserva(reservaDTO)){
+                return DSUtilResponseEntity.statusBadRequest("ERROR: No se puede crear la reserva porque existen datos invalidos dentro de la solicitud");
+            }
+    
+            switch (reservaDTO.getTipo()) {
+                case PERIODICA -> {
+                    this.convertirPeriodica(reservaDTO);
+                    return crearReservaPeriodica(reservaDTO);
+                }
+                case ESPORADICA -> {
+                    return crearReservaEsporadica(reservaDTO);
+                }
+                default -> {
+                    return DSUtilResponseEntity.statusBadRequest("ERROR: Se quiere crear una reserva de un tipo invalido");
+                }
+            }
+        }         
+        catch (DataAccessException e) {
+            return DSUtilResponseEntity.statusInternalServerError("Error interno del Servidor, por favor intentar mas tarde");
         }
-
-        switch (reservaDTO.getTipo()) {
-            case PERIODICA -> {
-                this.convertirPeriodica(reservaDTO);
-                return crearReservaPeriodica(reservaDTO);
-            }
-            case ESPORADICA -> {
-                return crearReservaEsporadica(reservaDTO);
-            }
-            default -> {
-                return DSUtilResponseEntity.statusBadRequest("ERROR: Se quiere crear una reserva de un tipo invalido");
-            }
+        catch(IllegalStateException e){
+            return DSUtilResponseEntity.statusInternalServerError(e.getMessage());
+        } 
+        catch (Exception e) {
+            return DSUtilResponseEntity.statusInternalServerError("Error inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
         }
-
     }
 
-    public void convertirPeriodica(ReservaDTO reservaDTO){
+    public void convertirPeriodica(ReservaDTO reservaDTO) throws IllegalStateException{
 
+        Optional<Periodo> periodoOpt = reservaRepository.findPeriodoById(reservaDTO.getPeriodo());
+
+        if(periodoOpt.isEmpty()){
+            throw new IllegalStateException("ERROR: Se quiere asignar un periodo invalido a la reserva");
+        }
+
+        Periodo periodo = periodoOpt.get();
+        
+        List<DiaReservaDTO> diasReservaConvertidos = new ArrayList<>();
+
+        Period semana = Period.ofDays(7);
+
+        for(DiaReservaDTO diaReservaDTO : reservaDTO.getListaDiasReservaDTO()){
+            LocalDate fechaAux = periodo.getFechaInicio().with(TemporalAdjusters.next(diaReservaDTO.getDiaSemana()));
+            while(fechaAux.isBefore(periodo.getFechaFin()) || fechaAux.equals(periodo.getFechaFin())){
+                diasReservaConvertidos.add(new DiaReservaDTO(diaReservaDTO.getDuracion(), fechaAux, diaReservaDTO.getHoraInicio()));
+                fechaAux=fechaAux.plus(semana);
+            }
+        }
+
+        reservaDTO.setListaDiasReservaDTO(diasReservaConvertidos);
     }
 
-    private ResponseEntity<Object> crearReservaEsporadica(ReservaDTO reservaDTO) {
+    public ResponseEntity<Object> crearReservaEsporadica(ReservaDTO reservaDTO) {
         try{
             ReservaEsporadica nuevaReservaEsporadica = new ReservaEsporadica(this.obtenerUsuarioLogeado(),
                                                                 reservaDTO.getCantAlumnos(),
@@ -115,7 +148,6 @@ public class ReservaService {
 
     public ResponseEntity<Object> crearReservaPeriodica(ReservaDTO reservaDTO) {
         try{
-
             Optional<Periodo> periodoOptional = reservaRepository.findPeriodoById(reservaDTO.getPeriodo());
             
             if(periodoOptional.isEmpty()){
@@ -172,7 +204,6 @@ public class ReservaService {
         
         throw new IllegalStateException("ERROR: Se pide crear una reserva de un Aula inexistente");
     }
-
 
     public Bedel obtenerUsuarioLogeado() throws IllegalStateException{
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

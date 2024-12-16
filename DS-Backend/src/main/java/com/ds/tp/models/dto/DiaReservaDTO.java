@@ -34,6 +34,12 @@ public class DiaReservaDTO {
         this.idAula = idAula;
     }
 
+    public DiaReservaDTO(Integer duracion, LocalDate fechaReserva, LocalTime horaInicio) {
+        this.duracion = duracion;
+        this.fechaReserva = fechaReserva;
+        this.horaInicio = horaInicio;
+    }
+
     public Long getId() {
         return id;
     }
