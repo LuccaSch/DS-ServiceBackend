@@ -181,7 +181,7 @@ function buscarDisponibilidad(){
           .then(response => {
               if (!(response.status === 200 || response.status === 201)) {
                   return response.json().then(data => {
-                      throw new Error(data.message || "Error en la respuesta del servidor");
+                    throw new Error(data.message || "Error en la respuesta del servidor");
                   });
               }
               return response.json();

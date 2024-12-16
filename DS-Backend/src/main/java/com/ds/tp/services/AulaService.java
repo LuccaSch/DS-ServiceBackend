@@ -107,7 +107,7 @@ public class AulaService {
             }
         }
         catch (DataAccessException e) {
-            return DSUtilResponseEntity.statusInternalServerError("ERROR: interno del Servidor, por favor intentar mas tarde" + e.getMessage());
+            return DSUtilResponseEntity.statusInternalServerError("ERROR: interno del Servidor, por favor intentar mas tarde");
         }
         catch (Exception e) {
             return DSUtilResponseEntity.statusInternalServerError("ERROR: inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
