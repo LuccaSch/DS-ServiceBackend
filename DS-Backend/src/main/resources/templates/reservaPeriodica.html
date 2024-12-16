@@ -31,7 +31,7 @@
     <div class="container">
         <div class="fechas-reservas">
             <div class="sub-container">
-                <select name="select" id="dia" required class="lista-dias">
+                <select name="select" id="dia-semana-id" required class="lista-dias">
                     <option value="" selected disabled>Dia</option>
                         <option value="MONDAY">Lunes</option>
                         <option value="TUESDAY">Martes</option>
@@ -42,27 +42,22 @@
                 </select>
                 <p>
                     <label for="hora">Hora Inicio:</label>
-                    <input type="time" id="hora" name="hora" placeholder="HH:MM">
+                    <input type="time" id="hora-inicio-id" name="hora" placeholder="HH:MM">
                 </p>
                 <p>
                     <label for="hora">Duracion:</label>
-                    <input type="number" id="duracion" name="hora" placeholder="MMM">
+                    <input type="number" id="duracion-id" name="hora" placeholder="MMM">
                 </p>
                 
             </div>
-            <button class="agregar-dia">Agregar Dia</button>
-            <table class="dias-agregado">
+            <div id="mensajeError" class="mensaje-error" style="color: red;"></div>
+            <button class="agregar-dia" id="btn-agregar-dia">Agregar Dia</button>
+            <table class="dias-agregado" id="dias-agregados">
                 <tr>
                     <th>Dia</th>
                     <th>Hora Inicio</th>
                     <th>Duracion</th>
                     <th></th>
-                </tr>
-                <tr>
-                    <td>Lunes</td>
-                    <td>08:00</td>
-                    <td>2 horas</td>
-                    <td></td>
                 </tr>
             </table>
         </div>
@@ -119,11 +114,14 @@
                 </p>
                 <p class="btn-container">
                     <button class="btn-cancelar" type="button" id="cancelar" onclick="location.href='/bedel/reserva/crear'">Cancelar</button>
-                    <button class="btn-aceptar" type="button" id="registrar">Guardar</button>
+                    <button class="btn-aceptar" type="button" id="buscar">Buscar</button>
                 </p>
         </div>
     </div>
+
+    <div id="div-prueba"></div>
    
+    <script src="/js/reservaPeriodica.js"></script>   
 </body>
 </html>
 

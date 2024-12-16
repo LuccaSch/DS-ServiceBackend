@@ -23,6 +23,7 @@ public class DiaReservaDTO {
     @JsonProperty("idAula")
     private Long idAula;
 
+    @JsonProperty("diaSemana")
     private DayOfWeek diaSemana;
 
     public DiaReservaDTO(Long id,Integer duracion, LocalDate fechaReserva, LocalTime horaInicio, Long idAula) {

@@ -3,6 +3,7 @@ package com.ds.tp.services;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Period;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -106,7 +107,7 @@ public class AulaService {
             }
         }
         catch (DataAccessException e) {
-            return DSUtilResponseEntity.statusInternalServerError("ERROR: interno del Servidor, por favor intentar mas tarde");
+            return DSUtilResponseEntity.statusInternalServerError("ERROR: interno del Servidor, por favor intentar mas tarde" + e.getMessage());
         }
         catch (Exception e) {
             return DSUtilResponseEntity.statusInternalServerError("ERROR: inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
@@ -280,13 +281,15 @@ public class AulaService {
 
         List<DiaReservaDTO> listaDiasReserva = new ArrayList<>();
 
-        Duration semana=Duration.ofDays(7);
+        Period semana = Period.ofDays(7);
         
         LocalDate fechaAux = periodo.getFechaInicio().with(TemporalAdjusters.next(diaReservaDTO.getDiaSemana()));
 
-        while(fechaAux.isBefore(periodo.getFechaFin())){
+        
+
+        while(fechaAux.isBefore(periodo.getFechaFin()) || fechaAux.equals(periodo.getFechaFin())){
             listaDiasReserva.add(new DiaReservaDTO(diaReservaDTO.getId(),diaReservaDTO.getDuracion(), fechaAux, diaReservaDTO.getHoraInicio(), null));
-            fechaAux.plus(semana);
+            fechaAux=fechaAux.plus(semana);
         }
 
         return listaDiasReserva;

@@ -1,5 +1,6 @@
 package com.ds.tp.models.dto;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class RequerimientoDisponibilidadDTO {
     @JsonProperty("diasReserva")
     List<DiaReservaDTO> diasReserva;
 
-    Map<Long,List<DiaReservaDTO>> mapDiasSemana;
+    Map<Long,List<DiaReservaDTO>> mapDiasSemana = new HashMap<>();
 
     public RequerimientoDisponibilidadDTO(Integer cantidadAlumnos, List<DiaReservaDTO> diasReserva, int tipoAula, Boolean tipoReserva) {
         this.cantidadAlumnos = cantidadAlumnos;

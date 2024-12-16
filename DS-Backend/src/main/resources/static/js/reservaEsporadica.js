@@ -67,7 +67,7 @@
   });
 */
 
-const mensajeError = document.getElementById("mensajeError")
+const mensajeError = document.getElementById("mensajeError");
 
 document.getElementById("btn-agregar-dia").addEventListener("click", agregarFechaReserva);
 
