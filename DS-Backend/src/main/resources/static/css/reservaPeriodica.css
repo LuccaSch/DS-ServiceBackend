@@ -17,6 +17,7 @@
     display: flex;
     align-items: center;
 }
+
 .imagen-usuario {
     width: 50px;
     height: 50px;
@@ -96,21 +97,21 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .dias-agregado {
-    width: 100%; /* Ocupa el ancho completo del contenedor */
-    border-collapse: collapse; /* Elimina los espacios entre los bordes */
-    margin: 20px 0; /* Espaciado arriba y abajo */
+    width: 100%; 
+    border-collapse: collapse; 
+    margin: 20px 0; 
     font-family: Arial, sans-serif;
-    font-size: 16px;
-    text-align: left;
 }
 .dias-agregado td th {
-    border: 1px solid #ccc; /* Borde suave */
-    padding: 10px; /* Espaciado interno */
+    border: 1px solid #ddd; 
+    padding: 8px; 
+    text-align: center;
 }
 .dias-agregado th {
-    background-color: #f4f4f4; /* Fondo claro */
-    color: #333; /* Texto oscuro */
+    background-color: #f2f2f2; 
+    color: #333; 
     font-weight: bold;
+    text-align: center;
 }
 .dias-agregado td {
     text-align: center;
@@ -139,7 +140,7 @@ input[type=number]::-webkit-outer-spin-button {
     height: 500px;
 }
 .fechas-reservas p input {
-    width: 50px;
+    width: 100px;
     height: 50px;
 }
 .fechas-reservas select {
@@ -214,4 +215,166 @@ input[type=number]::-webkit-outer-spin-button {
 
 .btn-aceptar:hover {
     background-color: #45a049; 
+}
+
+/* MODALES y BOTONES DE TABLA */
+.modal {
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+    padding-top: 60px;
+    display: none;
+}
+
+.contenidoModal {
+    background-color: #fefefe;
+    margin: 5% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+}
+
+.modal-conteiner-boton{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.resultado-modal-conteiner-boton{
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+
+.cerrar {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.cerrar:hover,
+.cerrar:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-aceptar-modal {
+    background-color: #acec58;  
+    color: white;  
+    border: none;  
+    padding: 10px 20px;  
+    border-radius: 5px;  
+    cursor: pointer;  
+}
+.btn-aceptar-modal:hover {
+    background-color: #93ca4a; 
+}
+
+.btn-cancelar-modal {
+    background-color: #dd4343;
+    border-color: #ad3535;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn-cancelar-modal:hover{
+    background-color: #ad3535;
+}
+
+.btn-disponibilidad-tabla {
+    display: none;
+    background-color: #007bff;
+    border-color:#0056b3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn-disponibilidad-tabla:hover{
+    background-color: #0056b3;
+}
+
+.button-container {
+    display: flex;
+    gap: 10px; /* Espacio entre los botones */
+    justify-content: center; /* Centrar los botones horizontalmente */
+}
+
+
+/* Estilos para el contenedor de aulas candidatas */
+#aula-info {
+    display: flex;
+    flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
+    justify-content: space-around;
+}
+
+/* Estilos para los divs de aulas candidatas */
+.aula-candidata {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    background-color: #f9f9f9; /* Fondo claro */
+    width: calc(30% - 10px); /* Ancho del 30% menos márgenes */
+}
+
+/* Estilos para los botones de seleccionar aula */
+.btn-seleccionar-aula {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px; /* Espacio superior */
+}
+
+.btn-seleccionar-aula:hover {
+    background-color: #45a049; /* Verde más oscuro al pasar el ratón */
+}
+
+
+.btn-aceptar-modal-resultado-exito{
+    background-color: #acec58;
+    border-color: #93ca4a;  
+    color: white;  
+    border: none;  
+    padding: 10px 20px;  
+    border-radius: 5px;  
+    cursor: pointer;  
+}
+.btn-aceptar-modal-resultado-exito:hover {
+    background-color: #93ca4a; 
+}
+
+.btn-aceptar-modal-resultado-error{
+    background-color: #dd4343;
+    border-color: #ad3535;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn-aceptar-modal-resultado-error:hover{
+    background-color: #ad3535;
 }

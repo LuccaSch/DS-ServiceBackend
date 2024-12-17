@@ -107,7 +107,7 @@ public class ReservaService {
         for(DiaReservaDTO diaReservaDTO : reservaDTO.getListaDiasReservaDTO()){
             LocalDate fechaAux = periodo.getFechaInicio().with(TemporalAdjusters.next(diaReservaDTO.getDiaSemana()));
             while(fechaAux.isBefore(periodo.getFechaFin()) || fechaAux.equals(periodo.getFechaFin())){
-                diasReservaConvertidos.add(new DiaReservaDTO(diaReservaDTO.getDuracion(), fechaAux, diaReservaDTO.getHoraInicio()));
+                diasReservaConvertidos.add(new DiaReservaDTO(diaReservaDTO.getDuracion(), fechaAux, diaReservaDTO.getHoraInicio(),diaReservaDTO.getIdAula()));
                 fechaAux=fechaAux.plus(semana);
             }
         }
@@ -161,7 +161,9 @@ public class ReservaService {
                 DSUtilResponseEntity.statusInternalServerError("Se quiere asignar un periodo invalido a la reserva");
             }
 
-            ReservaPeriodica nuevaReservaEsporadica = new ReservaPeriodica(this.obtenerUsuarioLogeado(),
+            System.out.println("Periodo: "+periodoOptional.toString());
+
+            ReservaPeriodica nuevaReservaPeriodica = new ReservaPeriodica(this.obtenerUsuarioLogeado(),
                                                         reservaDTO.getCantAlumnos(),
                                                         Timestamp.from(Instant.now()),
                                                         reservaDTO.getIdAsignatura(),
@@ -171,15 +173,23 @@ public class ReservaService {
                                                         periodoOptional.get()
                                                     );
 
-            nuevaReservaEsporadica.setDiasReserva(this.crearDiasReserva(reservaDTO.getListaDiasReservaDTO()));
+            nuevaReservaPeriodica.setDiasReserva(this.crearDiasReserva(reservaDTO.getListaDiasReservaDTO()));
 
-            reservaRepository.save(nuevaReservaEsporadica);
+            System.out.println("Reserva Periodica antes: "+nuevaReservaPeriodica.toString());
+
+            for (DiaReserva diaReserva : nuevaReservaPeriodica.getDiasReserva()) {
+                diaReserva.setReserva(nuevaReservaPeriodica);
+            }
+
+            System.out.println("Reserva Periodica despues: "+nuevaReservaPeriodica.toString());
+
+            reservaRepository.save(nuevaReservaPeriodica);
 
             return DSUtilResponseEntity.statusOk("Se guardo la Reserva con exito");
 
         }
         catch (DataAccessException e) {
-            return DSUtilResponseEntity.statusInternalServerError("Error interno del Servidor, por favor intentar mas tarde");
+            return DSUtilResponseEntity.statusInternalServerError("Error interno del Servidor, por favor intentar mas tarde:" +e.getMessage());
         }
         catch(IllegalStateException e){
             return DSUtilResponseEntity.statusInternalServerError(e.getMessage());
@@ -194,6 +204,8 @@ public class ReservaService {
 
     public List<DiaReserva> crearDiasReserva(List<DiaReservaDTO> listaDiasReservaDTO){
         List<DiaReserva> diasReserva = new ArrayList<>();
+
+        System.out.println("Lista de Dias Reserva: "+listaDiasReservaDTO.toString());
 
         for(DiaReservaDTO diaReservaDTO : listaDiasReservaDTO){
             diasReserva.add(crearDiaReserva(diaReservaDTO));
@@ -241,7 +253,7 @@ public class ReservaService {
             if (nuevaReserva.getPeriodo()==null){
                 return true;  
             }
-            if (!(nuevaReserva.getPeriodo().equals(0) || nuevaReserva.getPeriodo().equals(1) || nuevaReserva.getPeriodo().equals(1))){
+            if (!(nuevaReserva.getPeriodo().equals(0L) || nuevaReserva.getPeriodo().equals(1L) || nuevaReserva.getPeriodo().equals(2L))){
                 return true;  
             }
         }
