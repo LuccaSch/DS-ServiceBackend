@@ -441,8 +441,6 @@ function crearReserva(reserva) {
 
   reserva.listaDiasReservaDTO = diasReservaDTO;
 
-  console.log(reserva);
-
   // Enviar la reserva al backend
   fetch("/bedel/api/reserva/registrar", {
     method: "POST",

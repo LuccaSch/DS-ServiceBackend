@@ -1,8 +1,10 @@
 package com.ds.tp.services;
 
 import java.sql.Timestamp;
+import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.Period;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
@@ -17,11 +19,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.ds.tp.exception.ReservaSuperpuestaException;
 import com.ds.tp.models.aula.Aula;
 import com.ds.tp.models.dto.DiaReservaDTO;
 import com.ds.tp.models.dto.ReservaDTO;
 import com.ds.tp.models.reserva.DiaReserva;
 import com.ds.tp.models.reserva.Periodo;
+import com.ds.tp.models.reserva.Reserva;
 import com.ds.tp.models.reserva.ReservaEsporadica;
 import com.ds.tp.models.reserva.ReservaPeriodica;
 import com.ds.tp.models.usuario.Bedel;
@@ -84,6 +88,9 @@ public class ReservaService {
         }
         catch(IllegalStateException e){
             return DSUtilResponseEntity.statusInternalServerError(e.getMessage());
+        }
+        catch (ReservaSuperpuestaException e) {
+            return DSUtilResponseEntity.statusBadRequest(e.getMessage());
         } 
         catch (Exception e) {
             return DSUtilResponseEntity.statusInternalServerError("Error inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
@@ -115,6 +122,7 @@ public class ReservaService {
         reservaDTO.setListaDiasReservaDTO(diasReservaConvertidos);
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public ResponseEntity<Object> crearReservaEsporadica(ReservaDTO reservaDTO) {
         try{
             ReservaEsporadica nuevaReservaEsporadica = new ReservaEsporadica(this.obtenerUsuarioLogeado(),
@@ -135,9 +143,7 @@ public class ReservaService {
                 diaReserva.setReserva(nuevaReservaEsporadica);
             }
 
-            System.out.println("Reserva Esporadica: "+nuevaReservaEsporadica.toString());
-
-            reservaRepository.save(nuevaReservaEsporadica);
+            this.saveReserva(nuevaReservaEsporadica);
 
             return DSUtilResponseEntity.statusOk("Se guardo la Reserva con exito");
 
@@ -145,7 +151,7 @@ public class ReservaService {
         catch (DataAccessException e) {
             return DSUtilResponseEntity.statusInternalServerError("Error interno del Servidor, por favor intentar mas tarde");
         }
-        catch(IllegalStateException e){
+        catch(IllegalStateException | ReservaSuperpuestaException e){
             return DSUtilResponseEntity.statusInternalServerError(e.getMessage());
         }
         catch (Exception e) {
@@ -153,6 +159,7 @@ public class ReservaService {
         }
     }
 
+    @SuppressWarnings("UseSpecificCatch")
     public ResponseEntity<Object> crearReservaPeriodica(ReservaDTO reservaDTO) {
         try{
             Optional<Periodo> periodoOptional = reservaRepository.findPeriodoById(reservaDTO.getPeriodo());
@@ -160,8 +167,6 @@ public class ReservaService {
             if(periodoOptional.isEmpty()){
                 DSUtilResponseEntity.statusInternalServerError("Se quiere asignar un periodo invalido a la reserva");
             }
-
-            System.out.println("Periodo: "+periodoOptional.toString());
 
             ReservaPeriodica nuevaReservaPeriodica = new ReservaPeriodica(this.obtenerUsuarioLogeado(),
                                                         reservaDTO.getCantAlumnos(),
@@ -175,15 +180,11 @@ public class ReservaService {
 
             nuevaReservaPeriodica.setDiasReserva(this.crearDiasReserva(reservaDTO.getListaDiasReservaDTO()));
 
-            System.out.println("Reserva Periodica antes: "+nuevaReservaPeriodica.toString());
-
             for (DiaReserva diaReserva : nuevaReservaPeriodica.getDiasReserva()) {
                 diaReserva.setReserva(nuevaReservaPeriodica);
             }
 
-            System.out.println("Reserva Periodica despues: "+nuevaReservaPeriodica.toString());
-
-            reservaRepository.save(nuevaReservaPeriodica);
+            this.saveReserva(nuevaReservaPeriodica);
 
             return DSUtilResponseEntity.statusOk("Se guardo la Reserva con exito");
 
@@ -200,12 +201,18 @@ public class ReservaService {
     }
 
 
+    public synchronized void saveReserva(Reserva reserva) throws ReservaSuperpuestaException {
+        List<DiaReserva> diasReserva = reserva.getDiasReserva();
+        if (calcularSuperposicion(diasReserva)) {
+            throw new ReservaSuperpuestaException("Lamentamos informarle que se ha producido una superposición de horarios, no pudimos registrar su reserva.");
+        }
+        reservaRepository.save(reserva);
+    }
+
     //--------------------------------------------------METODOS GENERALES--------------------------------------------------
 
     public List<DiaReserva> crearDiasReserva(List<DiaReservaDTO> listaDiasReservaDTO){
         List<DiaReserva> diasReserva = new ArrayList<>();
-
-        System.out.println("Lista de Dias Reserva: "+listaDiasReservaDTO.toString());
 
         for(DiaReservaDTO diaReservaDTO : listaDiasReservaDTO){
             diasReserva.add(crearDiaReserva(diaReservaDTO));
@@ -240,6 +247,38 @@ public class ReservaService {
 
         throw new IllegalStateException("ERROR: No existe el usuario Solicitado");
     }
+
+    public boolean calcularSuperposicion(List<DiaReserva> diasReserva) {
+        for (DiaReserva diaReserva : diasReserva) {
+            List<DiaReserva> diasExistentes = reservaRepository.findDiaReservaByFechaReservaAndAula(diaReserva.getFechaReserva(), diaReserva.getAula().getIdAula());
+            for (DiaReserva diaExistente : diasExistentes) {
+                if (haySuperposicion(diaReserva, diaExistente)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean haySuperposicion(DiaReserva diaReserva, DiaReserva diaExistente) {
+        Duration duracion1 = Duration.ofMinutes(diaExistente.getDuracion());
+        Duration duracion2 = Duration.ofMinutes(diaReserva.getDuracion());
+    
+        // Hora de inicio y fin de cada reserva
+        LocalTime inicio1 = diaExistente.getHoraInicio();
+        LocalTime inicio2 = diaReserva.getHoraInicio();
+        LocalTime fin1 = inicio1.plus(duracion1);
+        LocalTime fin2 = inicio2.plus(duracion2);
+    
+        // Calcular el mayor de los inicios y el menor de los finales
+        LocalTime inicioSuperposicion = inicio1.isAfter(inicio2) ? inicio1 : inicio2;
+        LocalTime finSuperposicion = fin1.isBefore(fin2) ? fin1 : fin2;
+    
+        // Verificar si hay superposición
+        return inicioSuperposicion.isBefore(finSuperposicion);
+    }
+
+
 
     public boolean verificarDatosIncorrectosReserva(ReservaDTO nuevaReserva){
 

@@ -27,4 +27,7 @@ public interface ReservaRepository extends JpaRepository<Reserva,Long>{
 
     @Query("SELECT ds FROM DiaReserva ds WHERE ds.fechaReserva = :fechaReserva")
     List<DiaReserva> findDiaReservaByFechaReserva(LocalDate fechaReserva);
+
+    @Query("SELECT ds FROM DiaReserva ds WHERE ds.fechaReserva = :fechaReserva AND ds.aula.id = :idAula")
+    List<DiaReserva> findDiaReservaByFechaReservaAndAula(@Param("fechaReserva") LocalDate fechaReserva, @Param("idAula") Long idAula);
 }

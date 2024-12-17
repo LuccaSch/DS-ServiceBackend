@@ -226,8 +226,6 @@ function buscarDisponibilidad() {
     diasReserva: diasReservaDTO
   };
 
-  console.log(requeriminetoDisponibilidadDTO);
-
 
   // Enviar al backend con fetch
   try {
@@ -439,8 +437,6 @@ function crearReserva(reserva) {
   //^VERIFICACION^
 
   reserva.listaDiasReservaDTO = diasReservaDTO;
-
-  console.log(reserva);
 
   // Enviar la reserva al backend
   fetch("/bedel/api/reserva/registrar", {
