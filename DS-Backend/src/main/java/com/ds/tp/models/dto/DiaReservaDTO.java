@@ -26,6 +26,8 @@ public class DiaReservaDTO {
     @JsonProperty("diaSemana")
     private DayOfWeek diaSemana;
 
+    public DiaReservaDTO() {}
+
     public DiaReservaDTO(Long id,Integer duracion, LocalDate fechaReserva, LocalTime horaInicio, Long idAula) {
         this.duracion = duracion;
         this.fechaReserva = fechaReserva;

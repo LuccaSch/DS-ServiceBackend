@@ -43,15 +43,18 @@
                 </p>
             </div>
             <div id="mensajeError" class="mensaje-error" style="color: red;"></div>
-            <button class="agregar-dia" id="btn-agregar-dia">Agregar Dia</button>
-            <table class="dias-agregado" id="dias-agregados">
-                <tr>
-                    <th>Dia</th>
-                    <th>Hora Inicio</th>
-                    <th>Duracion</th>
-                    <th></th>
-                </tr>
-            </table>
+            <button class="btn-buscar" id="btn-agregar-dia">Agregar Dia</button>
+            <div>
+                <table class="dias-agregado" id="dias-agregados">
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Hora Inicio</th>
+                        <th>Duracion</th>
+                        <th>Aula</th>
+                        <th>Acciones</th>
+                    </tr>
+                </table>
+            </div>
         </div>
 
         <div class="linea-vertical"></div>
@@ -64,7 +67,7 @@
             <p>
                 <label for="docente*" class="colocar_docente">*Docente Solicitante:</label>
                 <select name="select" id="docente" required>
-                <option value="" selected disabled>Seleccione el docente</option>
+                    <option value="" selected disabled>Seleccione el docente</option>
                 </select>
             </p>
                 <p>
@@ -74,16 +77,12 @@
                     </select>
                 </p>
                 <p>
-                    <label for="coreeo*" class="colocar_correo">*Correo Electrónico:</label>
-                    <input type="correo" name="introducir_correo" id="coreeo" required placeholder="Correo Electrónico">
-                </p>
-                <p>
                     <label for="tipo-aula*" class="colocar_tipo">*Tipo de Aula:</label>
                     <select name="select" id="turno" required>
                         <option value="" selected disabled>Seleccione el Tipo de Aula</option>
-                        <option value="Multimedia">Multimedia</option>
-                        <option value="Informatica">Informatica</option>
-                        <option value="SinRescursos">Sin Recursos</option>
+                        <option value="0">Informatica</option>
+                        <option value="1">Multimedia</option>
+                        <option value="2">Sin Recursos</option>
                     </select>
                 </p>
                 
@@ -92,8 +91,43 @@
                 </p>
                 <p class="btn-container">
                     <button class="btn-cancelar" type="button" id="cancelar" onclick="location.href='/bedel/reserva/crear'">Cancelar</button>
+                    <button class="btn-aceptar" type="button" id="crearReserva">Enviar</button>
                     <button class="btn-buscar" type="button" id="buscar">Buscar</button>
                 </p>
+        </div>
+    </div>
+
+    <!-- MODALES -->
+
+    <div id="modal-aulas" class="modal">
+        <div class="contenidoModal">
+            <span class="cerrar" id="close-button-eliminar">&times;</span>
+            <h2>Seleccione el Aula</h2>
+            <div id="aula-info">
+                <!-- Se llena dinamicamente en js -->
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn-cancelar-modal" id="cancel-aula-button">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-superposicion" class="modal">
+        <div class="contenidoModal">
+            <span class="cerrar" id="close-button-eliminar">&times;</span>
+            <h2>Menor Superposicion</h2>
+            <div id="Superposicion-info">
+                <p><strong>ID Reserva:</strong> <span id="reserva-id-modal-sup"></span></p>
+                <p><strong>ID Asignatura:</strong> <span id="asignatura-id-modal-sup"></span></p>
+                <p><strong>Asignatura</strong> <span id="asignatura-modal-sup"></span></p>
+                <p><strong>ID Docente</strong> <span id="docente-id-modal-sup"></span></p>
+                <p><strong>Docente</strong> <span id="docente-modal-sup"></span></p>
+                <p><strong>Tipo</strong> <span id="tipo-asignatura-modal-sup"></span></p>
+                <p><strong>ID Bedel</strong> <span id="bedel--modal-sup"></span></p>                                                            
+            </div>
+            <div class="modal-buttons">
+                <button type="button" class="btn-cancelar-modal" id="save-superposicion-button">Aceptar</button>
+            </div>
         </div>
     </div>
 
