@@ -100,6 +100,17 @@ function agregarFechaReserva() {
       return;
   }
 
+  const diaReservaDTO = {
+    fecha: fecha,
+    horaInicio: horaInicio,
+    duracion: parseInt(duracion, 10)
+  };
+
+  if (existeSuperposicion(diaReservaDTO)) {
+    mostrarMensajeError("Esta intentando agregar un dia que se superpone con otro ya agregado");
+    return;
+  }
+
   // CREAR FECHA DIA RESERVA
 
   limpiarMensajeError();
@@ -462,6 +473,36 @@ function crearReserva(reserva) {
 }
 
 //FUNCIONES AUXILIARES
+
+function existeSuperposicion(diaReserva) {
+  const filas = tabla.getElementsByTagName("tr");
+
+  for (let i = 1; i < filas.length; i++) { 
+      const columnas = filas[i].getElementsByTagName("td");
+      const fecha = columnas[0].textContent.trim();
+      const horaInicio = columnas[1].textContent.trim();
+      const duracion = parseInt(columnas[2].textContent.trim(), 10);
+
+      if (fecha === diaReserva.fecha) {
+          const [horaInicioTabla, minutosInicioTabla] = horaInicio.split(":").map(Number);
+          const [horaInicioReserva, minutosInicioReserva] = diaReserva.horaInicio.split(":").map(Number);
+
+          const inicioTabla = horaInicioTabla * 60 + minutosInicioTabla;
+          const inicioReserva = horaInicioReserva * 60 + minutosInicioReserva;
+
+          const finTabla = inicioTabla + duracion;
+          const finReserva = inicioReserva + diaReserva.duracion;
+
+          if ((inicioReserva >= inicioTabla && inicioReserva < finTabla) || 
+              (finReserva > inicioTabla && finReserva <= finTabla) ||
+              (inicioTabla >= inicioReserva && inicioTabla < finReserva)) {
+              return true;
+          }
+      }
+  }
+  return false;
+}
+
 function limpiarIngresoFecha(){
   document.getElementById("fecha-id").value = "";  
   document.getElementById("hora-inicio-id").value = "";
