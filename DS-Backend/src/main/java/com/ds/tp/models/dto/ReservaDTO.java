@@ -34,7 +34,7 @@ public class ReservaDTO{
     @JsonProperty("fechaRegistro")
     private Timestamp fechaRegistroTimestamp;
 
-    @JsonProperty("diaReservaDTO")
+    @JsonProperty("listaDiasReservaDTO")
     private List<DiaReservaDTO> listaDiasReservaDTO;
 
     @JsonProperty("tipo")
@@ -45,6 +45,7 @@ public class ReservaDTO{
     //0 Anual, 1 primerCuatrimestr, 2 SegundoCuatrimestre 
     private Long periodo;
 
+    public ReservaDTO() {}
 
     public ReservaDTO(Long id,Integer cantAlumnos, Timestamp fechaRegistroTimestamp, Long idAsignatura, String idBedel, Long idDocente, String nombreAsignatura, String nombreDocente,int tipo, List<DiaReservaDTO> listaDiasReservaDTO) {
         this.cantAlumnos = cantAlumnos;
@@ -58,7 +59,6 @@ public class ReservaDTO{
         this.listaDiasReservaDTO=listaDiasReservaDTO;
         this.tipo=tipo;
     }
-
 
     //NO MODIFICAR SE USA PARA DISPONIBILIDAD
     public ReservaDTO(Long id, Long idAsignatura, Long idBedel, Long idDocente, String nombreAsignatura, String nombreDocente) {
@@ -94,12 +94,20 @@ public class ReservaDTO{
         this.idAsignatura = idAsignatura;
     }
 
+    public Long getIdBedel() {
+        return idBedel;
+    }
+
+    public void setIdBedel(Long idBedel) {
+        this.idBedel = idBedel;
+    }
+
     public String getUsuarioBedel() {
         return usuarioBedel;
     }
 
-    public void setUsuarioBedel(String idBedel) {
-        this.usuarioBedel = idBedel;
+    public void setUsuarioBedel(String usuarioBedel) {
+        this.usuarioBedel = usuarioBedel;
     }
 
     public String getNombreDocente() {
@@ -142,14 +150,6 @@ public class ReservaDTO{
         this.listaDiasReservaDTO = listaDiasReservaDTO;
     }
 
-    public Long getPeriodo() {
-        return periodo;
-    }
-
-    public void setPeriodo(Long periodo) {
-        this.periodo = periodo;
-    }
-
     public int getTipo() {
         return tipo;
     }
@@ -158,12 +158,19 @@ public class ReservaDTO{
         this.tipo = tipo;
     }
 
-    public Long getIdBedel() {
-        return idBedel;
+    public Long getPeriodo() {
+        return periodo;
     }
 
-    public void setIdBedel(Long idBedel) {
-        this.idBedel = idBedel;
+    public void setPeriodo(Long periodo) {
+        this.periodo = periodo;
     }
 
+    @Override
+    public String toString() {
+        return "ReservaDTO [idDocente=" + idDocente + ", idAsignatura=" + idAsignatura + ", idBedel=" + idBedel
+                + ", usuarioBedel=" + usuarioBedel + ", nombreDocente=" + nombreDocente + ", nombreAsignatura="
+                + nombreAsignatura + ", cantAlumnos=" + cantAlumnos + ", fechaRegistroTimestamp="
+                + fechaRegistroTimestamp + ", listaDiasReservaDTO=" + listaDiasReservaDTO + ", tipo=" + tipo + "]";
+    }
 }

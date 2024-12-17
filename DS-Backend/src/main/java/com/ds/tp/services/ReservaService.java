@@ -125,10 +125,17 @@ public class ReservaService {
                                                                 reservaDTO.getNombreAsignatura(),
                                                                 reservaDTO.getNombreDocente()
                                                             );
+            
 
             nuevaReservaEsporadica.setDiasReserva(this.crearDiasReserva(
                                                 reservaDTO.getListaDiasReservaDTO())
                                                 );
+
+            for (DiaReserva diaReserva : nuevaReservaEsporadica.getDiasReserva()) {
+                diaReserva.setReserva(nuevaReservaEsporadica);
+            }
+
+            System.out.println("Reserva Esporadica: "+nuevaReservaEsporadica.toString());
 
             reservaRepository.save(nuevaReservaEsporadica);
 
@@ -239,10 +246,6 @@ public class ReservaService {
             }
         }
 
-        if(nuevaReserva.getListaDiasReservaDTO().isEmpty()){
-            return true;
-        }
-
-        return nuevaReserva.getCantAlumnos()<=0;
+        return nuevaReserva.getListaDiasReservaDTO().isEmpty();
     }
 }

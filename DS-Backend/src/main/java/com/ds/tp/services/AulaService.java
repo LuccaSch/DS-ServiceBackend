@@ -18,6 +18,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ds.tp.exception.AulaNoEncontradaException;
 import com.ds.tp.exception.ReservaNoEncontradaException;
 import com.ds.tp.models.aula.Aula;
 import com.ds.tp.models.dto.AulaDTO;
@@ -61,6 +62,7 @@ public class AulaService {
     //--------------------------------------------------GET AULAS--------------------------------------------------
 
     //ESPORADICA
+    @SuppressWarnings("UseSpecificCatch")
     public ResponseEntity<Object> getAulaEsporadica(RequerimientoDisponibilidadDTO requisito) {
         try{
             if(verificarDatosIncorrectosRequerimiento(requisito)){
@@ -80,13 +82,13 @@ public class AulaService {
                         }
             }
 
-            //Si el opcional esta vacio no existe un aula con las caracteristicas solicitadas que este activa
-            if (aulasOpt.isEmpty()) {
-                return DSUtilResponseEntity.statusBadRequest("ERROR: No existe aula que cumpla con las características solicitadas");
-            }
-
             // Hacemos una conversion explicita de tipos ya que solo nesesitamos los datos de la clase generica AULA.
             List<Aula> listaAulas = new ArrayList<>(aulasOpt.get());
+
+            //Si el opcional esta vacio no existe un aula con las caracteristicas solicitadas que este activa
+            if (listaAulas.isEmpty()) {
+                throw new AulaNoEncontradaException("No existe aula que cumpla con las características solicitadas");
+            }
 
             //Ordenamos de manera decendente de forma que las aulas con menor capacidad esten primeras
 
@@ -95,7 +97,7 @@ public class AulaService {
                                     .collect(Collectors.toList());          
 
             //Buscamos La disponibilidad para estas aulas en las fechas solicitadas
-            if(requisito.getTipoReserva()){
+            if(!requisito.getTipoReserva()){
                 List<DisponibilidadAulaDTO> disponibilidadFinal = this.getDisponibilidadFinalPeriodica(listaAulas,requisito.getMapDiasSemana());
             
                 return DSUtilResponseEntity.statusOk(disponibilidadFinal);
@@ -109,8 +111,11 @@ public class AulaService {
         catch (DataAccessException e) {
             return DSUtilResponseEntity.statusInternalServerError("ERROR: interno del Servidor, por favor intentar mas tarde");
         }
+        catch (AulaNoEncontradaException | ReservaNoEncontradaException e) {
+            return DSUtilResponseEntity.statusBadRequest(e.getMessage());
+        }
         catch (Exception e) {
-            return DSUtilResponseEntity.statusInternalServerError("ERROR: inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte");
+            return DSUtilResponseEntity.statusInternalServerError("ERROR: inesperado, por favor intentar mas tarde, si el error continua contactarse con soporte" + e.getMessage());
         }
 
     }

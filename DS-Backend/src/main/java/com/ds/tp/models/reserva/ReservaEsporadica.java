@@ -47,4 +47,9 @@ public class ReservaEsporadica extends Reserva{
         this.idAsignatura = idAsignatura;
         this.idDocente = idDocente;
     }
+
+    @Override
+    public String toString() {
+        return "ReservaEsporadica [" + this.getFechaRegistro() + "," + this.getBedel().getId() + "," + this.getNombreAsignatura() + ", " + this.getNombreDocente() + ", " + this.getCantAlumnos() +  this.getDiasReserva() +"]";
+    }
 }

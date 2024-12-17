@@ -238,7 +238,6 @@ input[type=number]::-webkit-outer-spin-button {
     padding: 20px;
     border: 1px solid #888;
     width: 80%;
-    max-width: 400px;
 }
 
 .modal-conteiner-boton{
@@ -310,4 +309,72 @@ input[type=number]::-webkit-outer-spin-button {
     display: flex;
     gap: 10px; /* Espacio entre los botones */
     justify-content: center; /* Centrar los botones horizontalmente */
+}
+
+
+/* Estilos para el contenedor de aulas candidatas */
+#aula-info {
+    display: flex;
+    flex-wrap: wrap; /* Permitir que los elementos se envuelvan */
+    justify-content: space-around;
+}
+
+/* Estilos para los divs de aulas candidatas */
+.aula-candidata {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra */
+    background-color: #f9f9f9; /* Fondo claro */
+    width: calc(30% - 10px); /* Ancho del 30% menos márgenes */
+}
+
+/* Estilos para los botones de seleccionar aula */
+.btn-seleccionar-aula {
+    background-color: #4CAF50; /* Verde */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px; /* Espacio superior */
+}
+
+.btn-seleccionar-aula:hover {
+    background-color: #45a049; /* Verde más oscuro al pasar el ratón */
+}
+
+
+.btn-aceptar-modal-resultado-exito{
+    background-color: #acec58;
+    border-color: #93ca4a;  
+    color: white;  
+    border: none;  
+    padding: 10px 20px;  
+    border-radius: 5px;  
+    cursor: pointer;  
+}
+.btn-aceptar-modal-resultado-exito:hover {
+    background-color: #93ca4a; 
+}
+
+.btn-aceptar-modal-resultado-error{
+    background-color: #dd4343;
+    border-color: #ad3535;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.btn-aceptar-modal-resultado-error:hover{
+    background-color: #ad3535;
 }

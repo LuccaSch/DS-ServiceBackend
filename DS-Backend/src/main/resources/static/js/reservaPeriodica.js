@@ -185,19 +185,21 @@ function buscarDisponibilidad(){
     } catch (error) {
         console.log("Error en la petición: " + error.message);
     }
-  }
+}
+
+
 
 //FUNCIONES AUXILIARES
 function limpiarIngresoDiaSemana(){
-    document.getElementById("dia-semana-id").value = "";  
-    document.getElementById("hora-inicio-id").value = "";
-    document.getElementById('duracion-id').value = "";
-  }
+  document.getElementById("dia-semana-id").value = "";  
+  document.getElementById("hora-inicio-id").value = "";
+  document.getElementById('duracion-id').value = "";
+}
   
-  const mostrarMensajeError = (mensaje) => {
-    mensajeError.textContent = mensaje;
-  };
-  
-  const limpiarMensajeError = () => {
-    mensajeError.textContent = "";
-  }
+const mostrarMensajeError = (mensaje) => {
+  mensajeError.textContent = mensaje;
+};
+
+const limpiarMensajeError = () => {
+  mensajeError.textContent = "";
+}

@@ -28,7 +28,7 @@
 
     <div class="container">
         <div class="fechas-reservas">
-            <div class="sub-container">
+            <div class="sub-container" id="fechas-reservas-sub-container">
                 <p>
                     <label for="fecha">Selecciona una fecha:</label>
                     <input type="date" id="fecha-id" name="fecha" class="date-dia">
@@ -42,7 +42,7 @@
                     <input type="number" id="duracion-id" name="hora" placeholder="MMM">
                 </p>
             </div>
-            <div id="mensajeError" class="mensaje-error" style="color: red;"></div>
+            <div id="mensaje-error-diaReserva" class="mensaje-error" style="color: red;"></div>
             <button class="btn-buscar" id="btn-agregar-dia">Agregar Dia</button>
             <div>
                 <table class="dias-agregado" id="dias-agregados">
@@ -59,10 +59,10 @@
 
         <div class="linea-vertical"></div>
 
-        <div class="campos-no-habilitados">
+        <div class="campos-no-habilitados", id="campos-reserva">
             <p>
                 <label for="CantidadAlumnos*" class="colocar_cantidad">*CantidadAlumnos</label>
-                <input type="text" name="introducir_cantidad" id="nombre" required placeholder="Ingrese la cantidad">
+                <input type="text" name="introducir_cantidad" id="alumnos-tam" required placeholder="Ingrese la cantidad">
             </p>
             <p>
                 <label for="docente*" class="colocar_docente">*Docente Solicitante:</label>
@@ -89,9 +89,10 @@
                 <p class="aviso">
                     <span>*</span> Campos obligatorios.
                 </p>
+                <div id="mensaje-error-reserva" class="mensaje-error" style="color: red;"></div>
                 <p class="btn-container">
-                    <button class="btn-cancelar" type="button" id="cancelar" onclick="location.href='/bedel/reserva/crear'">Cancelar</button>
-                    <button class="btn-aceptar" type="button" id="crearReserva">Enviar</button>
+                    <button class="btn-cancelar" type="button" id="cancelar">Cancelar</button>
+                    <button class="btn-aceptar" type="button" id="crearReserva">Reservar</button>
                     <button class="btn-buscar" type="button" id="buscar">Buscar</button>
                 </p>
         </div>
@@ -101,7 +102,7 @@
 
     <div id="modal-aulas" class="modal">
         <div class="contenidoModal">
-            <span class="cerrar" id="close-button-eliminar">&times;</span>
+            <span class="cerrar" id="close-button-aula">&times;</span>
             <h2>Seleccione el Aula</h2>
             <div id="aula-info">
                 <!-- Se llena dinamicamente en js -->
@@ -114,7 +115,7 @@
 
     <div id="modal-superposicion" class="modal">
         <div class="contenidoModal">
-            <span class="cerrar" id="close-button-eliminar">&times;</span>
+            <span class="cerrar" id="close-button-superposicion">&times;</span>
             <h2>Menor Superposicion</h2>
             <div id="Superposicion-info">
                 <p><strong>ID Reserva:</strong> <span id="reserva-id-modal-sup"></span></p>
@@ -123,10 +124,21 @@
                 <p><strong>ID Docente</strong> <span id="docente-id-modal-sup"></span></p>
                 <p><strong>Docente</strong> <span id="docente-modal-sup"></span></p>
                 <p><strong>Tipo</strong> <span id="tipo-asignatura-modal-sup"></span></p>
-                <p><strong>ID Bedel</strong> <span id="bedel--modal-sup"></span></p>                                                            
+                <p><strong>ID Bedel</strong> <span id="bedel-modal-sup"></span></p>                                                            
             </div>
             <div class="modal-buttons">
                 <button type="button" class="btn-cancelar-modal" id="save-superposicion-button">Aceptar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal para mostrar el resultado de la operacion -->
+    <div id="resultadoModal" class="modal">
+        <div class="contenidoModal">
+            <span  class="cerrar" id="close-button-resultado" style="cursor:pointer;">&times;</span>
+            <h2 id="resultadoMensaje"></h2>
+            <div class="resultado-modal-conteiner-boton">
+                <button class="btn-aceptar-modal" id="aceptar-resultado-modal" >Aceptar</button>
             </div>
         </div>
     </div>
