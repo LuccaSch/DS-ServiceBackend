@@ -203,10 +203,13 @@ public class ReservaService {
 
     public synchronized void saveReserva(Reserva reserva) throws ReservaSuperpuestaException {
         List<DiaReserva> diasReserva = reserva.getDiasReserva();
+
         if (calcularSuperposicion(diasReserva)) {
             throw new ReservaSuperpuestaException("Lamentamos informarle que se ha producido una superposición de horarios, no pudimos registrar su reserva.");
         }
-        reservaRepository.save(reserva);
+        else{
+            reservaRepository.save(reserva);
+        }
     }
 
     //--------------------------------------------------METODOS GENERALES--------------------------------------------------
