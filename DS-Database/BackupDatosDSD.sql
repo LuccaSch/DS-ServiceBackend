@@ -1,0 +1,552 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 16.4
+-- Dumped by pg_dump version 16.4
+
+-- Started on 2024-12-19 17:25:07
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 4859 (class 0 OID 17054)
+-- Dependencies: 220
+-- Data for Name: aula; Type: TABLE DATA; Schema: public; Owner: admin_ds
+--
+
+COPY public.aula (id, aire_acondicionado, aula_disponible, maximo_alumnos, piso, tipo_pizzarron) FROM stdin;
+1	t	t	30	1	blanco
+2	f	t	25	2	tiza
+30	t	t	40	3	blanco
+40	f	t	20	1	tiza
+\.
+
+
+--
+-- TOC entry 4860 (class 0 OID 17061)
+-- Dependencies: 221
+-- Data for Name: aula_informatica; Type: TABLE DATA; Schema: public; Owner: admin_ds
+--
+
+COPY public.aula_informatica (canion, cant_pc, id) FROM stdin;
+t	15	1
+f	20	2
+\.
+
+
+--
+-- TOC entry 4861 (class 0 OID 17066)
+-- Dependencies: 222
+-- Data for Name: aula_multimedia; Type: TABLE DATA; Schema: public; Owner: admin_ds
+--
+
+COPY public.aula_multimedia (canion, computadora, televisor, ventiladores, id) FROM stdin;
+t	t	t	f	30
+f	f	f	t	40
+\.
+
+
+--
+-- TOC entry 4862 (class 0 OID 17071)
+-- Dependencies: 223
+-- Data for Name: aula_sin_recursos; Type: TABLE DATA; Schema: public; Owner: admin_ds
+--
+
+COPY public.aula_sin_recursos (descripcion, ventiladores, id) FROM stdin;
+\.
+
+
+--
+-- TOC entry 4857 (class 0 OID 16976)
+-- Dependencies: 218
+-- Data for Name: usuario_bedel; Type: TABLE DATA; Schema: public; Owner: admin_ds
+--
+
+COPY public.usuario_bedel (id, apellido, contrasenia, nombre, usuario, estado, turno) FROM stdin;
+5	Acosta	$2a$10$0uJqaKlbc182gJtsBoO5VerpO8vhZi/OArQPWB.kNjRPfk9pNzJ.O	Lucilda	LucAcosta1	f	2
+11	Schiaffino	$2a$10$KTqnvCh4CrvvQrzypd4yUeZhBffzf5DBoMleZXShgFTKbMUCQWRfO	Luciano	Lucianot222	t	1
+12	Montana	$2a$10$qS0aISdFU8SdKqmDgOi7yualYW.cGV/FoWhSKWAG8lgUV47ZHJW0m	Pepe	pepemoun1	t	1
+13	Rosa	$2a$10$LUBUdm3jaw.qG1cLFudli.n5l9B4rKa4zwR0w.z4YqGEFip/t9X.W	Maria	RosaM	t	1
+3	Diaz	$2a$10$RkDVeKzQZKjuxqLDIQLfIuZG1RF8tB.xBGx6qcaErywdW/XGsfUfa	Pereza	PerezGon12	t	1
+6	Usuario	$2a$10$3hxGjOpnYNpaV3x/iQ0woOiM9NmkZ9mkr9KUyTYRKMOBHr4yp8QzO	UsuarioPrueba	Usuario	t	1
+14	Perez	$2a$10$YCx9YSd0.Vw79TlD0gvKnu5NCSqqC75OzJcXpKy6BidFAczUn4t0O	pepe	Pepe2	t	1
+16	montana	$2a$10$0tgePFFtTISoWIZhRU6d1.L4Pk7F1bjOv/bqK6k2KbaPgmS1VkfiG	Matias	MatiMontana1	t	1
+17	Costa	$2a$10$JeuvHEAVK1kYUeCoEkGrSe5JEIurswLSrzUdGrZzyLmT8bF8UkcjG	Lucero	CostaLucero	t	1
+18	Argento	$2a$10$li9a3RyK1OI/Q88Fpbq5buDGeznIdLtDQnXys1iQc4PrYQXeOGGbe	Stefano	SArgento1	t	1
+4	Dia	$2a$10$gLExm7SHVksreFhzq37OwuVA2dBCo2hXKHgg0UxVn0BRX1t7Vvs9e	Luciano	LuchoP2	t	1
+9	Perez	$2a$10$PWtM0Q3VJpVZn0LNVvOBxeCu0jNwM0wLOAtv9YwcMMqik/fXcnB0i	Julian	JulianP1	t	2
+10	Marcel	$2a$10$mBxwAIX2oCXRepDv3iXcmu2jQQjRqqE7V6/7REHlOZgjrzJJ6LhIi	Carlo	CMarchel	t	1
+7	Dia	$2a$10$kgqw/bpcOKivbzcLKmG4b.2.rFqZwD0p8ONo/SQcKaaepwgFgIljm	Lucilda	JDiaz1	t	2
+15	Nuñes	$2a$10$OOpNKYOs595rKOi.muUmXuBohksMcfDh24oXBIh9nK8iO9xmiIp5e	Juan Cruz	JuanCruN	f	1
+8	Gonzales	$2a$10$XJFzxicQyAulTVpAKcwmVesxNmJ6q15x6Jt9gJWLfJ4p7THo6.NNu	Lorena	LuciaCostanerra1	t	1
+1	Pereira	$2a$10$1tW70MBoy4nxYQYgEf831.YKfvXAj5T2i6XK0JdH5TrjbNe9WmRIC	Lucilda	Lure123	f	1
+19	Impini	$2a$10$kTh8.Y8PV2tDuPyDug9eduIosmcTwL8ATFsIGC.dJoYL8MGuoUERG	Cristian	CImpini	t	1
+2	Ocampo	$2a$10$1q8ioZUsKmIFxBIcIfFvuOOkg9UaYXaHCIlDoxWPTP37cG00eP58.	Franquito	FranOcampo	t	2
+20	Impini	$2a$10$SPGYEo.UXN5.EAptWVBhb.pr8gEY5OFWWvsVb6B0gLsO/RJj7OYvm	Carlos	CImpini2	f	2
+\.
+
+
+--
+-- TOC entry 4868 (class 0 OID 17160)
+-- Dependencies: 229
+-- Data for Name: reserva; Type: TABLE DATA; Schema: public; Owner: admin_ds
+--
+
+COPY public.reserva (id, cant_alumnos, fecha_registro, id_asignatura, id_docente, nombre_asignatura, nombre_docente, id_bedel) FROM stdin;
+9	23	2024-12-17 03:53:38.431336	2	101	Sistemas Operativos	Chevalier Alicia	6
+10	20	2024-12-17 04:08:30.440996	3	102	Fisica 2	Llorez Roman	6
+11	10	2024-12-17 04:32:30.737524	1	100	Diseño de Sistemas	Impini Cristian	6
+12	23	2024-12-17 11:50:42.340054	1	100	Diseño de Sistemas	Impini Cristian	6
+13	30	2024-12-17 12:03:42.486197	4	103	Arquiectura de Computadoras	Silvina Mainero	6
+14	20	2024-12-17 13:27:15.091353	1	100	Diseño de Sistemas	Impini Cristian	6
+15	20	2024-12-17 15:26:56.587136	2	101	Sistemas Operativos	Chevalier Alicia	6
+16	20	2024-12-17 15:34:07.830015	2	101	Sistemas Operativos	Chevalier Alicia	6
+17	30	2024-12-17 16:00:54.099931	1	100	Diseño de Sistemas	Impini Cristian	6
+18	30	2024-12-17 16:01:23.409667	1	100	Diseño de Sistemas	Impini Cristian	6
+19	30	2024-12-17 16:02:09.864451	1	100	Diseño de Sistemas	Impini Cristian	6
+20	23	2024-12-17 16:06:58.056718	2	101	Sistemas Operativos	Chevalier Alicia	6
+21	20	2024-12-17 16:33:29.836452	1	100	Diseño de Sistemas	Impini Cristian	6
+22	5	2024-12-17 16:51:58.92454	1	100	Diseño de Sistemas	Impini Cristian	6
+23	20	2024-12-17 16:55:20.146424	4	103	Arquiectura de Computadoras	Silvina Mainero	6
+24	20	2024-12-17 17:02:46.023931	1	100	Diseño de Sistemas	Impini Cristian	6
+25	30	2024-12-17 17:07:17.754751	2	101	Sistemas Operativos	Chevalier Alicia	6
+26	23	2024-12-17 17:12:49.359807	3	102	Fisica 2	Llorez Roman	6
+27	20	2024-12-17 17:18:07.86171	1	100	Diseño de Sistemas	Impini Cristian	6
+28	30	2024-12-17 17:19:22.512807	4	103	Arquiectura de Computadoras	Silvina Mainero	6
+29	20	2024-12-17 19:45:24.362108	1	100	Diseño de Sistemas	Impini Cristian	6
+30	40	2024-12-17 19:54:59.172489	1	100	Diseño de Sistemas	Impini Cristian	6
+31	20	2024-12-17 20:03:55.820716	1	100	Diseño de Sistemas	Impini Cristian	6
+\.
+
+
+--
+-- TOC entry 4866 (class 0 OID 17154)
+-- Dependencies: 227
+-- Data for Name: dia_reserva; Type: TABLE DATA; Schema: public; Owner: admin_ds
+--
+
+COPY public.dia_reserva (id, duracion, fecha_reserva, hora_inicio, id_aula, id_reserva) FROM stdin;
+96	60	2024-12-17	19:00:00	2	22
+97	120	2025-03-04	20:30:00	40	23
+98	120	2025-03-11	20:30:00	40	23
+99	120	2025-03-18	20:30:00	40	23
+100	120	2025-03-25	20:30:00	40	23
+101	120	2025-04-01	20:30:00	40	23
+102	120	2025-04-08	20:30:00	40	23
+103	120	2025-04-15	20:30:00	40	23
+104	120	2025-04-22	20:30:00	40	23
+105	120	2025-04-29	20:30:00	40	23
+106	120	2025-05-06	20:30:00	40	23
+107	120	2025-05-13	20:30:00	40	23
+108	120	2025-05-20	20:30:00	40	23
+109	120	2025-05-27	20:30:00	40	23
+1	60	2024-12-20	09:00:00	2	9
+2	120	2024-12-20	10:00:00	1	10
+3	480	2024-12-24	23:55:00	1	10
+4	60	2024-12-18	19:00:00	2	11
+5	120	2024-12-18	16:30:00	2	12
+6	120	2024-12-23	15:00:00	30	13
+7	120	2024-08-08	08:15:00	1	14
+8	120	2024-08-15	08:15:00	1	14
+9	120	2024-08-22	08:15:00	1	14
+10	120	2024-08-29	08:15:00	1	14
+11	120	2024-09-05	08:15:00	1	14
+12	120	2024-09-12	08:15:00	1	14
+13	120	2024-09-19	08:15:00	1	14
+14	120	2024-09-26	08:15:00	1	14
+15	120	2024-10-03	08:15:00	1	14
+16	120	2024-10-10	08:15:00	1	14
+17	120	2024-10-17	08:15:00	1	14
+18	120	2024-10-24	08:15:00	1	14
+19	120	2024-10-31	08:15:00	1	14
+20	120	2024-11-07	08:15:00	1	14
+21	120	2024-11-14	08:15:00	1	14
+22	120	2024-11-21	08:15:00	1	14
+23	120	2024-11-28	08:15:00	1	14
+24	120	2024-12-05	08:15:00	1	14
+25	120	2024-12-12	08:15:00	1	14
+26	120	2024-12-19	08:15:00	1	14
+27	120	2024-12-25	10:15:00	2	15
+28	60	2024-03-05	18:45:00	40	16
+29	60	2024-03-12	18:45:00	40	16
+30	60	2024-03-19	18:45:00	40	16
+31	60	2024-03-26	18:45:00	40	16
+32	60	2024-04-02	18:45:00	40	16
+33	60	2024-04-09	18:45:00	40	16
+34	60	2024-04-16	18:45:00	40	16
+35	60	2024-04-23	18:45:00	40	16
+36	60	2024-04-30	18:45:00	40	16
+37	60	2024-05-07	18:45:00	40	16
+38	60	2024-05-14	18:45:00	40	16
+39	60	2024-05-21	18:45:00	40	16
+40	60	2024-05-28	18:45:00	40	16
+41	60	2024-06-04	18:45:00	40	16
+42	60	2024-06-11	18:45:00	40	16
+43	60	2024-06-18	18:45:00	40	16
+44	60	2024-06-25	18:45:00	40	16
+45	60	2024-07-02	18:45:00	40	16
+46	60	2024-07-09	18:45:00	40	16
+47	60	2024-07-16	18:45:00	40	16
+48	60	2024-07-23	18:45:00	40	16
+49	60	2024-07-30	18:45:00	40	16
+50	60	2024-08-06	18:45:00	40	16
+51	60	2024-08-13	18:45:00	40	16
+52	60	2024-08-20	18:45:00	40	16
+53	60	2024-08-27	18:45:00	40	16
+54	60	2024-09-03	18:45:00	40	16
+55	60	2024-09-10	18:45:00	40	16
+56	60	2024-09-17	18:45:00	40	16
+57	60	2024-09-24	18:45:00	40	16
+58	60	2024-10-01	18:45:00	40	16
+59	60	2024-10-08	18:45:00	40	16
+60	60	2024-10-15	18:45:00	40	16
+61	60	2024-10-22	18:45:00	40	16
+62	60	2024-10-29	18:45:00	40	16
+63	60	2024-11-05	18:45:00	40	16
+64	60	2024-11-12	18:45:00	40	16
+65	60	2024-11-19	18:45:00	40	16
+66	60	2024-11-26	18:45:00	40	16
+67	60	2024-12-03	18:45:00	40	16
+68	60	2024-12-10	18:45:00	40	16
+69	60	2024-12-17	18:45:00	40	16
+71	120	2024-12-20	16:00:00	30	17
+72	120	2024-12-26	18:00:00	1	18
+73	120	2024-12-20	20:00:00	1	19
+74	120	2024-12-26	08:15:00	30	20
+75	120	2024-08-02	04:00:00	2	21
+76	120	2024-08-09	04:00:00	2	21
+77	120	2024-08-16	04:00:00	2	21
+78	120	2024-08-23	04:00:00	2	21
+79	120	2024-08-30	04:00:00	2	21
+80	120	2024-09-06	04:00:00	2	21
+81	120	2024-09-13	04:00:00	2	21
+82	120	2024-09-20	04:00:00	2	21
+83	120	2024-09-27	04:00:00	2	21
+84	120	2024-10-04	04:00:00	2	21
+85	120	2024-10-11	04:00:00	2	21
+86	120	2024-10-18	04:00:00	2	21
+87	120	2024-10-25	04:00:00	2	21
+88	120	2024-11-01	04:00:00	2	21
+89	120	2024-11-08	04:00:00	2	21
+90	120	2024-11-15	04:00:00	2	21
+91	120	2024-11-22	04:00:00	2	21
+92	120	2024-11-29	04:00:00	2	21
+93	120	2024-12-06	04:00:00	2	21
+94	120	2024-12-13	04:00:00	2	21
+95	120	2024-12-20	04:00:00	2	21
+110	120	2025-06-03	20:30:00	40	23
+111	120	2025-06-10	20:30:00	40	23
+112	120	2025-06-17	20:30:00	40	23
+113	120	2025-06-24	20:30:00	40	23
+114	120	2025-07-01	20:30:00	40	23
+115	120	2025-07-08	20:30:00	40	23
+116	120	2025-07-15	20:30:00	40	23
+117	120	2024-03-06	20:30:00	40	24
+118	120	2024-03-13	20:30:00	40	24
+119	120	2024-03-20	20:30:00	40	24
+120	120	2024-03-27	20:30:00	40	24
+121	120	2024-04-03	20:30:00	40	24
+122	120	2024-04-10	20:30:00	40	24
+123	120	2024-04-17	20:30:00	40	24
+124	120	2024-04-24	20:30:00	40	24
+125	120	2024-05-01	20:30:00	40	24
+126	120	2024-05-08	20:30:00	40	24
+127	120	2024-05-15	20:30:00	40	24
+128	120	2024-05-22	20:30:00	40	24
+129	120	2024-05-29	20:30:00	40	24
+130	120	2024-06-05	20:30:00	40	24
+131	120	2024-06-12	20:30:00	40	24
+132	120	2024-06-19	20:30:00	40	24
+133	120	2024-06-26	20:30:00	40	24
+134	120	2024-07-03	20:30:00	40	24
+135	120	2024-07-10	20:30:00	40	24
+136	120	2024-07-17	20:30:00	40	24
+137	120	2024-07-24	20:30:00	40	24
+138	120	2024-07-31	20:30:00	40	24
+139	120	2024-08-07	20:30:00	40	24
+140	120	2024-08-14	20:30:00	40	24
+141	120	2024-08-21	20:30:00	40	24
+142	120	2024-08-28	20:30:00	40	24
+143	120	2024-09-04	20:30:00	40	24
+144	120	2024-09-11	20:30:00	40	24
+145	120	2024-09-18	20:30:00	40	24
+146	120	2024-09-25	20:30:00	40	24
+147	120	2024-10-02	20:30:00	40	24
+148	120	2024-10-09	20:30:00	40	24
+149	120	2024-10-16	20:30:00	40	24
+150	120	2024-10-23	20:30:00	40	24
+151	120	2024-10-30	20:30:00	40	24
+152	120	2024-11-06	20:30:00	40	24
+153	120	2024-11-13	20:30:00	40	24
+154	120	2024-11-20	20:30:00	40	24
+155	120	2024-11-27	20:30:00	40	24
+156	120	2024-12-04	20:30:00	40	24
+157	120	2024-12-11	20:30:00	40	24
+158	120	2024-12-18	20:30:00	40	24
+159	120	2024-08-03	21:00:00	30	25
+160	120	2024-08-10	21:00:00	30	25
+161	120	2024-08-17	21:00:00	30	25
+162	120	2024-08-24	21:00:00	30	25
+163	120	2024-08-31	21:00:00	30	25
+164	120	2024-09-07	21:00:00	30	25
+165	120	2024-09-14	21:00:00	30	25
+166	120	2024-09-21	21:00:00	30	25
+167	120	2024-09-28	21:00:00	30	25
+168	120	2024-10-05	21:00:00	30	25
+169	120	2024-10-12	21:00:00	30	25
+170	120	2024-10-19	21:00:00	30	25
+171	120	2024-10-26	21:00:00	30	25
+172	120	2024-11-02	21:00:00	30	25
+173	120	2024-11-09	21:00:00	30	25
+174	120	2024-11-16	21:00:00	30	25
+175	120	2024-11-23	21:00:00	30	25
+176	120	2024-11-30	21:00:00	30	25
+177	120	2024-12-07	21:00:00	30	25
+178	120	2024-12-14	21:00:00	30	25
+179	120	2024-12-21	21:00:00	30	25
+180	120	2024-08-03	08:30:00	30	26
+181	120	2024-08-10	08:30:00	30	26
+182	120	2024-08-17	08:30:00	30	26
+183	120	2024-08-24	08:30:00	30	26
+184	120	2024-08-31	08:30:00	30	26
+185	120	2024-09-07	08:30:00	30	26
+186	120	2024-09-14	08:30:00	30	26
+187	120	2024-09-21	08:30:00	30	26
+188	120	2024-09-28	08:30:00	30	26
+189	120	2024-10-05	08:30:00	30	26
+190	120	2024-10-12	08:30:00	30	26
+191	120	2024-10-19	08:30:00	30	26
+192	120	2024-10-26	08:30:00	30	26
+193	120	2024-11-02	08:30:00	30	26
+194	120	2024-11-09	08:30:00	30	26
+195	120	2024-11-16	08:30:00	30	26
+196	120	2024-11-23	08:30:00	30	26
+197	120	2024-11-30	08:30:00	30	26
+198	120	2024-12-07	08:30:00	30	26
+199	120	2024-12-14	08:30:00	30	26
+200	120	2024-12-21	08:30:00	30	26
+201	60	2024-03-04	20:00:00	30	27
+202	60	2024-03-11	20:00:00	30	27
+203	60	2024-03-18	20:00:00	30	27
+204	60	2024-03-25	20:00:00	30	27
+205	60	2024-04-01	20:00:00	30	27
+206	60	2024-04-08	20:00:00	30	27
+207	60	2024-04-15	20:00:00	30	27
+208	60	2024-04-22	20:00:00	30	27
+209	60	2024-04-29	20:00:00	30	27
+210	60	2024-05-06	20:00:00	30	27
+211	60	2024-05-13	20:00:00	30	27
+212	60	2024-05-20	20:00:00	30	27
+213	60	2024-05-27	20:00:00	30	27
+214	60	2024-06-03	20:00:00	30	27
+215	60	2024-06-10	20:00:00	30	27
+216	60	2024-06-17	20:00:00	30	27
+217	60	2024-06-24	20:00:00	30	27
+218	60	2024-07-01	20:00:00	30	27
+219	60	2024-07-08	20:00:00	30	27
+220	60	2024-07-15	20:00:00	30	27
+221	60	2024-07-22	20:00:00	30	27
+222	60	2024-07-29	20:00:00	30	27
+223	60	2024-08-05	20:00:00	30	27
+224	60	2024-08-12	20:00:00	30	27
+225	60	2024-08-19	20:00:00	30	27
+226	60	2024-08-26	20:00:00	30	27
+227	60	2024-09-02	20:00:00	30	27
+228	60	2024-09-09	20:00:00	30	27
+229	60	2024-09-16	20:00:00	30	27
+230	60	2024-09-23	20:00:00	30	27
+231	60	2024-09-30	20:00:00	30	27
+232	60	2024-10-07	20:00:00	30	27
+233	60	2024-10-14	20:00:00	30	27
+234	60	2024-10-21	20:00:00	30	27
+235	60	2024-10-28	20:00:00	30	27
+236	60	2024-11-04	20:00:00	30	27
+237	60	2024-11-11	20:00:00	30	27
+238	60	2024-11-18	20:00:00	30	27
+239	60	2024-11-25	20:00:00	30	27
+240	60	2024-12-02	20:00:00	30	27
+241	60	2024-12-09	20:00:00	30	27
+242	60	2024-12-16	20:00:00	30	27
+243	60	2024-12-23	20:00:00	30	27
+244	120	2024-12-27	10:30:00	30	28
+245	240	2025-04-21	14:00:00	40	29
+246	120	2025-04-28	17:00:00	40	29
+247	120	2025-03-03	16:00:00	30	30
+248	120	2025-03-10	16:00:00	30	30
+249	120	2025-03-17	16:00:00	30	30
+250	120	2025-03-24	16:00:00	30	30
+251	120	2025-03-31	16:00:00	30	30
+252	120	2025-04-07	16:00:00	30	30
+253	120	2025-04-14	16:00:00	30	30
+254	120	2025-04-21	16:00:00	30	30
+255	120	2025-04-28	16:00:00	30	30
+256	120	2025-05-05	16:00:00	30	30
+257	120	2025-05-12	16:00:00	30	30
+258	120	2025-05-19	16:00:00	30	30
+259	120	2025-05-26	16:00:00	30	30
+260	120	2025-06-02	16:00:00	30	30
+261	120	2025-06-09	16:00:00	30	30
+262	120	2025-06-16	16:00:00	30	30
+263	120	2025-06-23	16:00:00	30	30
+264	120	2025-06-30	16:00:00	30	30
+265	120	2025-07-07	16:00:00	30	30
+266	120	2025-07-14	16:00:00	30	30
+267	180	2025-03-06	14:00:00	40	31
+268	180	2025-03-13	14:00:00	40	31
+269	180	2025-03-20	14:00:00	40	31
+270	180	2025-03-27	14:00:00	40	31
+271	180	2025-04-03	14:00:00	40	31
+272	180	2025-04-10	14:00:00	40	31
+273	180	2025-04-17	14:00:00	40	31
+274	180	2025-04-24	14:00:00	40	31
+275	180	2025-05-01	14:00:00	40	31
+276	180	2025-05-08	14:00:00	40	31
+277	180	2025-05-15	14:00:00	40	31
+278	180	2025-05-22	14:00:00	40	31
+279	180	2025-05-29	14:00:00	40	31
+280	180	2025-06-05	14:00:00	40	31
+281	180	2025-06-12	14:00:00	40	31
+282	180	2025-06-19	14:00:00	40	31
+283	180	2025-06-26	14:00:00	40	31
+284	180	2025-07-03	14:00:00	40	31
+285	180	2025-07-10	14:00:00	40	31
+\.
+
+
+--
+-- TOC entry 4864 (class 0 OID 17083)
+-- Dependencies: 225
+-- Data for Name: periodo; Type: TABLE DATA; Schema: public; Owner: admin_ds
+--
+
+COPY public.periodo (id, cuatrimestre, fecha_fin, fecha_inicio) FROM stdin;
+0	ANUAL	2024-12-23	2024-03-01
+2	SEGUNDO	2024-12-23	2024-08-01
+1	PRIMER	2025-07-15	2025-03-01
+\.
+
+
+--
+-- TOC entry 4869 (class 0 OID 17167)
+-- Dependencies: 230
+-- Data for Name: reserva_esporadica; Type: TABLE DATA; Schema: public; Owner: admin_ds
+--
+
+COPY public.reserva_esporadica (id) FROM stdin;
+9
+10
+11
+12
+13
+15
+17
+18
+19
+20
+22
+28
+29
+\.
+
+
+--
+-- TOC entry 4870 (class 0 OID 17172)
+-- Dependencies: 231
+-- Data for Name: reserva_periodica; Type: TABLE DATA; Schema: public; Owner: admin_ds
+--
+
+COPY public.reserva_periodica (id, id_periodo) FROM stdin;
+14	2
+16	0
+21	2
+23	1
+24	0
+25	2
+26	2
+27	0
+30	1
+31	1
+\.
+
+
+--
+-- TOC entry 4855 (class 0 OID 16968)
+-- Dependencies: 216
+-- Data for Name: usuario_administrador; Type: TABLE DATA; Schema: public; Owner: admin_ds
+--
+
+COPY public.usuario_administrador (id, apellido, contrasenia, nombre, usuario) FROM stdin;
+1	Schiaffino	$2a$10$gTdmsF.6fiHNQ/9.GI/5Xeji2.ZZfVT7PBM.vxjPeZawROEQkb7Nq	Lucca	root
+\.
+
+
+--
+-- TOC entry 4876 (class 0 OID 0)
+-- Dependencies: 219
+-- Name: aula_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin_ds
+--
+
+SELECT pg_catalog.setval('public.aula_id_seq', 1, false);
+
+
+--
+-- TOC entry 4877 (class 0 OID 0)
+-- Dependencies: 226
+-- Name: dia_reserva_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin_ds
+--
+
+SELECT pg_catalog.setval('public.dia_reserva_id_seq', 285, true);
+
+
+--
+-- TOC entry 4878 (class 0 OID 0)
+-- Dependencies: 224
+-- Name: periodo_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin_ds
+--
+
+SELECT pg_catalog.setval('public.periodo_id_seq', 1, false);
+
+
+--
+-- TOC entry 4879 (class 0 OID 0)
+-- Dependencies: 228
+-- Name: reserva_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin_ds
+--
+
+SELECT pg_catalog.setval('public.reserva_id_seq', 31, true);
+
+
+--
+-- TOC entry 4880 (class 0 OID 0)
+-- Dependencies: 215
+-- Name: usuario_administrador_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin_ds
+--
+
+SELECT pg_catalog.setval('public.usuario_administrador_id_seq', 1, false);
+
+
+--
+-- TOC entry 4881 (class 0 OID 0)
+-- Dependencies: 217
+-- Name: usuario_bedel_id_seq; Type: SEQUENCE SET; Schema: public; Owner: admin_ds
+--
+
+SELECT pg_catalog.setval('public.usuario_bedel_id_seq', 20, true);
+
+
+-- Completed on 2024-12-19 17:25:08
+
+--
+-- PostgreSQL database dump complete
+--
+
